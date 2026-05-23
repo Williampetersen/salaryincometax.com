@@ -24,6 +24,7 @@ export interface FAQItem {
 const COUNTRY_FLAG_ASSETS: Record<string, string> = {
   australia: "/flag/Flag_of_Australia.svg",
   belgium: "/flag/Flag_of_Belgium.svg.png",
+  canada: "/flag/Flag_of_Canada.png",
   denmark: "/flag/Flag_of_Denmark.svg.webp",
   france: "/flag/Flag_of_France.png",
   germany: "/flag/Flag_of_Germany.svg.png",

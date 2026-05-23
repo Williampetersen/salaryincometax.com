@@ -61,7 +61,7 @@ export default function HomePage(): JSX.Element {
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
                   className="rounded-full bg-ink px-5 py-3 font-semibold text-white transition hover:bg-coral"
-                  href="/salary-calculator/denmark"
+                  href="/salary-calculator"
                 >
                   Open a calculator
                 </Link>
