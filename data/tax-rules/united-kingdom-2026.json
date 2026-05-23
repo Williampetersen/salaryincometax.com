@@ -1,0 +1,61 @@
+{
+  "countryCode": "GB",
+  "countryName": "United Kingdom",
+  "slug": "united-kingdom",
+  "region": "Europe",
+  "currency": "GBP",
+  "supportedCurrencies": ["GBP"],
+  "taxYear": 2026,
+  "implementationStatus": "complete",
+  "defaults": {
+    "paidMonthsPerYear": 12,
+    "paidWeeksPerYear": 52,
+    "workingDaysPerWeek": 5,
+    "workingHoursPerWeek": 37.5
+  },
+  "allowances": {
+    "personal": 12570,
+    "child": 0
+  },
+  "personalStatuses": [
+    { "key": "single", "label": "Single" },
+    {
+      "key": "married",
+      "label": "Married",
+      "allowanceAdjustment": 1260
+    },
+    {
+      "key": "civil-partner",
+      "label": "Civil partner",
+      "allowanceAdjustment": 1260
+    }
+  ],
+  "incomeTaxBrackets": {
+    "default": [
+      { "upTo": 37700, "rate": 0.2 },
+      { "upTo": 112570, "rate": 0.4 },
+      { "upTo": null, "rate": 0.45 }
+    ]
+  },
+  "standardDeductions": [],
+  "socialSecurityRules": [
+    {
+      "name": "Employee National Insurance",
+      "type": "progressive",
+      "base": "gross",
+      "brackets": [
+        { "upTo": 12570, "rate": 0 },
+        { "upTo": 50270, "rate": 0.08 },
+        { "upTo": null, "rate": 0.02 }
+      ]
+    }
+  ],
+  "regionalTaxes": [],
+  "medianSalary": 39200,
+  "minimumWage": 23830,
+  "notes": "Detailed UK baseline using the 6 April 2026 to 5 April 2027 personal allowance and England/Wales/Northern Ireland style income tax bands with employee National Insurance. Scotland's separate bands and the personal-allowance taper above GBP 100,000 are not fully modeled.",
+  "source": [
+    "https://www.gov.uk/income-tax-rates/current-rates-and-allowances",
+    "https://www.gov.uk/government/publications/rates-and-allowances-income-tax"
+  ]
+}

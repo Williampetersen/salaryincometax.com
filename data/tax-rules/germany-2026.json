@@ -1,0 +1,92 @@
+{
+  "countryCode": "DE",
+  "countryName": "Germany",
+  "slug": "germany",
+  "region": "Europe",
+  "currency": "EUR",
+  "supportedCurrencies": ["EUR"],
+  "taxYear": 2026,
+  "implementationStatus": "complete",
+  "defaults": {
+    "paidMonthsPerYear": 12,
+    "paidWeeksPerYear": 52,
+    "workingDaysPerWeek": 5,
+    "workingHoursPerWeek": 40
+  },
+  "allowances": {
+    "personal": 0,
+    "child": 3200
+  },
+  "personalStatuses": [
+    { "key": "single", "label": "Single" },
+    { "key": "married", "label": "Married" }
+  ],
+  "incomeTaxBrackets": {
+    "default": [
+      { "upTo": 12348, "rate": 0 },
+      { "upTo": 17799, "rate": 0.14 },
+      { "upTo": 69878, "rate": 0.3 },
+      { "upTo": 277825, "rate": 0.42 },
+      { "upTo": null, "rate": 0.45 }
+    ],
+    "single": [
+      { "upTo": 12348, "rate": 0 },
+      { "upTo": 17799, "rate": 0.14 },
+      { "upTo": 69878, "rate": 0.3 },
+      { "upTo": 277825, "rate": 0.42 },
+      { "upTo": null, "rate": 0.45 }
+    ],
+    "married": [
+      { "upTo": 24696, "rate": 0 },
+      { "upTo": 35598, "rate": 0.14 },
+      { "upTo": 139756, "rate": 0.3 },
+      { "upTo": 555650, "rate": 0.42 },
+      { "upTo": null, "rate": 0.45 }
+    ]
+  },
+  "standardDeductions": [
+    {
+      "name": "Employee lump-sum deduction",
+      "type": "flat",
+      "amount": 1230
+    }
+  ],
+  "socialSecurityRules": [
+    {
+      "name": "Pension insurance employee share",
+      "type": "flat",
+      "base": "gross",
+      "rate": 0.093,
+      "cap": 96600
+    },
+    {
+      "name": "Unemployment insurance employee share",
+      "type": "flat",
+      "base": "gross",
+      "rate": 0.013,
+      "cap": 96600
+    },
+    {
+      "name": "Health and care insurance employee share",
+      "type": "flat",
+      "base": "gross",
+      "rate": 0.103,
+      "cap": 66150
+    }
+  ],
+  "regionalTaxes": [
+    {
+      "name": "Solidarity surcharge",
+      "type": "flat",
+      "base": "incomeTax",
+      "rate": 0.055
+    }
+  ],
+  "medianSalary": 54000,
+  "minimumWage": 25990,
+  "notes": "Detailed German baseline using the published 2026 basic allowance thresholds and the core employee social insurance buckets. Germany's official formula is continuous rather than bracketed, so this JSON uses a scalable approximation and does not include church tax.",
+  "source": [
+    "https://esth.bundesfinanzministerium.de/lsth/2026/A-Einkommensteuergesetz/IV-Tarif-31-34b/Paragraf-32a/inhalt.html",
+    "https://www.bundesfinanzministerium.de/Web/DE/Themen/Steuern/Steuerarten/Lohnsteuer/lohnsteuer.html"
+  ]
+}

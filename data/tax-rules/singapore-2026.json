@@ -1,0 +1,57 @@
+{
+  "countryCode": "SG",
+  "countryName": "Singapore",
+  "slug": "singapore",
+  "region": "Asia",
+  "currency": "SGD",
+  "supportedCurrencies": ["SGD"],
+  "taxYear": 2026,
+  "implementationStatus": "example",
+  "defaults": {
+    "paidMonthsPerYear": 12,
+    "paidWeeksPerYear": 52,
+    "workingDaysPerWeek": 5,
+    "workingHoursPerWeek": 44
+  },
+  "allowances": {
+    "personal": 0,
+    "child": 0
+  },
+  "personalStatuses": [
+    { "key": "single", "label": "Single" },
+    { "key": "married", "label": "Married" }
+  ],
+  "incomeTaxBrackets": {
+    "default": [
+      { "upTo": 20000, "rate": 0 },
+      { "upTo": 30000, "rate": 0.02 },
+      { "upTo": 40000, "rate": 0.035 },
+      { "upTo": 80000, "rate": 0.07 },
+      { "upTo": 120000, "rate": 0.115 },
+      { "upTo": 160000, "rate": 0.15 },
+      { "upTo": 200000, "rate": 0.18 },
+      { "upTo": 240000, "rate": 0.19 },
+      { "upTo": 280000, "rate": 0.195 },
+      { "upTo": 500000, "rate": 0.2 },
+      { "upTo": 1000000, "rate": 0.22 },
+      { "upTo": null, "rate": 0.24 }
+    ]
+  },
+  "standardDeductions": [],
+  "socialSecurityRules": [
+    {
+      "name": "Employee CPF contribution",
+      "type": "flat",
+      "base": "gross",
+      "rate": 0.2,
+      "cap": 102000
+    }
+  ],
+  "regionalTaxes": [],
+  "medianSalary": 62000,
+  "minimumWage": 24000,
+  "notes": "Illustrative Singapore resident model with current personal tax bands and a resident-style CPF assumption. CPF ceilings, age bands, and foreign worker cases are not modeled.",
+  "source": [
+    "https://www.iras.gov.sg/taxes/individual-income-tax/basics-of-individual-income-tax/tax-rates"
+  ]
+}

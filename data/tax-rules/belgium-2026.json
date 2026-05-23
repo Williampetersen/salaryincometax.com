@@ -1,0 +1,63 @@
+{
+  "countryCode": "BE",
+  "countryName": "Belgium",
+  "slug": "belgium",
+  "region": "Europe",
+  "currency": "EUR",
+  "supportedCurrencies": ["EUR"],
+  "taxYear": 2026,
+  "implementationStatus": "complete",
+  "defaults": {
+    "paidMonthsPerYear": 12,
+    "paidWeeksPerYear": 52,
+    "workingDaysPerWeek": 5,
+    "workingHoursPerWeek": 38
+  },
+  "allowances": {
+    "personal": 11180,
+    "child": 1800
+  },
+  "personalStatuses": [
+    { "key": "single", "label": "Single" },
+    { "key": "married", "label": "Married", "allowanceAdjustment": 2500 }
+  ],
+  "incomeTaxBrackets": {
+    "default": [
+      { "upTo": 16720, "rate": 0.25 },
+      { "upTo": 29510, "rate": 0.4 },
+      { "upTo": 51070, "rate": 0.45 },
+      { "upTo": null, "rate": 0.5 }
+    ]
+  },
+  "standardDeductions": [
+    {
+      "name": "Flat professional expense deduction",
+      "type": "percentage",
+      "rate": 0.3,
+      "cap": 19966
+    }
+  ],
+  "socialSecurityRules": [
+    {
+      "name": "Employee social security",
+      "type": "flat",
+      "base": "gross",
+      "rate": 0.1307
+    }
+  ],
+  "regionalTaxes": [
+    {
+      "name": "Average municipal surcharge",
+      "type": "flat",
+      "base": "incomeTax",
+      "rate": 0.07
+    }
+  ],
+  "medianSalary": 57600,
+  "minimumWage": 28350,
+  "notes": "Detailed Belgian baseline using official 2026 bracket thresholds, an average municipal surcharge, and a simplified flat professional expense assumption. Exact payroll treatment varies by commune and deduction profile.",
+  "source": [
+    "https://fin.belgium.be/en/private-individuals/tax-return/income/tax-rates",
+    "https://fin.belgium.be/en/private-individuals/tax-return/income/tax-rates#personal-tax-allowance"
+  ]
+}

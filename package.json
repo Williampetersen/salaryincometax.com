@@ -1,41 +1,32 @@
 {
-  "name": "microfrontends-single-spa-module-federation",
-  "version": "0.0.0",
-  "description": "Vercel microfrontends single-spa Module Federation example",
-  "bugs": {
-    "url": "https://github.com/vercel-labs/microfrontends-single-spa-module-federation/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/vercel-labs/microfrontends-single-spa-module-federation.git"
-  },
-  "license": "MIT",
+  "name": "salaryincometax-com",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Global salary income tax calculator built with Next.js.",
   "scripts": {
-    "build": "turbo build",
-    "checks": "turbo run build lint typecheck",
-    "dev": "turbo dev",
-    "format": "prettier --write \"**/*.{ts,tsx,md,json,jsonc}\"",
-    "lint": "turbo lint",
-    "start": "turbo start",
-    "typecheck": "turbo typecheck"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "check:tax": "tsx scripts/smoke-tax-engine.ts"
   },
-  "lint-staged": {
-    "**/*.{ts,tsx,md,json,jsonc}": [
-      "prettier --write"
-    ]
-  },
-  "prettier": "@vercel/style-guide/prettier",
   "dependencies": {
-    "single-spa-react": "^6.0.2"
+    "next": "^14.2.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@vercel/style-guide": "^6.0.0",
-    "cross-env": "^7.0.3",
-    "husky": "^9.1.7",
-    "lint-staged": "^15.4.3",
-    "prettier": "^3.4.2",
-    "turbo": "2.5.2-canary.0",
-    "typescript": "5.7.3"
+    "@types/node": "^20.17.57",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^14.2.5",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
   },
   "packageManager": "pnpm@9.4.0",
   "engines": {

@@ -1,0 +1,54 @@
+{
+  "countryCode": "IT",
+  "countryName": "Italy",
+  "slug": "italy",
+  "region": "Europe",
+  "currency": "EUR",
+  "supportedCurrencies": ["EUR"],
+  "taxYear": 2026,
+  "implementationStatus": "example",
+  "defaults": {
+    "paidMonthsPerYear": 13,
+    "paidWeeksPerYear": 52,
+    "workingDaysPerWeek": 5,
+    "workingHoursPerWeek": 40
+  },
+  "allowances": {
+    "personal": 0,
+    "child": 1000
+  },
+  "personalStatuses": [
+    { "key": "single", "label": "Single" },
+    { "key": "married", "label": "Married", "allowanceAdjustment": 2000 }
+  ],
+  "incomeTaxBrackets": {
+    "default": [
+      { "upTo": 28000, "rate": 0.23 },
+      { "upTo": 50000, "rate": 0.35 },
+      { "upTo": null, "rate": 0.43 }
+    ]
+  },
+  "standardDeductions": [],
+  "socialSecurityRules": [
+    {
+      "name": "Employee social contribution",
+      "type": "flat",
+      "base": "gross",
+      "rate": 0.0919
+    }
+  ],
+  "regionalTaxes": [
+    {
+      "name": "Average regional and municipal tax",
+      "type": "flat",
+      "base": "taxableIncome",
+      "rate": 0.0173
+    }
+  ],
+  "medianSalary": 36500,
+  "minimumWage": 22300,
+  "notes": "Illustrative Italian employment model with national IRPEF bands, employee social charges, and a light regional/local layer. Detrazioni and contract-specific contributions are not modeled.",
+  "source": [
+    "https://www.agenziaentrate.gov.it/portale/web/english/nse/individuals"
+  ]
+}

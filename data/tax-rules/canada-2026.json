@@ -1,0 +1,59 @@
+{
+  "countryCode": "CA",
+  "countryName": "Canada",
+  "slug": "canada",
+  "region": "North America",
+  "currency": "CAD",
+  "supportedCurrencies": ["CAD"],
+  "taxYear": 2026,
+  "implementationStatus": "complete",
+  "defaults": {
+    "paidMonthsPerYear": 12,
+    "paidWeeksPerYear": 52,
+    "workingDaysPerWeek": 5,
+    "workingHoursPerWeek": 40
+  },
+  "allowances": {
+    "personal": 0,
+    "child": 0
+  },
+  "personalStatuses": [
+    { "key": "single", "label": "Single" },
+    { "key": "married", "label": "Married" }
+  ],
+  "incomeTaxBrackets": {
+    "default": [
+      { "upTo": 58523, "rate": 0.14 },
+      { "upTo": 117046, "rate": 0.205 },
+      { "upTo": 181160, "rate": 0.26 },
+      { "upTo": 258483, "rate": 0.29 },
+      { "upTo": null, "rate": 0.33 }
+    ]
+  },
+  "standardDeductions": [],
+  "socialSecurityRules": [
+    {
+      "name": "CPP employee contribution",
+      "type": "flat",
+      "base": "gross",
+      "rate": 0.0595,
+      "threshold": 3500,
+      "cap": 71300
+    },
+    {
+      "name": "Employment Insurance",
+      "type": "flat",
+      "base": "gross",
+      "rate": 0.0164,
+      "cap": 65700
+    }
+  ],
+  "regionalTaxes": [],
+  "medianSalary": 62000,
+  "minimumWage": 36400,
+  "notes": "Detailed federal baseline for Canada with federal brackets plus CPP and EI. Provincial and territorial income tax is intentionally excluded from this country-level route and should be layered in with a province selector later.",
+  "source": [
+    "https://www.canada.ca/en/revenue-agency/services/tax/individuals/frequently-asked-questions-individuals/canadian-income-tax-rates-individuals-current-previous-years.html",
+    "https://www.canada.ca/en/revenue-agency/services/tax/rates.html"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "countryCode": "LU",
+  "countryName": "Luxembourg",
+  "slug": "luxembourg",
+  "region": "Europe",
+  "currency": "EUR",
+  "supportedCurrencies": ["EUR"],
+  "taxYear": 2026,
+  "implementationStatus": "example",
+  "defaults": {
+    "paidMonthsPerYear": 12,
+    "paidWeeksPerYear": 52,
+    "workingDaysPerWeek": 5,
+    "workingHoursPerWeek": 40
+  },
+  "allowances": {
+    "personal": 0,
+    "child": 0
+  },
+  "personalStatuses": [
+    { "key": "single", "label": "Single" },
+    { "key": "married", "label": "Married" }
+  ],
+  "incomeTaxBrackets": {
+    "single": [
+      { "upTo": 13230, "rate": 0 },
+      { "upTo": 25000, "rate": 0.08 },
+      { "upTo": 43000, "rate": 0.2 },
+      { "upTo": 220000, "rate": 0.39 },
+      { "upTo": null, "rate": 0.42 }
+    ],
+    "married": [
+      { "upTo": 26460, "rate": 0 },
+      { "upTo": 50000, "rate": 0.08 },
+      { "upTo": 86000, "rate": 0.2 },
+      { "upTo": 440000, "rate": 0.39 },
+      { "upTo": null, "rate": 0.42 }
+    ],
+    "default": [
+      { "upTo": 13230, "rate": 0 },
+      { "upTo": 25000, "rate": 0.08 },
+      { "upTo": 43000, "rate": 0.2 },
+      { "upTo": 220000, "rate": 0.39 },
+      { "upTo": null, "rate": 0.42 }
+    ]
+  },
+  "standardDeductions": [],
+  "socialSecurityRules": [
+    {
+      "name": "Employee social security",
+      "type": "flat",
+      "base": "gross",
+      "rate": 0.1215
+    }
+  ],
+  "regionalTaxes": [],
+  "medianSalary": 64000,
+  "minimumWage": 33600,
+  "notes": "Illustrative Luxembourg model with simplified class-style brackets and employee social security. Municipal and class-specific fine details should be added before production deployment.",
+  "source": [
+    "https://guichet.public.lu/en/citoyens/impots-taxes/assiette-impot-revenu/revenu-emploi-pension/barreme-impot.html"
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "countryCode": "FR",
+  "countryName": "France",
+  "slug": "france",
+  "region": "Europe",
+  "currency": "EUR",
+  "supportedCurrencies": ["EUR"],
+  "taxYear": 2026,
+  "implementationStatus": "complete",
+  "defaults": {
+    "paidMonthsPerYear": 12,
+    "paidWeeksPerYear": 52,
+    "workingDaysPerWeek": 5,
+    "workingHoursPerWeek": 35
+  },
+  "allowances": {
+    "personal": 0,
+    "child": 1750
+  },
+  "personalStatuses": [
+    { "key": "single", "label": "Single" },
+    { "key": "married", "label": "Married" },
+    { "key": "civil-partner", "label": "Civil partner" }
+  ],
+  "incomeTaxBrackets": {
+    "default": [
+      { "upTo": 11600, "rate": 0 },
+      { "upTo": 29700, "rate": 0.11 },
+      { "upTo": 84800, "rate": 0.3 },
+      { "upTo": 182000, "rate": 0.41 },
+      { "upTo": null, "rate": 0.45 }
+    ],
+    "single": [
+      { "upTo": 11600, "rate": 0 },
+      { "upTo": 29700, "rate": 0.11 },
+      { "upTo": 84800, "rate": 0.3 },
+      { "upTo": 182000, "rate": 0.41 },
+      { "upTo": null, "rate": 0.45 }
+    ],
+    "married": [
+      { "upTo": 23200, "rate": 0 },
+      { "upTo": 59400, "rate": 0.11 },
+      { "upTo": 169600, "rate": 0.3 },
+      { "upTo": 364000, "rate": 0.41 },
+      { "upTo": null, "rate": 0.45 }
+    ],
+    "civil-partner": [
+      { "upTo": 23200, "rate": 0 },
+      { "upTo": 59400, "rate": 0.11 },
+      { "upTo": 169600, "rate": 0.3 },
+      { "upTo": 364000, "rate": 0.41 },
+      { "upTo": null, "rate": 0.45 }
+    ]
+  },
+  "standardDeductions": [
+    {
+      "name": "Standard 10% professional expense deduction",
+      "type": "percentage",
+      "rate": 0.1,
+      "cap": 141710
+    }
+  ],
+  "socialSecurityRules": [
+    {
+      "name": "Employee social contributions",
+      "type": "flat",
+      "base": "gross",
+      "rate": 0.22
+    }
+  ],
+  "regionalTaxes": [],
+  "medianSalary": 45900,
+  "minimumWage": 21400,
+  "notes": "Detailed French baseline using a simplified progressive income-tax schedule, the standard 10% professional expense deduction, and employee social contributions. Household quotient effects are approximated through status-specific brackets and child allowances rather than a full parts-based formula.",
+  "source": [
+    "https://www.impots.gouv.fr/impot-sur-le-revenu",
+    "https://www.impots.gouv.fr/www2/fichiers/documentation/brochure/ir_2026/pdf_som/21-calcul_impot_369a382.pdf"
+  ]
+}

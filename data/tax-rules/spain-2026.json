@@ -1,0 +1,57 @@
+{
+  "countryCode": "ES",
+  "countryName": "Spain",
+  "slug": "spain",
+  "region": "Europe",
+  "currency": "EUR",
+  "supportedCurrencies": ["EUR"],
+  "taxYear": 2026,
+  "implementationStatus": "example",
+  "defaults": {
+    "paidMonthsPerYear": 14,
+    "paidWeeksPerYear": 52,
+    "workingDaysPerWeek": 5,
+    "workingHoursPerWeek": 40
+  },
+  "allowances": {
+    "personal": 5550,
+    "child": 2400
+  },
+  "personalStatuses": [
+    { "key": "single", "label": "Single" },
+    { "key": "married", "label": "Married", "allowanceAdjustment": 3400 }
+  ],
+  "incomeTaxBrackets": {
+    "default": [
+      { "upTo": 12450, "rate": 0.19 },
+      { "upTo": 20200, "rate": 0.24 },
+      { "upTo": 35200, "rate": 0.3 },
+      { "upTo": 60000, "rate": 0.37 },
+      { "upTo": 300000, "rate": 0.45 },
+      { "upTo": null, "rate": 0.47 }
+    ]
+  },
+  "standardDeductions": [],
+  "socialSecurityRules": [
+    {
+      "name": "Employee social security",
+      "type": "flat",
+      "base": "gross",
+      "rate": 0.0635
+    }
+  ],
+  "regionalTaxes": [
+    {
+      "name": "Average autonomous-community adjustment",
+      "type": "flat",
+      "base": "taxableIncome",
+      "rate": 0.025
+    }
+  ],
+  "medianSalary": 33000,
+  "minimumWage": 18400,
+  "notes": "Illustrative Spanish model with central-state style brackets, employee social security, and a small average regional layer. Autonomous-community detail and exact family reductions are not modeled.",
+  "source": [
+    "https://sede.agenciatributaria.gob.es/Sede/en_gb/ayuda/manuales-videos-folletos/manuales-practicos.html"
+  ]
+}
