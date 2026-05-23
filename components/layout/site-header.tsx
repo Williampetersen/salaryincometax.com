@@ -27,7 +27,7 @@ export function SiteHeader(): JSX.Element {
           </div>
         </Link>
         <nav className="hidden items-center gap-5 text-sm font-medium text-ink/72 md:flex">
-          <Link className="transition hover:text-coral" href="/#countries">
+          <Link className="transition hover:text-coral" href="/salary-calculator">
             Countries
           </Link>
           <Link className="transition hover:text-coral" href="/#engine">

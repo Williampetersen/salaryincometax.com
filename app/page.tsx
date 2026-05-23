@@ -2,20 +2,49 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { CountryGroups } from "@/components/home/country-groups";
-import { getCountryGroups } from "@/lib/country-catalog";
-import { DISCLAIMER } from "@/lib/site";
+import { StructuredData } from "@/components/seo/structured-data";
+import { getAllCountries, getCountryGroups } from "@/lib/country-catalog";
+import {
+  absoluteUrl,
+  buildBreadcrumbSchema,
+  buildCountryCollectionSchema,
+  buildOrganizationSchema,
+  buildWebsiteSchema,
+} from "@/lib/seo";
+import { DISCLAIMER, SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Find your salary after tax",
   description:
     "Explore salary after tax calculators for Europe, North America, Pacific, and Asia. Compare take-home pay with editable JSON tax rules and reverse gross-to-net estimates.",
+  alternates: {
+    canonical: SITE_URL,
+  },
+  openGraph: {
+    title: `Find your salary after tax | ${SITE_NAME}`,
+    description:
+      "Explore salary after tax calculators by country and compare net salary, gross salary, and income tax assumptions.",
+    url: SITE_URL,
+  },
 };
 
 export default function HomePage(): JSX.Element {
   const groups = getCountryGroups();
+  const countries = getAllCountries();
+  const structuredData = [
+    buildOrganizationSchema(),
+    buildWebsiteSchema(),
+    buildBreadcrumbSchema([{ name: "Home", url: absoluteUrl("/") }]),
+    buildCountryCollectionSchema(
+      "Find your salary after tax",
+      absoluteUrl("/"),
+      countries,
+    ),
+  ];
 
   return (
     <div className="pb-16">
+      <StructuredData data={structuredData} />
       <section className="shell pt-10 sm:pt-14">
         <div className="panel overflow-hidden p-6 sm:p-8 lg:p-10">
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
@@ -36,17 +65,17 @@ export default function HomePage(): JSX.Element {
                 >
                   Open a calculator
                 </Link>
-                <a
+                <Link
                   className="rounded-full border border-ink/12 bg-white/75 px-5 py-3 font-semibold text-ink transition hover:border-coral/30 hover:text-coral"
-                  href="#countries"
+                  href="/salary-calculator"
                 >
                   Browse countries
-                </a>
+                </Link>
               </div>
               <div className="mt-10 grid gap-4 sm:grid-cols-3">
                 <StatCard label="Countries" value="19" />
                 <StatCard label="Detailed models" value="8" />
-                <StatCard label="Reverse mode" value="Net → gross" />
+                <StatCard label="Reverse mode" value="Net to gross" />
               </div>
             </div>
 
@@ -120,6 +149,27 @@ export default function HomePage(): JSX.Element {
       </section>
 
       <section className="shell pt-12">
+        <div className="panel mb-12 p-6 sm:p-8">
+          <p className="eyebrow">Search intent</p>
+          <h2 className="mt-4 font-[var(--font-display)] text-3xl font-bold">
+            What people use this site for
+          </h2>
+          <div className="mt-5 grid gap-5 lg:grid-cols-3">
+            <SearchIntentCard
+              description="Estimate how much of your salary you keep after income tax and employee deductions."
+              title="Salary after tax"
+            />
+            <SearchIntentCard
+              description="Check how much tax you may pay in a specific country before accepting a new job offer."
+              title="Income tax by country"
+            />
+            <SearchIntentCard
+              description="Reverse a target take-home pay into the gross salary you may need to negotiate."
+              title="Net to gross planning"
+            />
+          </div>
+        </div>
+
         <div className="panel p-6 sm:p-8" id="disclaimer">
           <p className="eyebrow">Important</p>
           <p className="mt-4 max-w-4xl text-sm leading-7 text-ink/70">{DISCLAIMER}</p>
@@ -175,6 +225,21 @@ function EngineCard({
       <p className="text-xs uppercase tracking-[0.28em] text-coral">{number}</p>
       <h3 className="mt-4 font-[var(--font-display)] text-2xl font-bold">{title}</h3>
       <p className="mt-3 text-sm leading-7 text-ink/65">{text}</p>
+    </div>
+  );
+}
+
+function SearchIntentCard({
+  title,
+  description,
+}: {
+  title: string;
+  description: string;
+}): JSX.Element {
+  return (
+    <div className="rounded-4xl border border-ink/10 bg-white p-5">
+      <p className="font-semibold text-ink">{title}</p>
+      <p className="mt-3 text-sm leading-7 text-ink/65">{description}</p>
     </div>
   );
 }

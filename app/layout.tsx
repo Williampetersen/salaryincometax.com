@@ -4,7 +4,13 @@ import { Manrope, Space_Grotesk } from "next/font/google";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import "@/app/globals.css";
-import { SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/site";
+import {
+  SITE_DEFAULT_OG_IMAGE,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_TAGLINE,
+  SITE_URL,
+} from "@/lib/site";
 
 const bodyFont = Manrope({
   subsets: ["latin"],
@@ -22,22 +28,55 @@ export const metadata: Metadata = {
     default: `${SITE_TAGLINE} | ${SITE_NAME}`,
     template: `%s | ${SITE_NAME}`,
   },
-  description:
-    "Estimate salary after tax across major global markets with editable JSON tax rules, reverse net-to-gross mode, and mobile-friendly country calculators.",
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  keywords: [
+    "salary after tax",
+    "salary calculator",
+    "income tax calculator",
+    "net salary calculator",
+    "gross to net salary",
+    "net to gross salary",
+    "salary after tax by country",
+  ],
+  category: "finance",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  icons: {
+    icon: "/websitelogo/logo transparent.png",
+    shortcut: "/websitelogo/logo transparent.png",
+    apple: "/websitelogo/logo transparent.png",
+  },
   openGraph: {
     title: `${SITE_TAGLINE} | ${SITE_NAME}`,
-    description:
-      "Estimate salary after tax across major global markets with editable JSON tax rules and reverse net-to-gross mode.",
+    description: SITE_DESCRIPTION,
     url: SITE_URL,
     siteName: SITE_NAME,
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: SITE_DEFAULT_OG_IMAGE,
+        width: 512,
+        height: 512,
+        alt: SITE_NAME,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: `${SITE_TAGLINE} | ${SITE_NAME}`,
-    description:
-      "Estimate salary after tax across major global markets with editable JSON tax rules and reverse net-to-gross mode.",
+    description: SITE_DESCRIPTION,
+    images: [SITE_DEFAULT_OG_IMAGE],
   },
 };
 
