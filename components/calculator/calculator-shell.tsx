@@ -4,8 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 
+import { CountryPicker } from "@/components/calculator/country-picker";
 import type { CountrySummary } from "@/lib/country-catalog";
 import { formatCurrency, formatPercent, formatTimestamp } from "@/lib/formatters";
+import { CountryFlag } from "@/components/shared/country-flag";
 import { DISCLAIMER } from "@/lib/site";
 import type {
   CalculationInput,
@@ -47,7 +49,6 @@ export function CalculatorShell({
   initialResult,
   relatedCountries,
 }: CalculatorShellProps): JSX.Element {
-  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [result, setResult] = useState(initialResult);
   const [error, setError] = useState<string | null>(null);
@@ -150,7 +151,16 @@ export function CalculatorShell({
       <form className="panel h-fit p-5 sm:p-7 lg:sticky lg:top-24" onSubmit={handleSubmit}>
         <div className="mb-6 flex items-start justify-between gap-4">
           <div>
-            <p className="eyebrow">{country.flag} {country.region}</p>
+            <p className="eyebrow">
+              <CountryFlag
+                className="h-5 w-5 rounded-full object-cover"
+                countryCode={country.countryCode}
+                countryName={country.name}
+                flagSrc={country.flagSrc}
+                size={20}
+              />
+              {country.region}
+            </p>
             <h2 className="mt-4 font-[var(--font-display)] text-3xl font-bold text-ink">
               Calculator inputs
             </h2>
@@ -174,27 +184,12 @@ export function CalculatorShell({
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="sm:col-span-2">
-            <label className="field-label" htmlFor="country">
+            <label className="field-label" htmlFor="country-picker">
               Country
             </label>
-            <select
-              className="form-control"
-              id="country"
-              onChange={(event) => {
-                router.push(`/salary-calculator/${event.target.value}`);
-              }}
-              value={country.slug}
-            >
-              {countryGroups.map((group) => (
-                <optgroup key={group.region} label={group.region}>
-                  {group.countries.map((item) => (
-                    <option key={item.slug} value={item.slug}>
-                      {item.flag} {item.name}
-                    </option>
-                  ))}
-                </optgroup>
-              ))}
-            </select>
+            <div id="country-picker">
+              <CountryPicker currentCountry={country} groups={countryGroups} />
+            </div>
           </div>
 
           <div>
@@ -617,11 +612,18 @@ export function CalculatorShell({
               <div className="mt-4 flex flex-wrap gap-3">
                 {relatedCountries.map((item) => (
                   <Link
-                    className="rounded-full border border-ink/10 bg-white px-4 py-2 text-sm transition hover:border-coral/35 hover:text-coral"
+                    className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white px-4 py-2 text-sm transition hover:border-coral/35 hover:text-coral"
                     href={`/salary-calculator/${item.slug}`}
                     key={item.slug}
                   >
-                    {item.flag} {item.name}
+                    <CountryFlag
+                      className="h-5 w-5 rounded-full object-cover"
+                      countryCode={item.countryCode}
+                      countryName={item.name}
+                      flagSrc={item.flagSrc}
+                      size={20}
+                    />
+                    {item.name}
                   </Link>
                 ))}
               </div>

@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { CalculatorShell } from "@/components/calculator/calculator-shell";
 import { FAQSection } from "@/components/calculator/faq-section";
+import { CountryFlag } from "@/components/shared/country-flag";
 import {
   buildDefaultInput,
   getAllCountries,
@@ -74,9 +75,18 @@ export default function CountryPage({ params }: CountryPageProps): JSX.Element {
         <Link className="text-sm font-medium text-ink/55 transition hover:text-coral" href="/">
           Home
         </Link>
-        <h1 className="mt-4 font-[var(--font-display)] text-4xl font-bold tracking-tight sm:text-5xl">
-          {rule.countryName} salary calculator
-        </h1>
+        <div className="mt-4 flex items-center gap-4">
+          <CountryFlag
+            className="h-12 w-12 rounded-full border border-ink/10 object-cover sm:h-14 sm:w-14"
+            countryCode={country.countryCode}
+            countryName={country.name}
+            flagSrc={country.flagSrc}
+            size={56}
+          />
+          <h1 className="font-[var(--font-display)] text-4xl font-bold tracking-tight sm:text-5xl">
+            {rule.countryName} salary calculator
+          </h1>
+        </div>
         <p className="mt-4 max-w-3xl text-base leading-8 text-ink/68">
           Estimate gross salary, net salary, total tax, and effective rate for{" "}
           {rule.countryName} in {rule.taxYear}. This page also compares your annual

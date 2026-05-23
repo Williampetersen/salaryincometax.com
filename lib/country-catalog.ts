@@ -8,7 +8,8 @@ import type {
 export interface CountrySummary {
   slug: string;
   name: string;
-  flag: string;
+  countryCode: string;
+  flagSrc?: string;
   region: Region;
   currency: string;
   availableYears: number[];
@@ -20,26 +21,25 @@ export interface FAQItem {
   answer: string;
 }
 
-const COUNTRY_FLAGS: Record<string, string> = {
-  australia: "🇦🇺",
-  belgium: "🇧🇪",
-  canada: "🇨🇦",
-  denmark: "🇩🇰",
-  france: "🇫🇷",
-  germany: "🇩🇪",
-  ireland: "🇮🇪",
-  italy: "🇮🇹",
-  japan: "🇯🇵",
-  luxembourg: "🇱🇺",
-  malta: "🇲🇹",
-  netherlands: "🇳🇱",
-  "new-zealand": "🇳🇿",
-  norway: "🇳🇴",
-  singapore: "🇸🇬",
-  spain: "🇪🇸",
-  sweden: "🇸🇪",
-  "united-kingdom": "🇬🇧",
-  "united-states": "🇺🇸",
+const COUNTRY_FLAG_ASSETS: Record<string, string> = {
+  australia: "/flag/Flag_of_Australia.svg",
+  belgium: "/flag/Flag_of_Belgium.svg.png",
+  denmark: "/flag/Flag_of_Denmark.svg.webp",
+  france: "/flag/Flag_of_France.png",
+  germany: "/flag/Flag_of_Germany.svg.png",
+  ireland: "/flag/Flag_of_Ireland.svg.png",
+  italy: "/flag/Flag_of_Italy.svg",
+  japan: "/flag/Flag_of_Japan.svg.png",
+  luxembourg: "/flag/Flag_of_Luxembourg.svg.webp",
+  malta: "/flag/Flag_of_Malta.svg.png",
+  netherlands: "/flag/Flag_of_the_Netherlands.png",
+  "new-zealand": "/flag/Flag_of_New_Zealand.svg",
+  norway: "/flag/Flag_of_Norway.png",
+  singapore: "/flag/Flag_of_Singapore.svg.png",
+  spain: "/flag/Flag_of_Spain.svg.png",
+  sweden: "/flag/Flag_of_Sweden.svg.png",
+  "united-kingdom": "/flag/Flag_of_the_United_Kingdom.svg",
+  "united-states": "/flag/Flag_of_the_United_States.svg.png",
 };
 
 const REGION_SORT_WEIGHT: Record<Region, number> = {
@@ -80,7 +80,8 @@ export function getAllCountries(): CountrySummary[] {
       return {
         slug,
         name: latestRule.countryName,
-        flag: COUNTRY_FLAGS[slug] ?? "🌍",
+        countryCode: latestRule.countryCode,
+        flagSrc: COUNTRY_FLAG_ASSETS[slug],
         region: latestRule.region,
         currency: latestRule.currency,
         availableYears,
