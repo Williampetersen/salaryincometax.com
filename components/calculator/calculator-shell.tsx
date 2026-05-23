@@ -1,22 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 
 import { CountryPicker } from "@/components/calculator/country-picker";
+import { ComparisonChart } from "@/components/charts/comparison-chart";
+import { DonutChart } from "@/components/charts/donut-chart";
+import { CountryFlag } from "@/components/shared/country-flag";
 import type { CountrySummary } from "@/lib/country-catalog";
 import { formatCurrency, formatPercent, formatTimestamp } from "@/lib/formatters";
-import { CountryFlag } from "@/components/shared/country-flag";
 import { DISCLAIMER } from "@/lib/site";
 import type {
   CalculationInput,
   CalculationResult,
   CountryTaxRule,
+  PeriodBreakdownValue,
   SalaryPeriod,
 } from "@/lib/tax-engine/types";
-import { ComparisonChart } from "@/components/charts/comparison-chart";
-import { DonutChart } from "@/components/charts/donut-chart";
 
 interface HistoryItem {
   timestamp: string;
@@ -42,6 +42,14 @@ interface CalculatorShellProps {
 
 const HISTORY_KEY = "salary-income-tax-history";
 
+const PERIOD_LABELS: Record<SalaryPeriod, string> = {
+  yearly: "Yearly",
+  monthly: "Monthly",
+  weekly: "Weekly",
+  daily: "Daily",
+  hourly: "Hourly",
+};
+
 export function CalculatorShell({
   country,
   countryGroups,
@@ -50,6 +58,7 @@ export function CalculatorShell({
   relatedCountries,
 }: CalculatorShellProps): JSX.Element {
   const [isPending, startTransition] = useTransition();
+  const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
   const [result, setResult] = useState(initialResult);
   const [error, setError] = useState<string | null>(null);
   const [recentHistory, setRecentHistory] = useState<HistoryItem[]>([]);
@@ -141,14 +150,33 @@ export function CalculatorShell({
   ].filter((segment) => segment.value > 0);
 
   const comparisonBars = [
-    { label: "Your annual gross", value: result.comparison.salary, color: "#122029" },
-    { label: "Median salary", value: result.comparison.medianSalary, color: "#315f4c" },
-    { label: "Minimum wage", value: result.comparison.minimumWage, color: "#f56b4f" },
+    {
+      label: "Your annual gross",
+      value: result.comparison.salary,
+      color: "#122029",
+    },
+    {
+      label: "Median salary",
+      value: result.comparison.medianSalary,
+      color: "#315f4c",
+    },
+    {
+      label: "Minimum wage",
+      value: result.comparison.minimumWage,
+      color: "#f56b4f",
+    },
   ];
 
+  const periodRows = Object.entries(result.periodBreakdown) as Array<
+    [SalaryPeriod, PeriodBreakdownValue]
+  >;
+
   return (
-    <div className="grid gap-6 lg:grid-cols-[minmax(0,0.94fr)_minmax(0,1.06fr)]">
-      <form className="panel h-fit p-5 sm:p-7 lg:sticky lg:top-24" onSubmit={handleSubmit}>
+    <div className="grid gap-6 lg:grid-cols-[minmax(18rem,0.84fr)_minmax(0,1.16fr)]">
+      <form
+        className="panel h-fit p-5 sm:p-7 lg:sticky lg:top-24"
+        onSubmit={handleSubmit}
+      >
         <div className="mb-6 flex items-start justify-between gap-4">
           <div>
             <p className="eyebrow">
@@ -165,8 +193,8 @@ export function CalculatorShell({
               Calculator inputs
             </h2>
             <p className="mt-2 text-sm leading-6 text-ink/66">
-              Adjust the pay setup, household assumptions, and period settings to
-              estimate take-home pay in {country.name}.
+              Adjust the core salary inputs first, then expand more options for tax
+              year, bonus, household details, and reverse calculation.
             </p>
           </div>
           <span
@@ -224,190 +252,216 @@ export function CalculatorShell({
               ))}
             </select>
           </div>
-
-          <div>
-            <label className="field-label" htmlFor="salaryPeriod">
-              Salary period
-            </label>
-            <select
-              className="form-control"
-              id="salaryPeriod"
-              onChange={(event) =>
-                updateField("salaryPeriod", event.target.value as SalaryPeriod)
-              }
-              value={form.salaryPeriod}
-            >
-              <option value="yearly">Yearly</option>
-              <option value="monthly">Monthly</option>
-              <option value="weekly">Weekly</option>
-              <option value="daily">Daily</option>
-              <option value="hourly">Hourly</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="field-label" htmlFor="taxYear">
-              Tax year
-            </label>
-            <select
-              className="form-control"
-              id="taxYear"
-              onChange={(event) => updateField("taxYear", Number(event.target.value))}
-              value={form.taxYear}
-            >
-              {country.availableYears.map((year) => (
-                <option key={year} value={year}>
-                  {year}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="field-label" htmlFor="paidMonthsPerYear">
-              Paid months per year
-            </label>
-            <input
-              className="form-control"
-              id="paidMonthsPerYear"
-              min="1"
-              onChange={(event) =>
-                updateField("paidMonthsPerYear", Number(event.target.value))
-              }
-              type="number"
-              value={form.paidMonthsPerYear}
-            />
-          </div>
-
-          <div>
-            <label className="field-label" htmlFor="paidWeeksPerYear">
-              Paid weeks per year
-            </label>
-            <input
-              className="form-control"
-              id="paidWeeksPerYear"
-              min="1"
-              onChange={(event) =>
-                updateField("paidWeeksPerYear", Number(event.target.value))
-              }
-              type="number"
-              value={form.paidWeeksPerYear}
-            />
-          </div>
-
-          <div>
-            <label className="field-label" htmlFor="workingDaysPerWeek">
-              Working days per week
-            </label>
-            <input
-              className="form-control"
-              id="workingDaysPerWeek"
-              min="1"
-              onChange={(event) =>
-                updateField("workingDaysPerWeek", Number(event.target.value))
-              }
-              type="number"
-              value={form.workingDaysPerWeek}
-            />
-          </div>
-
-          <div>
-            <label className="field-label" htmlFor="workingHoursPerWeek">
-              Working hours per week
-            </label>
-            <input
-              className="form-control"
-              id="workingHoursPerWeek"
-              min="1"
-              onChange={(event) =>
-                updateField("workingHoursPerWeek", Number(event.target.value))
-              }
-              step="0.5"
-              type="number"
-              value={form.workingHoursPerWeek}
-            />
-          </div>
-
-          <div>
-            <label className="field-label" htmlFor="extraIncome">
-              Extra income or annual bonus
-            </label>
-            <input
-              className="form-control"
-              id="extraIncome"
-              min="0"
-              onChange={(event) =>
-                updateField("extraIncome", Number(event.target.value))
-              }
-              step="0.01"
-              type="number"
-              value={form.extraIncome}
-            />
-          </div>
-
-          <div>
-            <label className="field-label" htmlFor="personalStatus">
-              Personal status
-            </label>
-            <select
-              className="form-control"
-              id="personalStatus"
-              onChange={(event) => updateField("personalStatus", event.target.value)}
-              value={form.personalStatus}
-            >
-              {rule.personalStatuses.map((status) => (
-                <option key={status.key} value={status.key}>
-                  {status.label}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="field-label" htmlFor="numberOfChildren">
-              Number of children
-            </label>
-            <input
-              className="form-control"
-              id="numberOfChildren"
-              min="0"
-              onChange={(event) =>
-                updateField("numberOfChildren", Number(event.target.value))
-              }
-              type="number"
-              value={form.numberOfChildren}
-            />
-          </div>
-
-          <div className="sm:col-span-2">
-            <label className="field-label" htmlFor="description">
-              Optional description
-            </label>
-            <input
-              className="form-control"
-              id="description"
-              onChange={(event) => updateField("description", event.target.value)}
-              placeholder="Example: relocation offer, promotion, freelance option"
-              type="text"
-              value={form.description ?? ""}
-            />
-          </div>
         </div>
 
-        <label className="mt-5 flex items-start gap-3 rounded-3xl border border-ink/10 bg-paper/65 p-4 text-sm text-ink/72">
-          <input
-            checked={form.reverseCalculation}
-            className="mt-1 h-4 w-4 rounded border-ink/20 text-coral focus:ring-coral/20"
-            onChange={(event) =>
-              updateField("reverseCalculation", event.target.checked)
-            }
-            type="checkbox"
-          />
-          <span>
-            Reverse calculation: estimate the gross salary needed to reach the
-            entered net amount.
-          </span>
-        </label>
+        <div className="mt-5 rounded-4xl border border-ink/10 bg-paper/45 p-4 sm:p-5">
+          <button
+            aria-expanded={showAdvancedOptions}
+            className="flex w-full items-center justify-between gap-4 text-left"
+            onClick={() => setShowAdvancedOptions((current) => !current)}
+            type="button"
+          >
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-ink/55">
+                More options
+              </p>
+              <p className="mt-2 text-sm leading-6 text-ink/62">
+                Salary period, tax year, work schedule, extra income, family
+                status, and reverse calculation.
+              </p>
+            </div>
+            <span className="rounded-full border border-ink/10 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-ink/55">
+              {showAdvancedOptions ? "Hide" : "Expand"}
+            </span>
+          </button>
+
+          {showAdvancedOptions ? (
+            <div className="mt-5 grid gap-4 border-t border-ink/10 pt-5 sm:grid-cols-2">
+              <div>
+                <label className="field-label" htmlFor="salaryPeriod">
+                  Salary period
+                </label>
+                <select
+                  className="form-control"
+                  id="salaryPeriod"
+                  onChange={(event) =>
+                    updateField("salaryPeriod", event.target.value as SalaryPeriod)
+                  }
+                  value={form.salaryPeriod}
+                >
+                  <option value="yearly">Yearly</option>
+                  <option value="monthly">Monthly</option>
+                  <option value="weekly">Weekly</option>
+                  <option value="daily">Daily</option>
+                  <option value="hourly">Hourly</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="field-label" htmlFor="taxYear">
+                  Tax year
+                </label>
+                <select
+                  className="form-control"
+                  id="taxYear"
+                  onChange={(event) => updateField("taxYear", Number(event.target.value))}
+                  value={form.taxYear}
+                >
+                  {country.availableYears.map((year) => (
+                    <option key={year} value={year}>
+                      {year}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="field-label" htmlFor="paidMonthsPerYear">
+                  Paid months per year
+                </label>
+                <input
+                  className="form-control"
+                  id="paidMonthsPerYear"
+                  min="1"
+                  onChange={(event) =>
+                    updateField("paidMonthsPerYear", Number(event.target.value))
+                  }
+                  type="number"
+                  value={form.paidMonthsPerYear}
+                />
+              </div>
+
+              <div>
+                <label className="field-label" htmlFor="paidWeeksPerYear">
+                  Paid weeks per year
+                </label>
+                <input
+                  className="form-control"
+                  id="paidWeeksPerYear"
+                  min="1"
+                  onChange={(event) =>
+                    updateField("paidWeeksPerYear", Number(event.target.value))
+                  }
+                  type="number"
+                  value={form.paidWeeksPerYear}
+                />
+              </div>
+
+              <div>
+                <label className="field-label" htmlFor="workingDaysPerWeek">
+                  Working days per week
+                </label>
+                <input
+                  className="form-control"
+                  id="workingDaysPerWeek"
+                  min="1"
+                  onChange={(event) =>
+                    updateField("workingDaysPerWeek", Number(event.target.value))
+                  }
+                  type="number"
+                  value={form.workingDaysPerWeek}
+                />
+              </div>
+
+              <div>
+                <label className="field-label" htmlFor="workingHoursPerWeek">
+                  Working hours per week
+                </label>
+                <input
+                  className="form-control"
+                  id="workingHoursPerWeek"
+                  min="1"
+                  onChange={(event) =>
+                    updateField("workingHoursPerWeek", Number(event.target.value))
+                  }
+                  step="0.5"
+                  type="number"
+                  value={form.workingHoursPerWeek}
+                />
+              </div>
+
+              <div>
+                <label className="field-label" htmlFor="extraIncome">
+                  Extra income or annual bonus
+                </label>
+                <input
+                  className="form-control"
+                  id="extraIncome"
+                  min="0"
+                  onChange={(event) =>
+                    updateField("extraIncome", Number(event.target.value))
+                  }
+                  step="0.01"
+                  type="number"
+                  value={form.extraIncome}
+                />
+              </div>
+
+              <div>
+                <label className="field-label" htmlFor="personalStatus">
+                  Personal status
+                </label>
+                <select
+                  className="form-control"
+                  id="personalStatus"
+                  onChange={(event) => updateField("personalStatus", event.target.value)}
+                  value={form.personalStatus}
+                >
+                  {rule.personalStatuses.map((status) => (
+                    <option key={status.key} value={status.key}>
+                      {status.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="field-label" htmlFor="numberOfChildren">
+                  Number of children
+                </label>
+                <input
+                  className="form-control"
+                  id="numberOfChildren"
+                  min="0"
+                  onChange={(event) =>
+                    updateField("numberOfChildren", Number(event.target.value))
+                  }
+                  type="number"
+                  value={form.numberOfChildren}
+                />
+              </div>
+
+              <div className="sm:col-span-2">
+                <label className="field-label" htmlFor="description">
+                  Optional description
+                </label>
+                <input
+                  className="form-control"
+                  id="description"
+                  onChange={(event) => updateField("description", event.target.value)}
+                  placeholder="Example: relocation offer, promotion, freelance option"
+                  type="text"
+                  value={form.description ?? ""}
+                />
+              </div>
+
+              <label className="sm:col-span-2 flex items-start gap-3 rounded-3xl border border-ink/10 bg-white/80 p-4 text-sm text-ink/72">
+                <input
+                  checked={form.reverseCalculation}
+                  className="mt-1 h-4 w-4 rounded border-ink/20 text-coral focus:ring-coral/20"
+                  onChange={(event) =>
+                    updateField("reverseCalculation", event.target.checked)
+                  }
+                  type="checkbox"
+                />
+                <span>
+                  Reverse calculation: estimate the gross salary needed to reach
+                  the entered net amount.
+                </span>
+              </label>
+            </div>
+          ) : null}
+        </div>
 
         {error ? (
           <div className="mt-4 rounded-3xl border border-coral/25 bg-coral/8 px-4 py-3 text-sm text-coral">
@@ -420,25 +474,21 @@ export function CalculatorShell({
           disabled={isPending}
           type="submit"
         >
-          {isPending
-            ? "Calculating..."
-            : form.reverseCalculation
-              ? "Estimate gross salary"
-              : "Calculate take-home pay"}
+          {isPending ? "Calculating..." : "Calculate now"}
         </button>
       </form>
 
-      <div className="space-y-6">
-        <section className="panel p-5 sm:p-7">
+      <div className="min-w-0 space-y-6">
+        <section className="panel min-w-0 p-5 sm:p-7">
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-            <div>
+            <div className="min-w-0">
               <p className="eyebrow">Results</p>
               <h2 className="mt-4 font-[var(--font-display)] text-3xl font-bold">
                 {country.name} take-home pay
               </h2>
               <p className="mt-2 text-sm leading-6 text-ink/68">
                 Status: {result.metadata.statusLabel}. Period:{" "}
-                {result.input.salaryPeriod}. Tax year: {result.taxYear}.
+                {PERIOD_LABELS[result.input.salaryPeriod]}. Tax year: {result.taxYear}.
               </p>
             </div>
             {result.reverseEstimatedGross ? (
@@ -446,14 +496,14 @@ export function CalculatorShell({
                 <p className="text-xs uppercase tracking-[0.2em] text-white/70">
                   Estimated gross needed
                 </p>
-                <p className="mt-1 font-[var(--font-display)] text-2xl font-bold">
+                <p className="mt-1 font-[var(--font-display)] text-2xl font-bold leading-tight">
                   {formatCurrency(result.reverseEstimatedGross, result.currency)}
                 </p>
               </div>
             ) : null}
           </div>
 
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 2xl:grid-cols-4">
             <MetricCard
               label="Gross salary"
               value={formatCurrency(result.annual.gross, result.currency)}
@@ -472,40 +522,68 @@ export function CalculatorShell({
             />
           </div>
 
-          <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
-            <DonutChart
-              centerLabel="Annual net"
-              centerValue={formatCurrency(result.annual.net, result.currency)}
-              currency={result.currency}
-              segments={donutSegments}
-            />
+          <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(19rem,0.72fr)_minmax(0,1fr)]">
+            <div className="rounded-4xl border border-ink/10 bg-white p-5 sm:p-6">
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-ink/55">
+                Tax split
+              </p>
+              <div className="mt-5">
+                <DonutChart
+                  centerLabel="Annual net"
+                  centerValue={formatCurrency(result.annual.net, result.currency)}
+                  currency={result.currency}
+                  segments={donutSegments}
+                />
+              </div>
+            </div>
 
-            <div className="space-y-4">
-              <div className="rounded-3xl border border-ink/10 bg-paper/60 p-5">
+            <div className="min-w-0 space-y-4">
+              <div className="rounded-4xl border border-ink/10 bg-paper/60 p-5">
                 <p className="text-sm font-semibold uppercase tracking-[0.2em] text-ink/55">
                   Pay breakdown
                 </p>
-                <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-                  {Object.entries(result.periodBreakdown).map(([period, values]) => (
-                    <div
-                      className="rounded-3xl border border-ink/10 bg-white p-4"
-                      key={period}
-                    >
-                      <p className="text-xs uppercase tracking-[0.18em] text-ink/50">
-                        {period}
-                      </p>
-                      <p className="mt-2 text-sm text-ink/60">
-                        Gross {formatCurrency(values.gross, result.currency)}
-                      </p>
-                      <p className="mt-1 font-semibold text-ink">
-                        Net {formatCurrency(values.net, result.currency)}
-                      </p>
-                    </div>
-                  ))}
+                <p className="mt-2 text-sm leading-6 text-ink/62">
+                  Compare gross, net, and tax across every pay period without the
+                  desktop cards squeezing the numbers.
+                </p>
+                <div className="mt-5 overflow-hidden rounded-3xl border border-ink/10 bg-white">
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full text-sm">
+                      <thead className="bg-ink/4 text-left text-xs uppercase tracking-[0.18em] text-ink/55">
+                        <tr>
+                          <th className="px-4 py-3 font-semibold">Period</th>
+                          <th className="px-4 py-3 font-semibold">Gross</th>
+                          <th className="px-4 py-3 font-semibold">Net</th>
+                          <th className="px-4 py-3 font-semibold">Tax</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {periodRows.map(([period, values]) => (
+                          <tr
+                            className="border-t border-ink/8 text-ink/76"
+                            key={period}
+                          >
+                            <td className="px-4 py-3 font-semibold text-ink">
+                              {PERIOD_LABELS[period]}
+                            </td>
+                            <td className="px-4 py-3 tabular-nums">
+                              {formatCurrency(values.gross, result.currency)}
+                            </td>
+                            <td className="px-4 py-3 font-semibold tabular-nums text-ink">
+                              {formatCurrency(values.net, result.currency)}
+                            </td>
+                            <td className="px-4 py-3 tabular-nums">
+                              {formatCurrency(values.tax, result.currency)}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
 
-              <div className="rounded-3xl border border-ink/10 bg-white p-5">
+              <div className="rounded-4xl border border-ink/10 bg-white p-5">
                 <p className="text-sm font-semibold uppercase tracking-[0.2em] text-ink/55">
                   Salary comparison
                 </p>
@@ -521,7 +599,7 @@ export function CalculatorShell({
           </div>
         </section>
 
-        <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+        <section className="grid gap-6 xl:grid-cols-[minmax(0,1.06fr)_minmax(0,0.94fr)]">
           <div className="panel p-5 sm:p-6">
             <h3 className="font-[var(--font-display)] text-2xl font-bold">
               Tax details
@@ -547,7 +625,7 @@ export function CalculatorShell({
               />
               <div className="rounded-3xl border border-ink/10 bg-paper/60 p-4">
                 <p className="text-sm font-semibold text-ink">Taxable income</p>
-                <p className="mt-1 text-lg font-bold text-ink">
+                <p className="mt-1 text-lg font-bold tabular-nums text-ink">
                   {formatCurrency(result.annual.taxableIncome, result.currency)}
                 </p>
               </div>
@@ -569,7 +647,7 @@ export function CalculatorShell({
                       <div>
                         <p className="font-semibold text-ink">{entry.countryName}</p>
                         <p className="text-xs uppercase tracking-[0.18em] text-ink/50">
-                          {entry.period}
+                          {PERIOD_LABELS[entry.period]}
                         </p>
                       </div>
                       <p className="text-xs text-ink/52">
@@ -579,7 +657,7 @@ export function CalculatorShell({
                     {entry.description ? (
                       <p className="mt-3 text-sm text-ink/62">{entry.description}</p>
                     ) : null}
-                    <div className="mt-3 flex flex-wrap gap-4 text-sm">
+                    <div className="mt-3 flex flex-wrap gap-4 text-sm tabular-nums">
                       <span>Gross {formatCurrency(entry.gross, entry.currency)}</span>
                       <span>Net {formatCurrency(entry.net, entry.currency)}</span>
                     </div>
@@ -603,7 +681,9 @@ export function CalculatorShell({
               <p className="mt-4 max-w-3xl text-sm leading-7 text-ink/70">
                 {DISCLAIMER}
               </p>
-              <p className="mt-3 text-sm leading-7 text-ink/62">{result.metadata.notes}</p>
+              <p className="mt-3 text-sm leading-7 text-ink/62">
+                {result.metadata.notes}
+              </p>
             </div>
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-ink/55">
@@ -643,9 +723,9 @@ function MetricCard({
   value: string;
 }): JSX.Element {
   return (
-    <div className="rounded-3xl border border-ink/10 bg-white p-4">
+    <div className="min-w-0 rounded-3xl border border-ink/10 bg-white p-4">
       <p className="text-xs uppercase tracking-[0.18em] text-ink/50">{label}</p>
-      <p className="mt-3 font-[var(--font-display)] text-2xl font-bold text-ink">
+      <p className="mt-3 break-words font-[var(--font-display)] text-[clamp(1.75rem,2vw,2.5rem)] font-bold leading-[1.02] tracking-tight text-ink tabular-nums">
         {value}
       </p>
     </div>
@@ -665,16 +745,23 @@ function TaxBlock({
 }): JSX.Element {
   return (
     <div className="rounded-3xl border border-ink/10 bg-white p-4">
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <p className="font-semibold text-ink">{title}</p>
-        <p className="font-bold text-ink">{formatCurrency(amount, currency)}</p>
+        <p className="font-bold tabular-nums text-ink">
+          {formatCurrency(amount, currency)}
+        </p>
       </div>
       {items.length ? (
         <div className="mt-3 space-y-2 text-ink/62">
           {items.map((item) => (
-            <div className="flex items-center justify-between gap-3" key={item.name}>
+            <div
+              className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between"
+              key={item.name}
+            >
               <span>{item.name}</span>
-              <span>{formatCurrency(item.amount, currency)}</span>
+              <span className="tabular-nums">
+                {formatCurrency(item.amount, currency)}
+              </span>
             </div>
           ))}
         </div>

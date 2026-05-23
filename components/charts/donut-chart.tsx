@@ -63,14 +63,17 @@ export function DonutChart({
           <span className="text-xs uppercase tracking-[0.24em] text-ink/55">
             {centerLabel}
           </span>
-          <span className="mt-2 font-[var(--font-display)] text-2xl font-bold">
+          <span className="mt-2 max-w-[138px] break-words font-[var(--font-display)] text-[clamp(1.45rem,1.8vw,2rem)] font-bold leading-tight tabular-nums">
             {centerValue}
           </span>
         </div>
       </div>
       <div className="grid w-full gap-2">
         {segments.map((segment) => (
-          <div className="flex items-center justify-between text-sm" key={segment.label}>
+          <div
+            className="flex items-center justify-between gap-3 text-sm"
+            key={segment.label}
+          >
             <div className="flex items-center gap-2">
               <span
                 className="h-2.5 w-2.5 rounded-full"
@@ -78,7 +81,7 @@ export function DonutChart({
               />
               <span className="text-ink/70">{segment.label}</span>
             </div>
-            <span className="font-semibold text-ink">
+            <span className="text-right font-semibold tabular-nums text-ink">
               {formatCurrency(segment.value, currency)}
             </span>
           </div>
