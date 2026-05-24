@@ -1,94 +1,48 @@
-"use client";
+import Script from "next/script";
 
-import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-
+import { GoogleAnalyticsTracker } from "@/components/google-analytics-tracker";
 import {
-  DEFAULT_COOKIE_PREFERENCES,
   GA_TRACKING_ID,
-  buildPageUrl,
-  getCookiePreferences,
-  pageview,
-  type CookiePreferences,
-  updateGoogleConsent,
+  GOOGLE_CONSENT_WAIT_FOR_UPDATE_MS,
 } from "@/lib/gtag";
 
-// Client-side GA tracker for the App Router. The Google tag itself is injected
-// from the root layout so Google can detect it globally, while this component
-// keeps consent state and route-change pageviews in sync.
-export function GoogleAnalytics(): null {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const [preferences, setPreferences] = useState<CookiePreferences>(
-    () => getCookiePreferences() ?? DEFAULT_COOKIE_PREFERENCES,
+// Global GA4 installer for the App Router. The Google tag is mounted once from
+// the root layout so it applies to every route, while consent-aware tracking
+// logic runs in the client tracker component.
+export function GoogleAnalytics(): JSX.Element {
+  const shouldLoadScripts =
+    process.env.NODE_ENV === "production" && Boolean(GA_TRACKING_ID);
+
+  return (
+    <>
+      {shouldLoadScripts ? (
+        <>
+          <Script
+            id="google-tag-loader"
+            src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+            strategy="afterInteractive"
+          />
+          <Script id="google-tag-config" strategy="afterInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              window.gtag = gtag;
+              gtag('consent', 'default', {
+                'ad_storage': 'denied',
+                'ad_user_data': 'denied',
+                'ad_personalization': 'denied',
+                'analytics_storage': 'denied',
+                'wait_for_update': ${GOOGLE_CONSENT_WAIT_FOR_UPDATE_MS}
+              });
+              gtag('js', new Date());
+              gtag('config', '${GA_TRACKING_ID}', {
+                'send_page_view': false
+              });
+            `}
+          </Script>
+        </>
+      ) : null}
+      <GoogleAnalyticsTracker />
+    </>
   );
-  const [isScriptReady, setIsScriptReady] = useState(
-    process.env.NODE_ENV !== "production",
-  );
-  const lastTrackedUrl = useRef<string | null>(null);
-  const search = searchParams?.toString() ?? "";
-  const url = buildPageUrl(pathname ?? "/", search);
-
-  useEffect(() => {
-    function syncConsent(): void {
-      setPreferences(getCookiePreferences() ?? DEFAULT_COOKIE_PREFERENCES);
-    }
-
-    if (process.env.NODE_ENV !== "production" && !GA_TRACKING_ID) {
-      console.log("[ga] NEXT_PUBLIC_GA_ID is missing");
-    }
-
-    syncConsent();
-    window.addEventListener("cookie-preferences-updated", syncConsent);
-    window.addEventListener("storage", syncConsent);
-
-    return () => {
-      window.removeEventListener("cookie-preferences-updated", syncConsent);
-      window.removeEventListener("storage", syncConsent);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (process.env.NODE_ENV !== "production" || !GA_TRACKING_ID) {
-      setIsScriptReady(process.env.NODE_ENV !== "production");
-      return;
-    }
-
-    const interval = window.setInterval(() => {
-      if (typeof window.gtag === "function") {
-        setIsScriptReady(true);
-        window.clearInterval(interval);
-      }
-    }, 100);
-
-    return () => window.clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    if (!isScriptReady || !GA_TRACKING_ID) {
-      return;
-    }
-
-    updateGoogleConsent(preferences);
-  }, [isScriptReady, preferences]);
-
-  useEffect(() => {
-    if (!preferences.analytics) {
-      lastTrackedUrl.current = null;
-      return;
-    }
-
-    if (!isScriptReady || !GA_TRACKING_ID) {
-      return;
-    }
-
-    if (lastTrackedUrl.current === url) {
-      return;
-    }
-
-    lastTrackedUrl.current = url;
-    pageview(url);
-  }, [isScriptReady, preferences.analytics, url]);
-
-  return null;
 }
