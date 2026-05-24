@@ -30,6 +30,9 @@ export function SiteHeader(): JSX.Element {
           <Link className="transition hover:text-coral" href="/salary-calculator">
             Countries
           </Link>
+          <Link className="transition hover:text-coral" href="/blog">
+            Blog
+          </Link>
           <Link className="transition hover:text-coral" href="/#engine">
             Tax engine
           </Link>

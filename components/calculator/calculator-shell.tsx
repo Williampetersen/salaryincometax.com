@@ -9,6 +9,7 @@ import { DonutChart } from "@/components/charts/donut-chart";
 import { CountryFlag } from "@/components/shared/country-flag";
 import type { CountrySummary } from "@/lib/country-catalog";
 import { formatCurrency, formatPercent, formatTimestamp } from "@/lib/formatters";
+import { event as trackEvent } from "@/lib/gtag";
 import { DISCLAIMER } from "@/lib/site";
 import type {
   CalculationInput,
@@ -82,6 +83,15 @@ export function CalculatorShell({
     key: K,
     value: CalculationInput[K],
   ): void {
+    // Track reverse-calculation intent as soon as the user enables it.
+    if (key === "reverseCalculation" && value === true) {
+      trackEvent({
+        action: "reverse_calculation_used",
+        category: "calculator",
+        label: country.slug,
+      });
+    }
+
     setForm((current) => ({
       ...current,
       [key]: value,
@@ -108,6 +118,11 @@ export function CalculatorShell({
   function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
     event.preventDefault();
     setError(null);
+    trackEvent({
+      action: "calculator_submit",
+      category: "calculator",
+      label: country.slug,
+    });
 
     startTransition(() => {
       void (async () => {
@@ -130,6 +145,21 @@ export function CalculatorShell({
 
         setResult(payload);
         saveHistory(payload);
+        trackEvent({
+          action: "salary_calculated",
+          category: "calculator",
+          label: `${payload.countrySlug}:${payload.input.salaryPeriod}`,
+          value: Math.round(payload.annual.gross),
+        });
+
+        if (payload.input.reverseCalculation) {
+          trackEvent({
+            action: "reverse_calculation_completed",
+            category: "calculator",
+            label: payload.countrySlug,
+            value: Math.round(payload.reverseEstimatedGross ?? payload.annual.gross),
+          });
+        }
       })();
     });
   }

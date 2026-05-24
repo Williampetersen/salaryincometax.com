@@ -1,8 +1,14 @@
+import {
+  getFeaturedBlogPosts,
+  getBlogCategories,
+} from "@/lib/blog";
 import { getAllCountries } from "@/lib/country-catalog";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
 export async function GET(): Promise<Response> {
   const countries = getAllCountries();
+  const categories = getBlogCategories();
+  const featuredBlogPosts = getFeaturedBlogPosts(10);
 
   const body = [
     `# ${SITE_NAME}`,
@@ -11,10 +17,23 @@ export async function GET(): Promise<Response> {
     "",
     "This site provides country-specific salary after tax calculators with editable tax-year JSON rules.",
     "Use the country calculator pages for gross-to-net estimates, net-to-gross estimates, and tax breakdowns.",
+    "Use the blog for answer-first guidance on salary after tax, income tax, cost of living, and minimum wage topics.",
     "",
     "## Primary pages",
     `- [Homepage](${SITE_URL})`,
     `- [All salary calculators](${SITE_URL}/salary-calculator)`,
+    `- [Blog](${SITE_URL}/blog)`,
+    "",
+    "## Blog categories",
+    ...categories.map(
+      (category) =>
+        `- [${category.name}](${SITE_URL}/blog/category/${category.slug})`,
+    ),
+    "",
+    "## Featured blog articles",
+    ...featuredBlogPosts.map(
+      (post) => `- [${post.title}](${SITE_URL}/blog/${post.slug})`,
+    ),
     "",
     "## Country calculators",
     ...countries.map(

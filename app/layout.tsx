@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Manrope, Space_Grotesk } from "next/font/google";
+import { Suspense } from "react";
 
+import { AnalyticsClickTracker } from "@/components/analytics-click-tracker";
+import { CookieConsent } from "@/components/CookieConsent";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import "@/app/globals.css";
@@ -88,6 +92,12 @@ export default function RootLayout({
   return (
     <html className={`${bodyFont.variable} ${displayFont.variable}`} lang="en">
       <body>
+        {/* Analytics and consent are mounted once here so they cover every route. */}
+        <Suspense fallback={null}>
+          <GoogleAnalytics />
+        </Suspense>
+        <AnalyticsClickTracker />
+        <CookieConsent />
         <SiteHeader />
         <main>{children}</main>
         <SiteFooter />

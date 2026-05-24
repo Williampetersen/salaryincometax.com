@@ -13,6 +13,9 @@ export function CountryCard({ country }: CountryCardProps): JSX.Element {
   return (
     <Link
       className="group panel flex h-full flex-col justify-between p-5 transition duration-300 hover:-translate-y-1 hover:border-coral/30 hover:bg-white"
+      data-analytics-action="country_selected"
+      data-analytics-category="calculator"
+      data-analytics-label={country.slug}
       href={`/salary-calculator/${country.slug}`}
     >
       <div className="flex items-start justify-between gap-3">

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { DISCLAIMER, SITE_NAME } from "@/lib/site";
 
 export function SiteFooter(): JSX.Element {
@@ -8,7 +10,15 @@ export function SiteFooter(): JSX.Element {
           <p className="font-semibold text-ink">{SITE_NAME}</p>
           <p>{DISCLAIMER}</p>
         </div>
-        <p>Tax rules live in editable JSON files so yearly updates stay auditable.</p>
+        <div className="flex flex-wrap items-center gap-4">
+          <Link className="transition hover:text-coral" href="/salary-calculator">
+            Salary calculators
+          </Link>
+          <Link className="transition hover:text-coral" href="/blog">
+            Blog
+          </Link>
+          <p>Tax rules live in editable JSON files so yearly updates stay auditable.</p>
+        </div>
       </div>
     </footer>
   );

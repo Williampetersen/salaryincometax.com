@@ -17,6 +17,6 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: "Perplexity-User", allow: "/" },
     ],
     host: SITE_URL,
-    sitemap: `${SITE_URL}/sitemap.xml`,
+    sitemap: [`${SITE_URL}/sitemap.xml`, `${SITE_URL}/blog-sitemap.xml`],
   };
 }

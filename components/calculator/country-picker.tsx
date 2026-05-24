@@ -69,6 +69,9 @@ export function CountryPicker({
                       className={`flex items-center gap-3 rounded-2xl px-3 py-2 text-sm transition hover:bg-paper ${
                         country.slug === currentCountry.slug ? "bg-paper font-semibold text-ink" : "text-ink/70"
                       }`}
+                      data-analytics-action="country_selected"
+                      data-analytics-category="calculator"
+                      data-analytics-label={country.slug}
                       href={`/salary-calculator/${country.slug}`}
                       key={country.slug}
                       onClick={() => setIsOpen(false)}
