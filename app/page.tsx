@@ -52,33 +52,32 @@ export default function HomePage(): JSX.Element {
         <div className="panel overflow-hidden p-6 sm:p-8 lg:p-10">
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
             <div>
-              <p className="eyebrow">Global tax calculator</p>
+              <p className="eyebrow">Salary calculator</p>
               <h1 className="mt-5 max-w-3xl font-[var(--font-display)] text-5xl font-bold tracking-tight text-ink sm:text-6xl">
                 Find your salary after tax
               </h1>
               <p className="mt-5 max-w-2xl text-base leading-8 text-ink/68 sm:text-lg">
-                Estimate take-home pay across 19 countries with a calculator built
-                on editable JSON tax rules, region-grouped country pages, and
-                reverse net-to-gross planning.
+                Check take-home pay in 19 countries. Compare gross and net salary
+                in a few steps.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
                   className="rounded-full bg-ink px-5 py-3 font-semibold text-white transition hover:bg-coral"
                   href="/salary-calculator"
                 >
-                  Open a calculator
+                  Open calculator
                 </Link>
                 <Link
                   className="rounded-full border border-ink/12 bg-white/75 px-5 py-3 font-semibold text-ink transition hover:border-coral/30 hover:text-coral"
                   href="/salary-calculator"
                 >
-                  Browse countries
+                  Choose country
                 </Link>
               </div>
               <div className="mt-10 grid gap-4 sm:grid-cols-3">
                 <StatCard label="Countries" value="19" />
                 <StatCard
-                  label="Source-backed models"
+                  label="Detailed models"
                   value={String(sourceBackedModelCount)}
                 />
                 <StatCard label="Reverse mode" value="Net to gross" />
@@ -88,29 +87,29 @@ export default function HomePage(): JSX.Element {
             <div className="grid gap-4">
               <div className="rounded-4xl bg-ink p-6 text-white">
                 <p className="text-xs uppercase tracking-[0.24em] text-white/65">
-                  What this site does
+                  Why use it
                 </p>
                 <p className="mt-4 text-2xl font-semibold leading-9">
-                  One calculation flow, reusable tax engine, and SEO-ready country
-                  pages for every market in the catalog.
+                  Fast salary and tax estimates for jobs, relocation, and pay
+                  checks.
                 </p>
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
                 <FeatureCard
-                  description="Switch between yearly, monthly, weekly, daily, and hourly salary periods."
-                  title="Period-aware inputs"
+                  description="Yearly, monthly, weekly, daily, or hourly pay."
+                  title="Pay periods"
                 />
                 <FeatureCard
-                  description="Store the latest five calculations locally without sending personal data to a database."
-                  title="Local history"
+                  description="Your last five checks stay in your browser."
+                  title="Saved history"
                 />
                 <FeatureCard
-                  description="Compare your salary with the configured median salary and minimum-wage benchmark."
-                  title="Benchmark charts"
+                  description="See your pay next to median salary and minimum wage."
+                  title="Salary compare"
                 />
                 <FeatureCard
-                  description="Update tax logic by editing country-year JSON rather than rewriting UI code."
-                  title="Editable tax data"
+                  description="Country tax rules are easy to update."
+                  title="Tax rules"
                 />
               </div>
             </div>
