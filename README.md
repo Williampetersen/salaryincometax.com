@@ -91,3 +91,18 @@ To test the full contact form locally:
 2. Open `/contact`.
 3. Submit the form with a real email address.
 4. Confirm the message arrives at `support@salaryincometax.com`.
+
+## Google Analytics deployment
+
+The Google tag is emitted from the root App Router layout and must be available at build time through `NEXT_PUBLIC_GA_ID`.
+
+For Vercel production:
+
+1. Open the `salaryincometax.com` project in Vercel.
+2. Go to `Settings`.
+3. Open `Environment Variables`.
+4. Add `NEXT_PUBLIC_GA_ID=G-JKSYLWLEVD` to the `Production` environment.
+5. Save the variable.
+6. Redeploy the latest production deployment.
+
+The production build now fails intentionally if `NEXT_PUBLIC_GA_ID` is missing, so the site cannot silently deploy without the Google tag.
