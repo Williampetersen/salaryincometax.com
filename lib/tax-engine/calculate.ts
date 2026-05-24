@@ -1,7 +1,9 @@
 import {
+  appliesToStatus,
   applyContributionRule,
   applyDeductionRule,
   applyProgressiveBrackets,
+  applyTaxCreditRule,
   convertAnnualToPeriods,
   convertPeriodToAnnual,
   getBracketsForStatus,
@@ -22,11 +24,14 @@ interface AnnualComputation {
   taxableIncome: number;
   totalDeductions: number;
   totalAllowances: number;
+  incomeTaxBeforeCredits: number;
+  incomeTaxCredits: number;
   incomeTax: number;
   socialSecurity: number;
   regionalTaxes: number;
   totalTax: number;
   deductionLines: CalculationLine[];
+  incomeTaxCreditLines: CalculationLine[];
   socialSecurityLines: CalculationLine[];
   regionalTaxLines: CalculationLine[];
 }
@@ -67,7 +72,34 @@ function computeAnnualBreakdown(
     ),
   );
 
+  const incomeTaxCreditLines = rule.incomeTaxCredits
+    .filter((credit) => appliesToStatus(credit.statusKeys, status.key))
+    .map((credit) => {
+      const baseAmount =
+        credit.base === "gross"
+          ? annualGross
+          : credit.base === "incomeTax"
+            ? incomeTax
+            : taxableIncome;
+
+      return {
+        name: credit.name,
+        amount: applyTaxCreditRule(credit, baseAmount),
+      };
+    })
+    .filter((line) => line.amount > 0);
+
+  const totalIncomeTaxCredits = roundCurrency(
+    Math.min(
+      incomeTax,
+      incomeTaxCreditLines.reduce((sum, line) => sum + line.amount, 0),
+    ),
+  );
+
+  const netIncomeTax = roundCurrency(Math.max(incomeTax - totalIncomeTaxCredits, 0));
+
   const socialSecurityLines = rule.socialSecurityRules
+    .filter((contribution) => appliesToStatus(contribution.statusKeys, status.key))
     .map((contribution) => {
       const baseAmount =
         contribution.base === "gross" ? annualGross : taxableIncome;
@@ -84,10 +116,11 @@ function computeAnnualBreakdown(
   );
 
   const regionalTaxLines = rule.regionalTaxes
+    .filter((regionalTax) => appliesToStatus(regionalTax.statusKeys, status.key))
     .map((regionalTax) => {
       const baseAmount =
         regionalTax.base === "incomeTax"
-          ? incomeTax
+          ? netIncomeTax
           : regionalTax.base === "gross"
             ? annualGross
             : taxableIncome;
@@ -103,7 +136,7 @@ function computeAnnualBreakdown(
     regionalTaxLines.reduce((sum, line) => sum + line.amount, 0),
   );
 
-  const totalTax = roundCurrency(incomeTax + socialSecurity + regionalTaxes);
+  const totalTax = roundCurrency(netIncomeTax + socialSecurity + regionalTaxes);
   const annualNet = roundCurrency(annualGross - totalTax);
 
   return {
@@ -112,11 +145,14 @@ function computeAnnualBreakdown(
     taxableIncome,
     totalDeductions,
     totalAllowances,
-    incomeTax,
+    incomeTaxBeforeCredits: incomeTax,
+    incomeTaxCredits: totalIncomeTaxCredits,
+    incomeTax: netIncomeTax,
     socialSecurity,
     regionalTaxes,
     totalTax,
     deductionLines,
+    incomeTaxCreditLines,
     socialSecurityLines,
     regionalTaxLines,
   };
@@ -187,6 +223,8 @@ export function calculateSalaryTax(
       taxableIncome: computation.taxableIncome,
       totalDeductions: computation.totalDeductions,
       totalAllowances: computation.totalAllowances,
+      incomeTaxBeforeCredits: computation.incomeTaxBeforeCredits,
+      incomeTaxCredits: computation.incomeTaxCredits,
       incomeTax: computation.incomeTax,
       socialSecurity: computation.socialSecurity,
       regionalTaxes: computation.regionalTaxes,
@@ -199,6 +237,7 @@ export function calculateSalaryTax(
         : roundCurrency(computation.totalTax / computation.annualGross),
     periodBreakdown,
     deductionLines: computation.deductionLines,
+    incomeTaxCreditLines: computation.incomeTaxCreditLines,
     socialSecurityLines: computation.socialSecurityLines,
     regionalTaxLines: computation.regionalTaxLines,
     comparison: {
@@ -212,6 +251,7 @@ export function calculateSalaryTax(
     metadata: {
       statusLabel: status.label,
       implementationStatus: rule.implementationStatus,
+      coverageLevel: rule.coverageLevel,
       notes: rule.notes,
       source: rule.source,
     },

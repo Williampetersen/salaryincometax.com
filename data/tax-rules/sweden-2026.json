@@ -4,7 +4,9 @@
   "slug": "sweden",
   "region": "Europe",
   "currency": "SEK",
-  "supportedCurrencies": ["SEK"],
+  "supportedCurrencies": [
+    "SEK"
+  ],
   "taxYear": 2026,
   "implementationStatus": "example",
   "defaults": {
@@ -18,13 +20,25 @@
     "child": 0
   },
   "personalStatuses": [
-    { "key": "single", "label": "Single" },
-    { "key": "married", "label": "Married" }
+    {
+      "key": "single",
+      "label": "Single"
+    },
+    {
+      "key": "married",
+      "label": "Married"
+    }
   ],
   "incomeTaxBrackets": {
     "default": [
-      { "upTo": 598500, "rate": 0.32 },
-      { "upTo": null, "rate": 0.52 }
+      {
+        "upTo": 598500,
+        "rate": 0.32
+      },
+      {
+        "upTo": null,
+        "rate": 0.52
+      }
     ]
   },
   "standardDeductions": [],
@@ -35,5 +49,7 @@
   "notes": "Illustrative Swedish model combining a representative municipal tax with the national top-bracket layer. Sweden has no statutory national minimum wage, so the comparison floor is a benchmark level.",
   "source": [
     "https://www.skatteverket.se/servicelankar/otherlanguages/inenglishengelska/individualsandemployees/workandemploymentinsweden.4.676f4884175c97df41913d.html"
-  ]
+  ],
+  "coverageLevel": "estimate",
+  "incomeTaxCredits": []
 }

@@ -4,7 +4,9 @@
   "slug": "spain",
   "region": "Europe",
   "currency": "EUR",
-  "supportedCurrencies": ["EUR"],
+  "supportedCurrencies": [
+    "EUR"
+  ],
   "taxYear": 2026,
   "implementationStatus": "example",
   "defaults": {
@@ -18,17 +20,42 @@
     "child": 2400
   },
   "personalStatuses": [
-    { "key": "single", "label": "Single" },
-    { "key": "married", "label": "Married", "allowanceAdjustment": 3400 }
+    {
+      "key": "single",
+      "label": "Single"
+    },
+    {
+      "key": "married",
+      "label": "Married",
+      "allowanceAdjustment": 3400
+    }
   ],
   "incomeTaxBrackets": {
     "default": [
-      { "upTo": 12450, "rate": 0.19 },
-      { "upTo": 20200, "rate": 0.24 },
-      { "upTo": 35200, "rate": 0.3 },
-      { "upTo": 60000, "rate": 0.37 },
-      { "upTo": 300000, "rate": 0.45 },
-      { "upTo": null, "rate": 0.47 }
+      {
+        "upTo": 12450,
+        "rate": 0.19
+      },
+      {
+        "upTo": 20200,
+        "rate": 0.24
+      },
+      {
+        "upTo": 35200,
+        "rate": 0.3
+      },
+      {
+        "upTo": 60000,
+        "rate": 0.37
+      },
+      {
+        "upTo": 300000,
+        "rate": 0.45
+      },
+      {
+        "upTo": null,
+        "rate": 0.47
+      }
     ]
   },
   "standardDeductions": [],
@@ -53,5 +80,7 @@
   "notes": "Illustrative Spanish model with central-state style brackets, employee social security, and a small average regional layer. Autonomous-community detail and exact family reductions are not modeled.",
   "source": [
     "https://sede.agenciatributaria.gob.es/Sede/en_gb/ayuda/manuales-videos-folletos/manuales-practicos.html"
-  ]
+  ],
+  "coverageLevel": "estimate",
+  "incomeTaxCredits": []
 }

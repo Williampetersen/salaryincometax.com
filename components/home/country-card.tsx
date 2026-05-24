@@ -1,14 +1,18 @@
 import Link from "next/link";
 
 import { CountryFlag } from "@/components/shared/country-flag";
-import type { CountrySummary } from "@/lib/country-catalog";
+import {
+  getCoverageDescription,
+  getCoverageLabel,
+  type CountrySummary,
+} from "@/lib/country-catalog";
 
 interface CountryCardProps {
   country: CountrySummary;
 }
 
 export function CountryCard({ country }: CountryCardProps): JSX.Element {
-  const isDetailed = country.implementationStatus === "complete";
+  const coverageLabel = getCoverageLabel(country.coverageLevel);
 
   return (
     <Link
@@ -33,13 +37,19 @@ export function CountryCard({ country }: CountryCardProps): JSX.Element {
         </div>
         <span
           className={`status-chip ${
-            isDetailed
+            country.coverageLevel === "verified"
               ? "bg-moss/10 text-moss"
-              : "bg-sand/55 text-ink/72"
+              : country.coverageLevel === "partial"
+                ? "bg-sky/15 text-sky"
+                : "bg-sand/55 text-ink/72"
           }`}
+          title={getCoverageDescription(country.coverageLevel)}
         >
-          {isDetailed ? "Detailed model" : "Example model"}
+          {coverageLabel} model
         </span>
+      </div>
+      <div className="mt-4 text-sm leading-6 text-ink/62">
+        {getCoverageDescription(country.coverageLevel)}
       </div>
       <div className="mt-6 flex items-center justify-between text-sm text-ink/60">
         <span>{country.currency}</span>

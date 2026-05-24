@@ -34,10 +34,22 @@ export interface ContributionRule {
   name: string;
   type: "flat" | "progressive";
   base: "gross" | "taxableIncome" | "incomeTax";
+  statusKeys?: string[];
   rate?: number;
   threshold?: number;
   cap?: number | null;
   brackets?: RateBracket[];
+}
+
+export interface TaxCreditRule {
+  name: string;
+  type: "flat" | "percentage";
+  base: "gross" | "taxableIncome" | "incomeTax";
+  statusKeys?: string[];
+  amount?: number;
+  rate?: number;
+  threshold?: number;
+  cap?: number | null;
 }
 
 export interface PersonalStatusConfig {
@@ -69,11 +81,13 @@ export interface CountryTaxRule {
   supportedCurrencies: string[];
   taxYear: number;
   implementationStatus: "complete" | "example";
+  coverageLevel: "verified" | "partial" | "estimate";
   defaults: TaxRuleDefaults;
   allowances: TaxRuleAllowances;
   personalStatuses: PersonalStatusConfig[];
   incomeTaxBrackets: Record<string, RateBracket[]>;
   standardDeductions: StandardDeductionRule[];
+  incomeTaxCredits: TaxCreditRule[];
   socialSecurityRules: ContributionRule[];
   regionalTaxes: ContributionRule[];
   medianSalary: number;
@@ -109,6 +123,8 @@ export interface AnnualBreakdown {
   taxableIncome: number;
   totalDeductions: number;
   totalAllowances: number;
+  incomeTaxBeforeCredits: number;
+  incomeTaxCredits: number;
   incomeTax: number;
   socialSecurity: number;
   regionalTaxes: number;
@@ -134,6 +150,7 @@ export interface CalculationResult {
   effectiveTaxRate: number;
   periodBreakdown: PeriodBreakdown;
   deductionLines: CalculationLine[];
+  incomeTaxCreditLines: CalculationLine[];
   socialSecurityLines: CalculationLine[];
   regionalTaxLines: CalculationLine[];
   comparison: {
@@ -145,6 +162,7 @@ export interface CalculationResult {
   metadata: {
     statusLabel: string;
     implementationStatus: CountryTaxRule["implementationStatus"];
+    coverageLevel: CountryTaxRule["coverageLevel"];
     notes: string;
     source: string[];
   };

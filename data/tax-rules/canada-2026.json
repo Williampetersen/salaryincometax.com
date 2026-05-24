@@ -4,7 +4,9 @@
   "slug": "canada",
   "region": "North America",
   "currency": "CAD",
-  "supportedCurrencies": ["CAD"],
+  "supportedCurrencies": [
+    "CAD"
+  ],
   "taxYear": 2026,
   "implementationStatus": "complete",
   "defaults": {
@@ -18,16 +20,37 @@
     "child": 0
   },
   "personalStatuses": [
-    { "key": "single", "label": "Single" },
-    { "key": "married", "label": "Married" }
+    {
+      "key": "single",
+      "label": "Single"
+    },
+    {
+      "key": "married",
+      "label": "Married"
+    }
   ],
   "incomeTaxBrackets": {
     "default": [
-      { "upTo": 58523, "rate": 0.14 },
-      { "upTo": 117046, "rate": 0.205 },
-      { "upTo": 181160, "rate": 0.26 },
-      { "upTo": 258483, "rate": 0.29 },
-      { "upTo": null, "rate": 0.33 }
+      {
+        "upTo": 58523,
+        "rate": 0.14
+      },
+      {
+        "upTo": 117046,
+        "rate": 0.205
+      },
+      {
+        "upTo": 181160,
+        "rate": 0.26
+      },
+      {
+        "upTo": 258483,
+        "rate": 0.29
+      },
+      {
+        "upTo": null,
+        "rate": 0.33
+      }
     ]
   },
   "standardDeductions": [],
@@ -51,9 +74,11 @@
   "regionalTaxes": [],
   "medianSalary": 62000,
   "minimumWage": 36400,
-  "notes": "Detailed federal baseline for Canada with federal brackets plus CPP and EI. Provincial and territorial income tax is intentionally excluded from this country-level route and should be layered in with a province selector later.",
+  "notes": "Source-backed federal baseline for Canada with 2026 federal brackets, CPP, and EI. Provincial and territorial income tax, provincial credits, and the indexed federal personal amount phaseout are not yet layered into this country-level route.",
   "source": [
     "https://www.canada.ca/en/revenue-agency/services/tax/individuals/frequently-asked-questions-individuals/canadian-income-tax-rates-individuals-current-previous-years.html",
-    "https://www.canada.ca/en/revenue-agency/services/tax/rates.html"
-  ]
+    "https://www.canada.ca/content/dam/cra-arc/migration/cra-arc/tx/bsnss/tpcs/pyrll/t4032/2026/t4032-bc-1-26e.pdf"
+  ],
+  "coverageLevel": "partial",
+  "incomeTaxCredits": []
 }

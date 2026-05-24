@@ -31,6 +31,9 @@ export const metadata: Metadata = {
 export default function HomePage(): JSX.Element {
   const groups = getCountryGroups();
   const countries = getAllCountries();
+  const sourceBackedModelCount = countries.filter(
+    (country) => country.coverageLevel !== "estimate",
+  ).length;
   const structuredData = [
     buildOrganizationSchema(),
     buildWebsiteSchema(),
@@ -74,7 +77,10 @@ export default function HomePage(): JSX.Element {
               </div>
               <div className="mt-10 grid gap-4 sm:grid-cols-3">
                 <StatCard label="Countries" value="19" />
-                <StatCard label="Detailed models" value="8" />
+                <StatCard
+                  label="Source-backed models"
+                  value={String(sourceBackedModelCount)}
+                />
                 <StatCard label="Reverse mode" value="Net to gross" />
               </div>
             </div>

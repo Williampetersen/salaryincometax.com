@@ -4,7 +4,9 @@
   "slug": "luxembourg",
   "region": "Europe",
   "currency": "EUR",
-  "supportedCurrencies": ["EUR"],
+  "supportedCurrencies": [
+    "EUR"
+  ],
   "taxYear": 2026,
   "implementationStatus": "example",
   "defaults": {
@@ -18,30 +20,81 @@
     "child": 0
   },
   "personalStatuses": [
-    { "key": "single", "label": "Single" },
-    { "key": "married", "label": "Married" }
+    {
+      "key": "single",
+      "label": "Single"
+    },
+    {
+      "key": "married",
+      "label": "Married"
+    }
   ],
   "incomeTaxBrackets": {
     "single": [
-      { "upTo": 13230, "rate": 0 },
-      { "upTo": 25000, "rate": 0.08 },
-      { "upTo": 43000, "rate": 0.2 },
-      { "upTo": 220000, "rate": 0.39 },
-      { "upTo": null, "rate": 0.42 }
+      {
+        "upTo": 13230,
+        "rate": 0
+      },
+      {
+        "upTo": 25000,
+        "rate": 0.08
+      },
+      {
+        "upTo": 43000,
+        "rate": 0.2
+      },
+      {
+        "upTo": 220000,
+        "rate": 0.39
+      },
+      {
+        "upTo": null,
+        "rate": 0.42
+      }
     ],
     "married": [
-      { "upTo": 26460, "rate": 0 },
-      { "upTo": 50000, "rate": 0.08 },
-      { "upTo": 86000, "rate": 0.2 },
-      { "upTo": 440000, "rate": 0.39 },
-      { "upTo": null, "rate": 0.42 }
+      {
+        "upTo": 26460,
+        "rate": 0
+      },
+      {
+        "upTo": 50000,
+        "rate": 0.08
+      },
+      {
+        "upTo": 86000,
+        "rate": 0.2
+      },
+      {
+        "upTo": 440000,
+        "rate": 0.39
+      },
+      {
+        "upTo": null,
+        "rate": 0.42
+      }
     ],
     "default": [
-      { "upTo": 13230, "rate": 0 },
-      { "upTo": 25000, "rate": 0.08 },
-      { "upTo": 43000, "rate": 0.2 },
-      { "upTo": 220000, "rate": 0.39 },
-      { "upTo": null, "rate": 0.42 }
+      {
+        "upTo": 13230,
+        "rate": 0
+      },
+      {
+        "upTo": 25000,
+        "rate": 0.08
+      },
+      {
+        "upTo": 43000,
+        "rate": 0.2
+      },
+      {
+        "upTo": 220000,
+        "rate": 0.39
+      },
+      {
+        "upTo": null,
+        "rate": 0.42
+      }
     ]
   },
   "standardDeductions": [],
@@ -59,5 +112,7 @@
   "notes": "Illustrative Luxembourg model with simplified class-style brackets and employee social security. Municipal and class-specific fine details should be added before production deployment.",
   "source": [
     "https://guichet.public.lu/en/citoyens/impots-taxes/assiette-impot-revenu/revenu-emploi-pension/barreme-impot.html"
-  ]
+  ],
+  "coverageLevel": "estimate",
+  "incomeTaxCredits": []
 }

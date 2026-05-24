@@ -7,7 +7,10 @@ import { StructuredData } from "@/components/seo/structured-data";
 import { COUNTRY_COST_OF_LIVING_DATA } from "@/data/blog/costOfLivingData";
 import { SALARY_DATA } from "@/data/blog/salaryData";
 import { TAX_RULES } from "@/data/tax-rules";
-import { getAllCountries } from "@/lib/country-catalog";
+import {
+  getAllCountries,
+  getCoverageLabel,
+} from "@/lib/country-catalog";
 import { buildStaticPageMetadata } from "@/lib/navigation";
 import { absoluteUrl, buildBreadcrumbSchema } from "@/lib/seo";
 import { SUPPORT_EMAIL } from "@/lib/site";
@@ -45,7 +48,7 @@ export default function SourcesPage(): JSX.Element {
               title: "Tax data sources",
               paragraphs: [
                 "Country-specific tax-rule files are stored as structured JSON in the project and are designed to reference official tax authority, finance ministry, or equivalent public-government materials wherever possible.",
-                "Each country file includes source references, assumptions, and implementation notes so updates can be audited and reviewed over time.",
+                "Each country file includes source references, assumptions, coverage status, and implementation notes so updates can be audited and reviewed over time.",
               ],
             },
             {
@@ -97,13 +100,19 @@ export default function SourcesPage(): JSX.Element {
             and the number of configured source references visible in the structured
             project data.
           </p>
+          <p className="mt-2 text-sm leading-7 text-ink/64">
+            A <strong>Partial</strong> model is source-backed but still excludes
+            some country-specific layers such as province, state, commune, tax
+            credits, or special household cases. An <strong>Estimate</strong> model
+            remains illustrative and should be treated as planning-only.
+          </p>
           <div className="mt-5 overflow-hidden rounded-3xl border border-ink/10 bg-white">
             <div className="overflow-x-auto">
               <table className="min-w-full text-sm">
                 <thead className="bg-ink/4 text-left text-xs uppercase tracking-[0.18em] text-ink/55">
                   <tr>
                     <th className="px-4 py-3 font-semibold">Country</th>
-                    <th className="px-4 py-3 font-semibold">Tax model</th>
+                    <th className="px-4 py-3 font-semibold">Coverage</th>
                     <th className="px-4 py-3 font-semibold">Tax sources</th>
                     <th className="px-4 py-3 font-semibold">Salary sources</th>
                     <th className="px-4 py-3 font-semibold">Cost guide status</th>
@@ -128,7 +137,7 @@ export default function SourcesPage(): JSX.Element {
                           </Link>
                         </td>
                         <td className="px-4 py-3 text-ink/72">
-                          {rule.implementationStatus}
+                          {getCoverageLabel(rule.coverageLevel)}
                         </td>
                         <td className="px-4 py-3 text-ink/72">{rule.source.length}</td>
                         <td className="px-4 py-3 text-ink/72">{salary.sources.length}</td>

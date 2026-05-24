@@ -4,9 +4,11 @@
   "slug": "ireland",
   "region": "Europe",
   "currency": "EUR",
-  "supportedCurrencies": ["EUR"],
+  "supportedCurrencies": [
+    "EUR"
+  ],
   "taxYear": 2026,
-  "implementationStatus": "example",
+  "implementationStatus": "complete",
   "defaults": {
     "paidMonthsPerYear": 12,
     "paidWeeksPerYear": 52,
@@ -18,21 +20,45 @@
     "child": 0
   },
   "personalStatuses": [
-    { "key": "single", "label": "Single" },
-    { "key": "married", "label": "Married" }
+    {
+      "key": "single",
+      "label": "Single"
+    },
+    {
+      "key": "married",
+      "label": "Married"
+    }
   ],
   "incomeTaxBrackets": {
     "single": [
-      { "upTo": 44000, "rate": 0.2 },
-      { "upTo": null, "rate": 0.4 }
+      {
+        "upTo": 44000,
+        "rate": 0.2
+      },
+      {
+        "upTo": null,
+        "rate": 0.4
+      }
     ],
     "married": [
-      { "upTo": 53000, "rate": 0.2 },
-      { "upTo": null, "rate": 0.4 }
+      {
+        "upTo": 53000,
+        "rate": 0.2
+      },
+      {
+        "upTo": null,
+        "rate": 0.4
+      }
     ],
     "default": [
-      { "upTo": 44000, "rate": 0.2 },
-      { "upTo": null, "rate": 0.4 }
+      {
+        "upTo": 44000,
+        "rate": 0.2
+      },
+      {
+        "upTo": null,
+        "rate": 0.4
+      }
     ]
   },
   "standardDeductions": [],
@@ -48,18 +74,63 @@
       "type": "progressive",
       "base": "taxableIncome",
       "brackets": [
-        { "upTo": 12012, "rate": 0.005 },
-        { "upTo": 27382, "rate": 0.02 },
-        { "upTo": 70044, "rate": 0.03 },
-        { "upTo": null, "rate": 0.08 }
+        {
+          "upTo": 12012,
+          "rate": 0.005
+        },
+        {
+          "upTo": 27382,
+          "rate": 0.02
+        },
+        {
+          "upTo": 70044,
+          "rate": 0.03
+        },
+        {
+          "upTo": null,
+          "rate": 0.08
+        }
       ]
     }
   ],
   "regionalTaxes": [],
   "medianSalary": 48700,
   "minimumWage": 26800,
-  "notes": "Illustrative Irish PAYE model with broad income tax, PRSI, and USC assumptions. Tax credits, pension relief, and family-specific USC rules are not included.",
+  "notes": "Source-backed Irish PAYE baseline using published 2026 rate bands, standard USC thresholds, PRSI, and the core personal plus employee tax credits. Joint assessment edge cases, pension relief, PRSI subclass detail, and non-PAYE credits are still outside this national model.",
   "source": [
-    "https://www.revenue.ie/en/personal-tax-credits-reliefs-and-exemptions/index.aspx"
+    "https://www.revenue.ie/en/personal-tax-credits-reliefs-and-exemptions/tax-relief-charts/index.aspx",
+    "https://www.revenue.ie/en/personal-tax-credits-reliefs-and-exemptions/income-and-employment/employee-tax-credit/index.aspx",
+    "https://www.revenue.ie/en/jobs-and-pensions/usc/standard-rates-thresholds.aspx"
+  ],
+  "coverageLevel": "partial",
+  "incomeTaxCredits": [
+    {
+      "name": "Single person tax credit",
+      "type": "flat",
+      "base": "incomeTax",
+      "amount": 2000,
+      "statusKeys": [
+        "single"
+      ]
+    },
+    {
+      "name": "Married or civil partner tax credit",
+      "type": "flat",
+      "base": "incomeTax",
+      "amount": 4000,
+      "statusKeys": [
+        "married"
+      ]
+    },
+    {
+      "name": "Employee tax credit",
+      "type": "flat",
+      "base": "incomeTax",
+      "amount": 2000,
+      "statusKeys": [
+        "single",
+        "married"
+      ]
+    }
   ]
 }

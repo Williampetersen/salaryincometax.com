@@ -4,7 +4,9 @@
   "slug": "belgium",
   "region": "Europe",
   "currency": "EUR",
-  "supportedCurrencies": ["EUR"],
+  "supportedCurrencies": [
+    "EUR"
+  ],
   "taxYear": 2026,
   "implementationStatus": "complete",
   "defaults": {
@@ -18,15 +20,34 @@
     "child": 1800
   },
   "personalStatuses": [
-    { "key": "single", "label": "Single" },
-    { "key": "married", "label": "Married", "allowanceAdjustment": 2500 }
+    {
+      "key": "single",
+      "label": "Single"
+    },
+    {
+      "key": "married",
+      "label": "Married",
+      "allowanceAdjustment": 2500
+    }
   ],
   "incomeTaxBrackets": {
     "default": [
-      { "upTo": 16720, "rate": 0.25 },
-      { "upTo": 29510, "rate": 0.4 },
-      { "upTo": 51070, "rate": 0.45 },
-      { "upTo": null, "rate": 0.5 }
+      {
+        "upTo": 16720,
+        "rate": 0.25
+      },
+      {
+        "upTo": 29510,
+        "rate": 0.4
+      },
+      {
+        "upTo": 51070,
+        "rate": 0.45
+      },
+      {
+        "upTo": null,
+        "rate": 0.5
+      }
     ]
   },
   "standardDeductions": [
@@ -59,5 +80,7 @@
   "source": [
     "https://fin.belgium.be/en/private-individuals/tax-return/income/tax-rates",
     "https://fin.belgium.be/en/private-individuals/tax-return/income/tax-rates#personal-tax-allowance"
-  ]
+  ],
+  "coverageLevel": "partial",
+  "incomeTaxCredits": []
 }

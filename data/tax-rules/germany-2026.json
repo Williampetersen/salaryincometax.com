@@ -4,7 +4,9 @@
   "slug": "germany",
   "region": "Europe",
   "currency": "EUR",
-  "supportedCurrencies": ["EUR"],
+  "supportedCurrencies": [
+    "EUR"
+  ],
   "taxYear": 2026,
   "implementationStatus": "complete",
   "defaults": {
@@ -18,30 +20,81 @@
     "child": 3200
   },
   "personalStatuses": [
-    { "key": "single", "label": "Single" },
-    { "key": "married", "label": "Married" }
+    {
+      "key": "single",
+      "label": "Single"
+    },
+    {
+      "key": "married",
+      "label": "Married"
+    }
   ],
   "incomeTaxBrackets": {
     "default": [
-      { "upTo": 12348, "rate": 0 },
-      { "upTo": 17799, "rate": 0.14 },
-      { "upTo": 69878, "rate": 0.3 },
-      { "upTo": 277825, "rate": 0.42 },
-      { "upTo": null, "rate": 0.45 }
+      {
+        "upTo": 12348,
+        "rate": 0
+      },
+      {
+        "upTo": 17799,
+        "rate": 0.14
+      },
+      {
+        "upTo": 69878,
+        "rate": 0.3
+      },
+      {
+        "upTo": 277825,
+        "rate": 0.42
+      },
+      {
+        "upTo": null,
+        "rate": 0.45
+      }
     ],
     "single": [
-      { "upTo": 12348, "rate": 0 },
-      { "upTo": 17799, "rate": 0.14 },
-      { "upTo": 69878, "rate": 0.3 },
-      { "upTo": 277825, "rate": 0.42 },
-      { "upTo": null, "rate": 0.45 }
+      {
+        "upTo": 12348,
+        "rate": 0
+      },
+      {
+        "upTo": 17799,
+        "rate": 0.14
+      },
+      {
+        "upTo": 69878,
+        "rate": 0.3
+      },
+      {
+        "upTo": 277825,
+        "rate": 0.42
+      },
+      {
+        "upTo": null,
+        "rate": 0.45
+      }
     ],
     "married": [
-      { "upTo": 24696, "rate": 0 },
-      { "upTo": 35598, "rate": 0.14 },
-      { "upTo": 139756, "rate": 0.3 },
-      { "upTo": 555650, "rate": 0.42 },
-      { "upTo": null, "rate": 0.45 }
+      {
+        "upTo": 24696,
+        "rate": 0
+      },
+      {
+        "upTo": 35598,
+        "rate": 0.14
+      },
+      {
+        "upTo": 139756,
+        "rate": 0.3
+      },
+      {
+        "upTo": 555650,
+        "rate": 0.42
+      },
+      {
+        "upTo": null,
+        "rate": 0.45
+      }
     ]
   },
   "standardDeductions": [
@@ -88,5 +141,7 @@
   "source": [
     "https://esth.bundesfinanzministerium.de/lsth/2026/A-Einkommensteuergesetz/IV-Tarif-31-34b/Paragraf-32a/inhalt.html",
     "https://www.bundesfinanzministerium.de/Web/DE/Themen/Steuern/Steuerarten/Lohnsteuer/lohnsteuer.html"
-  ]
+  ],
+  "coverageLevel": "partial",
+  "incomeTaxCredits": []
 }

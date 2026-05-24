@@ -7,7 +7,11 @@ import { CountryPicker } from "@/components/calculator/country-picker";
 import { ComparisonChart } from "@/components/charts/comparison-chart";
 import { DonutChart } from "@/components/charts/donut-chart";
 import { CountryFlag } from "@/components/shared/country-flag";
-import type { CountrySummary } from "@/lib/country-catalog";
+import {
+  getCoverageDescription,
+  getCoverageLabel,
+  type CountrySummary,
+} from "@/lib/country-catalog";
 import { formatCurrency, formatPercent, formatTimestamp } from "@/lib/formatters";
 import { event as trackEvent } from "@/lib/gtag";
 import { DISCLAIMER } from "@/lib/site";
@@ -64,6 +68,8 @@ export function CalculatorShell({
   const [error, setError] = useState<string | null>(null);
   const [recentHistory, setRecentHistory] = useState<HistoryItem[]>([]);
   const [form, setForm] = useState<CalculationInput>(initialResult.input);
+  const coverageLabel = getCoverageLabel(rule.coverageLevel);
+  const coverageDescription = getCoverageDescription(rule.coverageLevel);
 
   useEffect(() => {
     try {
@@ -251,15 +257,19 @@ export function CalculatorShell({
           </div>
           <span
             className={`status-chip ${
-              rule.implementationStatus === "complete"
+              rule.coverageLevel === "verified"
                 ? "bg-moss/10 text-moss"
-                : "bg-sand/70 text-ink/70"
+                : rule.coverageLevel === "partial"
+                  ? "bg-sky/15 text-sky"
+                  : "bg-sand/70 text-ink/70"
             }`}
           >
-            {rule.implementationStatus === "complete"
-              ? "Detailed"
-              : "Illustrative"}
+            {coverageLabel}
           </span>
+        </div>
+
+        <div className="mb-5 rounded-3xl border border-ink/10 bg-white/80 px-4 py-3 text-sm leading-6 text-ink/70">
+          {coverageDescription}
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
@@ -326,7 +336,7 @@ export function CalculatorShell({
               aria-hidden="true"
               className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-sky/35 bg-white text-xl font-semibold leading-none text-sky"
             >
-              {showAdvancedOptions ? "−" : "+"}
+              {showAdvancedOptions ? "-" : "+"}
             </span>
           </button>
 
@@ -558,6 +568,11 @@ export function CalculatorShell({
             ) : null}
           </div>
 
+          <div className="mt-5 rounded-3xl border border-ink/10 bg-white/84 px-4 py-3 text-sm leading-6 text-ink/70">
+            <span className="font-semibold text-ink">{coverageLabel} coverage:</span>{" "}
+            {coverageDescription} {rule.notes}
+          </div>
+
           <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:hidden">
             <MetricCard
               label="Gross salary"
@@ -718,6 +733,38 @@ export function CalculatorShell({
               Tax details
             </h3>
             <div className="mt-5 space-y-5 text-sm">
+              <TaxBlock
+                amount={result.annual.incomeTax}
+                currency={result.currency}
+                items={
+                  result.incomeTaxCreditLines.length > 0
+                    ? [
+                        {
+                          name: "Income tax before credits",
+                          amount: result.annual.incomeTaxBeforeCredits,
+                        },
+                        {
+                          name: "Income tax credits",
+                          amount: -result.annual.incomeTaxCredits,
+                        },
+                      ]
+                    : [
+                        {
+                          name: "Tax due at configured brackets",
+                          amount: result.annual.incomeTax,
+                        },
+                      ]
+                }
+                title="Income tax"
+              />
+              {result.incomeTaxCreditLines.length > 0 ? (
+                <TaxBlock
+                  amount={result.annual.incomeTaxCredits}
+                  currency={result.currency}
+                  items={result.incomeTaxCreditLines}
+                  title="Income tax credits"
+                />
+              ) : null}
               <TaxBlock
                 amount={result.annual.totalDeductions}
                 currency={result.currency}

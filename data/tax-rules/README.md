@@ -18,3 +18,6 @@ Each file in this folder is a single country and tax year in JSON format.
 
 - `implementationStatus: "complete"` means the file includes a fuller model for the market, but it is still an estimate and should be reviewed yearly.
 - `implementationStatus: "example"` means the market is intentionally simplified and needs local validation before production use.
+- `coverageLevel: "verified" | "partial" | "estimate"` explains how much of the real national payroll picture is covered by the route.
+- Use `incomeTaxCredits` for credits that reduce calculated income tax after brackets, rather than forcing them into deductions or allowances.
+- If a country excludes major layers such as province, state, commune, prefecture, family quotient, or special credits, keep `coverageLevel` at `partial` or `estimate` and explain the gap in `notes`.

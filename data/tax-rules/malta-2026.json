@@ -4,7 +4,9 @@
   "slug": "malta",
   "region": "Europe",
   "currency": "EUR",
-  "supportedCurrencies": ["EUR"],
+  "supportedCurrencies": [
+    "EUR"
+  ],
   "taxYear": 2026,
   "implementationStatus": "example",
   "defaults": {
@@ -18,34 +20,91 @@
     "child": 0
   },
   "personalStatuses": [
-    { "key": "single", "label": "Single" },
-    { "key": "married", "label": "Married" },
-    { "key": "parent", "label": "Parent" }
+    {
+      "key": "single",
+      "label": "Single"
+    },
+    {
+      "key": "married",
+      "label": "Married"
+    },
+    {
+      "key": "parent",
+      "label": "Parent"
+    }
   ],
   "incomeTaxBrackets": {
     "single": [
-      { "upTo": 12000, "rate": 0 },
-      { "upTo": 16000, "rate": 0.15 },
-      { "upTo": 60000, "rate": 0.25 },
-      { "upTo": null, "rate": 0.35 }
+      {
+        "upTo": 12000,
+        "rate": 0
+      },
+      {
+        "upTo": 16000,
+        "rate": 0.15
+      },
+      {
+        "upTo": 60000,
+        "rate": 0.25
+      },
+      {
+        "upTo": null,
+        "rate": 0.35
+      }
     ],
     "married": [
-      { "upTo": 15000, "rate": 0 },
-      { "upTo": 23000, "rate": 0.15 },
-      { "upTo": 60000, "rate": 0.25 },
-      { "upTo": null, "rate": 0.35 }
+      {
+        "upTo": 15000,
+        "rate": 0
+      },
+      {
+        "upTo": 23000,
+        "rate": 0.15
+      },
+      {
+        "upTo": 60000,
+        "rate": 0.25
+      },
+      {
+        "upTo": null,
+        "rate": 0.35
+      }
     ],
     "parent": [
-      { "upTo": 13000, "rate": 0 },
-      { "upTo": 17500, "rate": 0.15 },
-      { "upTo": 60000, "rate": 0.25 },
-      { "upTo": null, "rate": 0.35 }
+      {
+        "upTo": 13000,
+        "rate": 0
+      },
+      {
+        "upTo": 17500,
+        "rate": 0.15
+      },
+      {
+        "upTo": 60000,
+        "rate": 0.25
+      },
+      {
+        "upTo": null,
+        "rate": 0.35
+      }
     ],
     "default": [
-      { "upTo": 12000, "rate": 0 },
-      { "upTo": 16000, "rate": 0.15 },
-      { "upTo": 60000, "rate": 0.25 },
-      { "upTo": null, "rate": 0.35 }
+      {
+        "upTo": 12000,
+        "rate": 0
+      },
+      {
+        "upTo": 16000,
+        "rate": 0.15
+      },
+      {
+        "upTo": 60000,
+        "rate": 0.25
+      },
+      {
+        "upTo": null,
+        "rate": 0.35
+      }
     ]
   },
   "standardDeductions": [],
@@ -64,5 +123,7 @@
   "notes": "Illustrative Malta model using common tax-status bracket sets and a capped employee social contribution. Benefit clawbacks and exact weekly contribution classes are not included.",
   "source": [
     "https://cfr.gov.mt/en/rates/Pages/TaxRates/Tax-Rates.aspx"
-  ]
+  ],
+  "coverageLevel": "estimate",
+  "incomeTaxCredits": []
 }

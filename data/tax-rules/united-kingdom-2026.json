@@ -4,7 +4,9 @@
   "slug": "united-kingdom",
   "region": "Europe",
   "currency": "GBP",
-  "supportedCurrencies": ["GBP"],
+  "supportedCurrencies": [
+    "GBP"
+  ],
   "taxYear": 2026,
   "implementationStatus": "complete",
   "defaults": {
@@ -18,23 +20,33 @@
     "child": 0
   },
   "personalStatuses": [
-    { "key": "single", "label": "Single" },
+    {
+      "key": "single",
+      "label": "Single"
+    },
     {
       "key": "married",
-      "label": "Married",
-      "allowanceAdjustment": 1260
+      "label": "Married"
     },
     {
       "key": "civil-partner",
-      "label": "Civil partner",
-      "allowanceAdjustment": 1260
+      "label": "Civil partner"
     }
   ],
   "incomeTaxBrackets": {
     "default": [
-      { "upTo": 37700, "rate": 0.2 },
-      { "upTo": 112570, "rate": 0.4 },
-      { "upTo": null, "rate": 0.45 }
+      {
+        "upTo": 37700,
+        "rate": 0.2
+      },
+      {
+        "upTo": 112570,
+        "rate": 0.4
+      },
+      {
+        "upTo": null,
+        "rate": 0.45
+      }
     ]
   },
   "standardDeductions": [],
@@ -44,18 +56,30 @@
       "type": "progressive",
       "base": "gross",
       "brackets": [
-        { "upTo": 12570, "rate": 0 },
-        { "upTo": 50270, "rate": 0.08 },
-        { "upTo": null, "rate": 0.02 }
+        {
+          "upTo": 12570,
+          "rate": 0
+        },
+        {
+          "upTo": 50270,
+          "rate": 0.08
+        },
+        {
+          "upTo": null,
+          "rate": 0.02
+        }
       ]
     }
   ],
   "regionalTaxes": [],
   "medianSalary": 39200,
   "minimumWage": 23830,
-  "notes": "Detailed UK baseline using the 6 April 2026 to 5 April 2027 personal allowance and England/Wales/Northern Ireland style income tax bands with employee National Insurance. Scotland's separate bands and the personal-allowance taper above GBP 100,000 are not fully modeled.",
+  "notes": "Source-backed UK baseline using 6 April 2026 to 5 April 2027 income tax bands for England, Wales, and Northern Ireland plus employee National Insurance. Marriage Allowance, Scotland's separate bands, and the personal-allowance taper above GBP 100,000 are not automatically modeled.",
   "source": [
-    "https://www.gov.uk/income-tax-rates/current-rates-and-allowances",
-    "https://www.gov.uk/government/publications/rates-and-allowances-income-tax"
-  ]
+    "https://www.gov.uk/income-tax-rates",
+    "https://www.gov.uk/government/publications/rates-and-allowances-national-insurance-contributions/rates-and-allowances-national-insurance-contributions",
+    "https://www.gov.uk/government/publications/rates-and-allowances-income-tax/income-tax-rates-and-allowances-current-and-past"
+  ],
+  "coverageLevel": "partial",
+  "incomeTaxCredits": []
 }

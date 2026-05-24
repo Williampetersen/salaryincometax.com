@@ -4,7 +4,9 @@
   "slug": "australia",
   "region": "Pacific",
   "currency": "AUD",
-  "supportedCurrencies": ["AUD"],
+  "supportedCurrencies": [
+    "AUD"
+  ],
   "taxYear": 2026,
   "implementationStatus": "complete",
   "defaults": {
@@ -18,16 +20,37 @@
     "child": 0
   },
   "personalStatuses": [
-    { "key": "single", "label": "Single" },
-    { "key": "married", "label": "Married" }
+    {
+      "key": "single",
+      "label": "Single"
+    },
+    {
+      "key": "married",
+      "label": "Married"
+    }
   ],
   "incomeTaxBrackets": {
     "default": [
-      { "upTo": 18200, "rate": 0 },
-      { "upTo": 45000, "rate": 0.15 },
-      { "upTo": 135000, "rate": 0.3 },
-      { "upTo": 190000, "rate": 0.37 },
-      { "upTo": null, "rate": 0.45 }
+      {
+        "upTo": 18200,
+        "rate": 0
+      },
+      {
+        "upTo": 45000,
+        "rate": 0.15
+      },
+      {
+        "upTo": 135000,
+        "rate": 0.3
+      },
+      {
+        "upTo": 190000,
+        "rate": 0.37
+      },
+      {
+        "upTo": null,
+        "rate": 0.45
+      }
     ]
   },
   "standardDeductions": [],
@@ -44,7 +67,9 @@
   "minimumWage": 47424,
   "notes": "Baseline for Australian resident rates using the 2026-27 tax schedule and a flat Medicare levy. It does not model offsets, HELP repayments, or family-specific concessions.",
   "source": [
-    "https://www.ato.gov.au/tax-rates-and-codes/tax-rates-australian-residents?lang=en&pubdate=636168759750000000",
+    "https://www.ato.gov.au/tax-rates-and-codes/tax-rates-australian-residents",
     "https://softwaredevelopers.ato.gov.au/2026-pay-you-go-payg-withholding-tax-tables"
-  ]
+  ],
+  "coverageLevel": "partial",
+  "incomeTaxCredits": []
 }

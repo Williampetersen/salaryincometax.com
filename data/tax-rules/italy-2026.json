@@ -4,7 +4,9 @@
   "slug": "italy",
   "region": "Europe",
   "currency": "EUR",
-  "supportedCurrencies": ["EUR"],
+  "supportedCurrencies": [
+    "EUR"
+  ],
   "taxYear": 2026,
   "implementationStatus": "example",
   "defaults": {
@@ -18,14 +20,30 @@
     "child": 1000
   },
   "personalStatuses": [
-    { "key": "single", "label": "Single" },
-    { "key": "married", "label": "Married", "allowanceAdjustment": 2000 }
+    {
+      "key": "single",
+      "label": "Single"
+    },
+    {
+      "key": "married",
+      "label": "Married",
+      "allowanceAdjustment": 2000
+    }
   ],
   "incomeTaxBrackets": {
     "default": [
-      { "upTo": 28000, "rate": 0.23 },
-      { "upTo": 50000, "rate": 0.35 },
-      { "upTo": null, "rate": 0.43 }
+      {
+        "upTo": 28000,
+        "rate": 0.23
+      },
+      {
+        "upTo": 50000,
+        "rate": 0.35
+      },
+      {
+        "upTo": null,
+        "rate": 0.43
+      }
     ]
   },
   "standardDeductions": [],
@@ -50,5 +68,7 @@
   "notes": "Illustrative Italian employment model with national IRPEF bands, employee social charges, and a light regional/local layer. Detrazioni and contract-specific contributions are not modeled.",
   "source": [
     "https://www.agenziaentrate.gov.it/portale/web/english/nse/individuals"
-  ]
+  ],
+  "coverageLevel": "estimate",
+  "incomeTaxCredits": []
 }

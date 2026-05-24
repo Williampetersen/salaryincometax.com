@@ -4,7 +4,9 @@
   "slug": "japan",
   "region": "Asia",
   "currency": "JPY",
-  "supportedCurrencies": ["JPY"],
+  "supportedCurrencies": [
+    "JPY"
+  ],
   "taxYear": 2026,
   "implementationStatus": "example",
   "defaults": {
@@ -18,18 +20,45 @@
     "child": 0
   },
   "personalStatuses": [
-    { "key": "single", "label": "Single" },
-    { "key": "married", "label": "Married" }
+    {
+      "key": "single",
+      "label": "Single"
+    },
+    {
+      "key": "married",
+      "label": "Married"
+    }
   ],
   "incomeTaxBrackets": {
     "default": [
-      { "upTo": 1950000, "rate": 0.05 },
-      { "upTo": 3300000, "rate": 0.1 },
-      { "upTo": 6950000, "rate": 0.2 },
-      { "upTo": 9000000, "rate": 0.23 },
-      { "upTo": 18000000, "rate": 0.33 },
-      { "upTo": 40000000, "rate": 0.4 },
-      { "upTo": null, "rate": 0.45 }
+      {
+        "upTo": 1950000,
+        "rate": 0.05
+      },
+      {
+        "upTo": 3300000,
+        "rate": 0.1
+      },
+      {
+        "upTo": 6950000,
+        "rate": 0.2
+      },
+      {
+        "upTo": 9000000,
+        "rate": 0.23
+      },
+      {
+        "upTo": 18000000,
+        "rate": 0.33
+      },
+      {
+        "upTo": 40000000,
+        "rate": 0.4
+      },
+      {
+        "upTo": null,
+        "rate": 0.45
+      }
     ]
   },
   "standardDeductions": [
@@ -60,5 +89,7 @@
   "notes": "Illustrative Japanese employment model with national income tax, an employment deduction, broad social insurance, and resident tax. Insurance ceilings and prefecture-specific details are not modeled.",
   "source": [
     "https://www.nta.go.jp/english/taxes/individual/index.htm"
-  ]
+  ],
+  "coverageLevel": "estimate",
+  "incomeTaxCredits": []
 }

@@ -14,6 +14,7 @@ export interface CountrySummary {
   currency: string;
   availableYears: number[];
   implementationStatus: CountryTaxRule["implementationStatus"];
+  coverageLevel: CountryTaxRule["coverageLevel"];
 }
 
 export interface FAQItem {
@@ -87,6 +88,7 @@ export function getAllCountries(): CountrySummary[] {
         currency: latestRule.currency,
         availableYears,
         implementationStatus: latestRule.implementationStatus,
+        coverageLevel: latestRule.coverageLevel,
       };
     })
     .sort((left, right) => {
@@ -174,7 +176,33 @@ export function getCountryFaqItems(rule: CountryTaxRule): FAQItem[] {
     },
     {
       question: `Is the ${rule.countryName} result exact?`,
-      answer: `No. This page provides an estimate built from a structured ${rule.implementationStatus} tax model. It is useful for planning and comparison, but it does not replace a payroll slip, accountant, or official tax assessment.`,
+      answer: `No. This page provides an estimate built from a structured ${getCoverageLabel(rule.coverageLevel).toLowerCase()} tax model. It is useful for planning and comparison, but it does not replace a payroll slip, accountant, or official tax assessment.`,
     },
   ];
+}
+
+export function getCoverageLabel(
+  coverageLevel: CountryTaxRule["coverageLevel"],
+): string {
+  switch (coverageLevel) {
+    case "verified":
+      return "Verified";
+    case "partial":
+      return "Partial";
+    case "estimate":
+      return "Estimate";
+  }
+}
+
+export function getCoverageDescription(
+  coverageLevel: CountryTaxRule["coverageLevel"],
+): string {
+  switch (coverageLevel) {
+    case "verified":
+      return "Official-source model with full coverage for this route.";
+    case "partial":
+      return "Official-source baseline with important national or household limits.";
+    case "estimate":
+      return "Illustrative model that still needs deeper country-specific coverage.";
+  }
 }

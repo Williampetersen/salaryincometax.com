@@ -4,7 +4,9 @@
   "slug": "france",
   "region": "Europe",
   "currency": "EUR",
-  "supportedCurrencies": ["EUR"],
+  "supportedCurrencies": [
+    "EUR"
+  ],
   "taxYear": 2026,
   "implementationStatus": "complete",
   "defaults": {
@@ -18,38 +20,107 @@
     "child": 1750
   },
   "personalStatuses": [
-    { "key": "single", "label": "Single" },
-    { "key": "married", "label": "Married" },
-    { "key": "civil-partner", "label": "Civil partner" }
+    {
+      "key": "single",
+      "label": "Single"
+    },
+    {
+      "key": "married",
+      "label": "Married"
+    },
+    {
+      "key": "civil-partner",
+      "label": "Civil partner"
+    }
   ],
   "incomeTaxBrackets": {
     "default": [
-      { "upTo": 11600, "rate": 0 },
-      { "upTo": 29700, "rate": 0.11 },
-      { "upTo": 84800, "rate": 0.3 },
-      { "upTo": 182000, "rate": 0.41 },
-      { "upTo": null, "rate": 0.45 }
+      {
+        "upTo": 11600,
+        "rate": 0
+      },
+      {
+        "upTo": 29700,
+        "rate": 0.11
+      },
+      {
+        "upTo": 84800,
+        "rate": 0.3
+      },
+      {
+        "upTo": 182000,
+        "rate": 0.41
+      },
+      {
+        "upTo": null,
+        "rate": 0.45
+      }
     ],
     "single": [
-      { "upTo": 11600, "rate": 0 },
-      { "upTo": 29700, "rate": 0.11 },
-      { "upTo": 84800, "rate": 0.3 },
-      { "upTo": 182000, "rate": 0.41 },
-      { "upTo": null, "rate": 0.45 }
+      {
+        "upTo": 11600,
+        "rate": 0
+      },
+      {
+        "upTo": 29700,
+        "rate": 0.11
+      },
+      {
+        "upTo": 84800,
+        "rate": 0.3
+      },
+      {
+        "upTo": 182000,
+        "rate": 0.41
+      },
+      {
+        "upTo": null,
+        "rate": 0.45
+      }
     ],
     "married": [
-      { "upTo": 23200, "rate": 0 },
-      { "upTo": 59400, "rate": 0.11 },
-      { "upTo": 169600, "rate": 0.3 },
-      { "upTo": 364000, "rate": 0.41 },
-      { "upTo": null, "rate": 0.45 }
+      {
+        "upTo": 23200,
+        "rate": 0
+      },
+      {
+        "upTo": 59400,
+        "rate": 0.11
+      },
+      {
+        "upTo": 169600,
+        "rate": 0.3
+      },
+      {
+        "upTo": 364000,
+        "rate": 0.41
+      },
+      {
+        "upTo": null,
+        "rate": 0.45
+      }
     ],
     "civil-partner": [
-      { "upTo": 23200, "rate": 0 },
-      { "upTo": 59400, "rate": 0.11 },
-      { "upTo": 169600, "rate": 0.3 },
-      { "upTo": 364000, "rate": 0.41 },
-      { "upTo": null, "rate": 0.45 }
+      {
+        "upTo": 23200,
+        "rate": 0
+      },
+      {
+        "upTo": 59400,
+        "rate": 0.11
+      },
+      {
+        "upTo": 169600,
+        "rate": 0.3
+      },
+      {
+        "upTo": 364000,
+        "rate": 0.41
+      },
+      {
+        "upTo": null,
+        "rate": 0.45
+      }
     ]
   },
   "standardDeductions": [
@@ -75,5 +146,7 @@
   "source": [
     "https://www.impots.gouv.fr/impot-sur-le-revenu",
     "https://www.impots.gouv.fr/www2/fichiers/documentation/brochure/ir_2026/pdf_som/21-calcul_impot_369a382.pdf"
-  ]
+  ],
+  "coverageLevel": "partial",
+  "incomeTaxCredits": []
 }

@@ -4,7 +4,9 @@
   "slug": "netherlands",
   "region": "Europe",
   "currency": "EUR",
-  "supportedCurrencies": ["EUR"],
+  "supportedCurrencies": [
+    "EUR"
+  ],
   "taxYear": 2026,
   "implementationStatus": "example",
   "defaults": {
@@ -18,13 +20,25 @@
     "child": 0
   },
   "personalStatuses": [
-    { "key": "single", "label": "Single" },
-    { "key": "married", "label": "Married" }
+    {
+      "key": "single",
+      "label": "Single"
+    },
+    {
+      "key": "married",
+      "label": "Married"
+    }
   ],
   "incomeTaxBrackets": {
     "default": [
-      { "upTo": 38441, "rate": 0.3582 },
-      { "upTo": null, "rate": 0.3748 }
+      {
+        "upTo": 38441,
+        "rate": 0.3582
+      },
+      {
+        "upTo": null,
+        "rate": 0.3748
+      }
     ]
   },
   "standardDeductions": [],
@@ -35,5 +49,7 @@
   "notes": "Illustrative Dutch Box 1 wage model using combined national tax and social premium style rates. Heffingskortingen and labour credit effects are not included.",
   "source": [
     "https://www.belastingdienst.nl/wps/wcm/connect/en/individuals/individuals"
-  ]
+  ],
+  "coverageLevel": "estimate",
+  "incomeTaxCredits": []
 }

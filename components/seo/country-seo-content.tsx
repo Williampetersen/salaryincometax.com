@@ -1,6 +1,10 @@
 import Link from "next/link";
 
-import type { CountrySummary } from "@/lib/country-catalog";
+import {
+  getCoverageDescription,
+  getCoverageLabel,
+  type CountrySummary,
+} from "@/lib/country-catalog";
 import { formatCurrency } from "@/lib/formatters";
 import type { CountryTaxRule } from "@/lib/tax-engine/types";
 
@@ -17,6 +21,8 @@ export function CountrySeoContent({
 }: CountrySeoContentProps): JSX.Element {
   const topBracket = rule.incomeTaxBrackets.default?.at(-1)?.rate;
   const statusLabels = rule.personalStatuses.map((status) => status.label).join(", ");
+  const coverageLabel = getCoverageLabel(rule.coverageLevel);
+  const coverageDescription = getCoverageDescription(rule.coverageLevel);
 
   return (
     <section className="panel p-6 sm:p-8">
@@ -46,9 +52,9 @@ export function CountrySeoContent({
             </p>
             <p>
               The calculator annualizes the amount you enter, applies the configured
-              income tax brackets, social contributions, allowances, and local tax
-              rules from our JSON tax model, then converts the result back into
-              yearly, monthly, weekly, daily, and hourly pay.
+              income tax brackets, tax credits, social contributions, allowances,
+              and local tax rules from our JSON tax model, then converts the result
+              back into yearly, monthly, weekly, daily, and hourly pay.
             </p>
             <p>
               This route also helps people comparing job offers, relocation packages,
@@ -87,14 +93,11 @@ export function CountrySeoContent({
               value={topBracket != null ? `${Math.round(topBracket * 100)}%` : "Varies"}
             />
             <InfoRow
-              label="Implementation status"
-              value={
-                rule.implementationStatus === "complete"
-                  ? "Detailed baseline"
-                  : "Illustrative baseline"
-              }
+              label="Coverage status"
+              value={`${coverageLabel} model`}
             />
           </dl>
+          <p className="mt-4 text-sm leading-7 text-ink/68">{coverageDescription}</p>
         </div>
       </div>
 

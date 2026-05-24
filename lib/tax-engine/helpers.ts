@@ -6,6 +6,7 @@ import type {
   RateBracket,
   SalaryPeriod,
   StandardDeductionRule,
+  TaxCreditRule,
   TaxRuleDefaults,
 } from "@/lib/tax-engine/types";
 
@@ -94,8 +95,36 @@ export function applyContributionRule(
   return 0;
 }
 
+export function appliesToStatus(
+  statusKeys: string[] | undefined,
+  statusKey: string,
+): boolean {
+  return !statusKeys?.length || statusKeys.includes(statusKey);
+}
+
 export function applyDeductionRule(
   rule: StandardDeductionRule,
+  baseAmount: number,
+): number {
+  if (rule.type === "flat") {
+    return roundCurrency(rule.amount ?? 0);
+  }
+
+  if (rule.type === "percentage") {
+    const taxableBase = calculateFlatRuleBase(
+      baseAmount,
+      rule.threshold ?? 0,
+      rule.cap,
+    );
+
+    return roundCurrency(taxableBase * (rule.rate ?? 0));
+  }
+
+  return 0;
+}
+
+export function applyTaxCreditRule(
+  rule: TaxCreditRule,
   baseAmount: number,
 ): number {
   if (rule.type === "flat") {
