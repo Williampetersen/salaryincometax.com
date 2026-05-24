@@ -222,23 +222,6 @@ export function CalculatorShell({
       note: "Share of gross pay that does not reach take-home income.",
     },
   ];
-  const comparisonRows = [
-    {
-      label: "Your annual gross",
-      value: formatCurrency(result.comparison.salary, result.currency),
-      note: "The salary used for this calculation.",
-    },
-    {
-      label: "Median salary",
-      value: formatCurrency(result.comparison.medianSalary, result.currency),
-      note: "A benchmark midpoint salary for the selected country.",
-    },
-    {
-      label: "Minimum wage",
-      value: formatCurrency(result.comparison.minimumWage, result.currency),
-      note: "The baseline legal or modeled wage floor used in the country data.",
-    },
-  ];
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(18rem,0.84fr)_minmax(0,1.16fr)]">
@@ -717,30 +700,7 @@ export function CalculatorShell({
                   median salary and the minimum wage benchmark.
                 </p>
               </div>
-              <div className="grid gap-6 p-5 sm:p-6 xl:grid-cols-[minmax(0,1fr)_minmax(20rem,0.88fr)]">
-                <div className="overflow-hidden rounded-3xl border border-ink/10 bg-paper/45">
-                  <table
-                    aria-label="Salary comparison details"
-                    className="min-w-full table-fixed"
-                  >
-                    <tbody>
-                      {comparisonRows.map((row) => (
-                        <tr
-                          className="align-top border-t border-ink/8 first:border-t-0"
-                          key={row.label}
-                        >
-                          <td className="px-5 py-4 font-semibold text-ink">{row.label}</td>
-                          <td className="px-5 py-4 text-right font-[var(--font-display)] text-[1.5rem] font-bold leading-none tracking-tight text-ink tabular-nums whitespace-nowrap">
-                            {row.value}
-                          </td>
-                          <td className="px-5 py-4 text-sm leading-6 text-ink/68">
-                            {row.note}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+              <div className="p-5 sm:p-6">
                 <div className="rounded-3xl border border-ink/10 bg-white p-5">
                   <ComparisonChart bars={comparisonBars} currency={result.currency} />
                 </div>
