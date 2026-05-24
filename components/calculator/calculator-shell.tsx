@@ -222,6 +222,45 @@ export function CalculatorShell({
       note: "Share of gross pay that does not reach take-home income.",
     },
   ];
+  const taxSplitRows = [
+    {
+      label: "Take-home pay",
+      value: formatCurrency(result.annual.net, result.currency),
+      note: "Estimated annual amount that reaches your bank account.",
+    },
+    {
+      label: "Income tax",
+      value: formatCurrency(result.annual.incomeTax, result.currency),
+      note: "National or state income tax based on the configured tax rules.",
+    },
+    {
+      label: "Social contributions",
+      value: formatCurrency(result.annual.socialSecurity, result.currency),
+      note: "Employee payroll contributions such as pensions, health, or social insurance.",
+    },
+    {
+      label: "Regional or local tax",
+      value: formatCurrency(result.annual.regionalTaxes, result.currency),
+      note: "City, municipal, or regional charges included in this estimate.",
+    },
+  ].filter((row) => row.value !== formatCurrency(0, result.currency));
+  const comparisonRows = [
+    {
+      label: "Your annual gross",
+      value: formatCurrency(result.comparison.salary, result.currency),
+      note: "The salary used for this calculation.",
+    },
+    {
+      label: "Median salary",
+      value: formatCurrency(result.comparison.medianSalary, result.currency),
+      note: "A benchmark midpoint salary for the selected country.",
+    },
+    {
+      label: "Minimum wage",
+      value: formatCurrency(result.comparison.minimumWage, result.currency),
+      note: "The baseline legal or modeled wage floor used in the country data.",
+    },
+  ];
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(18rem,0.84fr)_minmax(0,1.16fr)]">
@@ -612,63 +651,46 @@ export function CalculatorShell({
             </div>
           </div>
 
-          <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(19rem,0.78fr)_minmax(22rem,1fr)] 2xl:grid-cols-[minmax(19rem,0.78fr)_minmax(24rem,1fr)_minmax(18rem,0.86fr)]">
-            <div className="rounded-4xl border border-ink/10 bg-white p-5 sm:p-6">
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-ink/55">
-                Tax split
-              </p>
-              <div className="mt-5">
-                <DonutChart
-                  centerLabel="Annual net"
-                  centerValue={formatCurrency(result.annual.net, result.currency)}
-                  currency={result.currency}
-                  segments={donutSegments}
-                />
+          <div className="mt-6 space-y-6">
+            <div className="overflow-hidden rounded-4xl border border-ink/10 bg-white">
+              <div className="border-b border-ink/10 px-5 py-5 sm:px-6">
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-ink/55">
+                  Tax split
+                </p>
+                <p className="mt-2 max-w-3xl text-sm leading-6 text-ink/62">
+                  A separate annual view of take-home pay, income tax, social
+                  contributions, and local charges.
+                </p>
               </div>
-            </div>
-
-            <div className="rounded-4xl border border-ink/10 bg-paper/60 p-5">
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-ink/55">
-                Pay breakdown
-              </p>
-              <p className="mt-2 text-sm leading-6 text-ink/62">
-                Compare gross pay, take-home pay, and tax across every pay period
-                in a separate desktop column.
-              </p>
-              <div className="mt-5 overflow-hidden rounded-3xl border border-ink/10 bg-white">
-                <div className="overflow-x-auto">
-                  <table className="min-w-[32rem] text-sm xl:min-w-full xl:table-fixed">
+              <div className="grid gap-6 p-5 sm:p-6 xl:grid-cols-[minmax(18rem,20rem)_minmax(0,1fr)]">
+                <div className="mx-auto w-full max-w-[20rem]">
+                  <DonutChart
+                    centerLabel="Annual net"
+                    centerValue={formatCurrency(result.annual.net, result.currency)}
+                    currency={result.currency}
+                    segments={donutSegments}
+                  />
+                </div>
+                <div className="overflow-hidden rounded-3xl border border-ink/10 bg-paper/45">
+                  <table className="min-w-full table-fixed">
                     <thead className="bg-ink/4 text-left text-xs uppercase tracking-[0.18em] text-ink/55">
                       <tr>
-                        <th className="w-[22%] px-4 py-3 font-semibold">Period</th>
-                        <th className="w-[26%] px-4 py-3 font-semibold text-right">
-                          Gross
+                        <th className="w-[26%] px-5 py-4 font-semibold">Component</th>
+                        <th className="w-[24%] px-5 py-4 font-semibold text-right">
+                          Annual amount
                         </th>
-                        <th className="w-[26%] px-4 py-3 font-semibold text-right">
-                          Net
-                        </th>
-                        <th className="w-[26%] px-4 py-3 font-semibold text-right">
-                          Tax
-                        </th>
+                        <th className="px-5 py-4 font-semibold">What it covers</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {periodRows.map(([period, values]) => (
-                        <tr
-                          className="border-t border-ink/8 text-ink/76"
-                          key={period}
-                        >
-                          <td className="px-4 py-3 font-semibold text-ink">
-                            {PERIOD_LABELS[period]}
+                      {taxSplitRows.map((row) => (
+                        <tr className="border-t border-ink/8 align-top" key={row.label}>
+                          <td className="px-5 py-4 font-semibold text-ink">{row.label}</td>
+                          <td className="px-5 py-4 text-right font-[var(--font-display)] text-[1.5rem] font-bold leading-none tracking-tight text-ink tabular-nums whitespace-nowrap">
+                            {row.value}
                           </td>
-                          <td className="px-4 py-3 text-right tabular-nums whitespace-nowrap">
-                            {formatCurrency(values.gross, result.currency)}
-                          </td>
-                          <td className="px-4 py-3 text-right font-semibold tabular-nums text-ink whitespace-nowrap">
-                            {formatCurrency(values.net, result.currency)}
-                          </td>
-                          <td className="px-4 py-3 text-right tabular-nums whitespace-nowrap">
-                            {formatCurrency(values.tax, result.currency)}
+                          <td className="px-5 py-4 text-sm leading-6 text-ink/68">
+                            {row.note}
                           </td>
                         </tr>
                       ))}
@@ -678,16 +700,101 @@ export function CalculatorShell({
               </div>
             </div>
 
-            <div className="rounded-4xl border border-ink/10 bg-white p-5 xl:col-span-2 2xl:col-span-1">
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-ink/55">
-                Salary comparison
-              </p>
-              <p className="mt-2 text-sm text-ink/62">
-                Annual gross salary compared with the country median and minimum
-                wage benchmark.
-              </p>
-              <div className="mt-5">
-                <ComparisonChart bars={comparisonBars} currency={result.currency} />
+            <div className="overflow-hidden rounded-4xl border border-ink/10 bg-paper/60">
+              <div className="border-b border-ink/10 px-5 py-5 sm:px-6">
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-ink/55">
+                  Pay breakdown
+                </p>
+                <p className="mt-2 max-w-3xl text-sm leading-6 text-ink/62">
+                  Compare gross pay, take-home pay, and tax across every pay
+                  period in its own full-width section.
+                </p>
+              </div>
+              <div className="p-5 sm:p-6">
+                <div className="overflow-hidden rounded-3xl border border-ink/10 bg-white">
+                  <div className="overflow-x-auto">
+                    <table className="min-w-[32rem] text-sm xl:min-w-full xl:table-fixed">
+                      <thead className="bg-ink/4 text-left text-xs uppercase tracking-[0.18em] text-ink/55">
+                        <tr>
+                          <th className="w-[22%] px-4 py-3 font-semibold">Period</th>
+                          <th className="w-[26%] px-4 py-3 font-semibold text-right">
+                            Gross
+                          </th>
+                          <th className="w-[26%] px-4 py-3 font-semibold text-right">
+                            Net
+                          </th>
+                          <th className="w-[26%] px-4 py-3 font-semibold text-right">
+                            Tax
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {periodRows.map(([period, values]) => (
+                          <tr
+                            className="border-t border-ink/8 text-ink/76"
+                            key={period}
+                          >
+                            <td className="px-4 py-3 font-semibold text-ink">
+                              {PERIOD_LABELS[period]}
+                            </td>
+                            <td className="px-4 py-3 text-right tabular-nums whitespace-nowrap">
+                              {formatCurrency(values.gross, result.currency)}
+                            </td>
+                            <td className="px-4 py-3 text-right font-semibold tabular-nums text-ink whitespace-nowrap">
+                              {formatCurrency(values.net, result.currency)}
+                            </td>
+                            <td className="px-4 py-3 text-right tabular-nums whitespace-nowrap">
+                              {formatCurrency(values.tax, result.currency)}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="overflow-hidden rounded-4xl border border-ink/10 bg-white">
+              <div className="border-b border-ink/10 px-5 py-5 sm:px-6">
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-ink/55">
+                  Salary comparison
+                </p>
+                <p className="mt-2 max-w-3xl text-sm leading-6 text-ink/62">
+                  See how this annual gross salary compares with the country
+                  median salary and the minimum wage benchmark.
+                </p>
+              </div>
+              <div className="grid gap-6 p-5 sm:p-6 xl:grid-cols-[minmax(0,1fr)_minmax(20rem,0.88fr)]">
+                <div className="overflow-hidden rounded-3xl border border-ink/10 bg-paper/45">
+                  <table className="min-w-full table-fixed">
+                    <thead className="bg-ink/4 text-left text-xs uppercase tracking-[0.18em] text-ink/55">
+                      <tr>
+                        <th className="w-[26%] px-5 py-4 font-semibold">Benchmark</th>
+                        <th className="w-[24%] px-5 py-4 font-semibold text-right">
+                          Annual amount
+                        </th>
+                        <th className="px-5 py-4 font-semibold">Why it matters</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {comparisonRows.map((row) => (
+                        <tr className="border-t border-ink/8 align-top" key={row.label}>
+                          <td className="px-5 py-4 font-semibold text-ink">{row.label}</td>
+                          <td className="px-5 py-4 text-right font-[var(--font-display)] text-[1.5rem] font-bold leading-none tracking-tight text-ink tabular-nums whitespace-nowrap">
+                            {row.value}
+                          </td>
+                          <td className="px-5 py-4 text-sm leading-6 text-ink/68">
+                            {row.note}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="rounded-3xl border border-ink/10 bg-white p-5">
+                  <ComparisonChart bars={comparisonBars} currency={result.currency} />
+                </div>
               </div>
             </div>
           </div>
