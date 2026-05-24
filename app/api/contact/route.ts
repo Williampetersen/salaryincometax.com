@@ -190,9 +190,43 @@ export async function POST(request: Request): Promise<Response> {
       `,
     });
 
+    if (isValidEmail(sanitizedEmail)) {
+      try {
+        await transporter.sendMail({
+          from: `"Salary Income Tax" <${smtpConfig.mailFrom}>`,
+          to: sanitizedEmail,
+          replyTo: smtpConfig.mailFrom,
+          subject: "Thank you for contacting Salary Income Tax",
+          text: [
+            `Hi ${sanitizedName},`,
+            "",
+            "Thank you for contacting Salary Income Tax.",
+            "",
+            "We have received your message and will get back to you as soon as possible.",
+            "",
+            "Best regards,",
+            "Salary Income Tax",
+            smtpConfig.mailFrom,
+          ].join("\n"),
+          html: `
+            <p>Hi ${escapeHtml(sanitizedName)},</p>
+            <p>Thank you for contacting Salary Income Tax.</p>
+            <p>We have received your message and will get back to you as soon as possible.</p>
+            <p>Best regards,<br />Salary Income Tax<br />${escapeHtml(smtpConfig.mailFrom)}</p>
+          `,
+        });
+      } catch (error) {
+        console.error("[contact] auto-reply email failed", {
+          host: request.headers.get("host") ?? "unknown-host",
+          message: error instanceof Error ? error.message : "unknown error",
+          name: error instanceof Error ? error.name : "UnknownError",
+          visitorEmail: sanitizedEmail,
+        });
+      }
+    }
+
     return NextResponse.json({
       success: true,
-      message: "Thank you. Your message has been sent successfully.",
     });
   } catch (error) {
     console.error("[contact] failed to send email", {
