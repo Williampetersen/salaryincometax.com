@@ -222,28 +222,6 @@ export function CalculatorShell({
       note: "Share of gross pay that does not reach take-home income.",
     },
   ];
-  const taxSplitRows = [
-    {
-      label: "Take-home pay",
-      value: formatCurrency(result.annual.net, result.currency),
-      note: "Estimated annual amount that reaches your bank account.",
-    },
-    {
-      label: "Income tax",
-      value: formatCurrency(result.annual.incomeTax, result.currency),
-      note: "National or state income tax based on the configured tax rules.",
-    },
-    {
-      label: "Social contributions",
-      value: formatCurrency(result.annual.socialSecurity, result.currency),
-      note: "Employee payroll contributions such as pensions, health, or social insurance.",
-    },
-    {
-      label: "Regional or local tax",
-      value: formatCurrency(result.annual.regionalTaxes, result.currency),
-      note: "City, municipal, or regional charges included in this estimate.",
-    },
-  ].filter((row) => row.value !== formatCurrency(0, result.currency));
   const comparisonRows = [
     {
       label: "Your annual gross",
@@ -662,7 +640,7 @@ export function CalculatorShell({
                   contributions, and local charges.
                 </p>
               </div>
-              <div className="grid gap-6 p-5 sm:p-6 xl:grid-cols-[minmax(18rem,20rem)_minmax(0,1fr)]">
+              <div className="p-5 sm:p-6">
                 <div className="mx-auto w-full max-w-[20rem]">
                   <DonutChart
                     centerLabel="Annual net"
@@ -670,29 +648,6 @@ export function CalculatorShell({
                     currency={result.currency}
                     segments={donutSegments}
                   />
-                </div>
-                <div className="overflow-hidden rounded-3xl border border-ink/10 bg-paper/45">
-                  <table
-                    aria-label="Tax split details"
-                    className="min-w-full table-fixed"
-                  >
-                    <tbody>
-                      {taxSplitRows.map((row) => (
-                        <tr
-                          className="align-top border-t border-ink/8 first:border-t-0"
-                          key={row.label}
-                        >
-                          <td className="px-5 py-4 font-semibold text-ink">{row.label}</td>
-                          <td className="px-5 py-4 text-right font-[var(--font-display)] text-[1.5rem] font-bold leading-none tracking-tight text-ink tabular-nums whitespace-nowrap">
-                            {row.value}
-                          </td>
-                          <td className="px-5 py-4 text-sm leading-6 text-ink/68">
-                            {row.note}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
                 </div>
               </div>
             </div>
