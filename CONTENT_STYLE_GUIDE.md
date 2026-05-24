@@ -32,7 +32,7 @@ This document defines the writing rules for all future blog content on
 - Use examples that explain how a person would actually use the number or rule.
 - Add internal links to the relevant salary calculator and related blog guides.
 - Include the article disclaimer where relevant:
-  `This article is for general information only and does not provide tax, legal, financial, or accounting advice.`
+  `This content is for general information only and is not tax, legal, financial, or accounting advice.`
 
 ## Structure Rules
 
@@ -65,6 +65,7 @@ Each article should include:
 1. Update or verify the structured data source in `data/blog/`.
 2. Rewrite article copy in `data/blog/blogPosts.ts` and supporting source files.
 3. Run `corepack pnpm audit:blog`.
-4. Run `corepack pnpm lint`.
-5. Run `corepack pnpm typecheck`.
-6. Run `corepack pnpm build`.
+4. Run `corepack pnpm check:blog-originality`.
+5. Run `corepack pnpm lint`.
+6. Run `corepack pnpm typecheck`.
+7. Run `corepack pnpm build`.

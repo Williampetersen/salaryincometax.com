@@ -30,7 +30,7 @@ interface BlogArticlePageProps {
 }
 
 const ARTICLE_DISCLAIMER =
-  "This article is for general information only and does not provide tax, legal, financial, or accounting advice.";
+  "This content is for general information only and is not tax, legal, financial, or accounting advice.";
 
 export function generateStaticParams(): Array<{ slug: string }> {
   return getBlogStaticPaths().posts.map((slug) => ({ slug }));
@@ -189,7 +189,7 @@ export default function BlogArticlePage({
 
           <section className="panel p-5 sm:p-6">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-coral">
-              Summary
+              Key takeaways
             </p>
             <h2 className="mt-4 font-[var(--font-display)] text-3xl font-bold tracking-tight text-ink">
               {post.summaryBox.title}

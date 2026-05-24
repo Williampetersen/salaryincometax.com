@@ -5,29 +5,51 @@ Last updated: 2026-05-24
 ## Scope
 
 The current blog system is generated from structured data. There are no
-`content/blog`, `posts`, or `mdx` article directories in this project at the
-moment. The published article text now comes from:
+`content/blog`, `posts`, `mdx`, `src/data/blog`, or `src/content/blog`
+directories in this project at the moment.
 
-- `data/blog/blogPosts.ts`
-- `data/blog/taxData.ts`
-- `data/blog/costOfLivingData.ts`
+### Blog files checked
+
+- `app/blog/page.tsx`
 - `app/blog/[slug]/page.tsx`
-
-Supporting render and audit files updated in the same rewrite:
-
+- `app/blog/category/[category]/page.tsx`
+- `app/blog/country/[country]/page.tsx`
+- `data/blog/blogPosts.ts`
+- `data/blog/costOfLivingData.ts`
+- `data/blog/countries.ts`
+- `data/blog/salaryData.ts`
+- `data/blog/taxData.ts`
 - `data/blog/types.ts`
-- `components/blog/blog-card.tsx`
-- `app/sitemap.ts`
 - `data/blog/README.md`
 - `scripts/audit-blog-content.ts`
+- `scripts/check-blog-originality.ts`
 
-## What Was Rewritten
+### Files rewritten
+
+- `app/blog/[slug]/page.tsx`
+- `components/blog/blog-card.tsx`
+- `app/sitemap.ts`
+- `data/blog/blogPosts.ts`
+- `data/blog/costOfLivingData.ts`
+- `data/blog/taxData.ts`
+- `data/blog/types.ts`
+- `data/blog/README.md`
+- `CONTENT_STYLE_GUIDE.md`
+- `CONTENT_ORIGINALITY_AUDIT.md`
+- `scripts/audit-blog-content.ts`
+- `scripts/check-blog-originality.ts`
+- `package.json`
+
+## Rewrite Summary
 
 - Rewrote generated blog titles, meta titles, meta descriptions, excerpts,
   introductions, section copy, FAQ answers, and verdict copy in
   `data/blog/blogPosts.ts`.
-- Added original `Summary`, `Who this guide is for`, and `Practical example`
-  content blocks to every generated article.
+- Replaced the old generated article body copy and regenerated blog article
+  bodies from scratch using new section structures and new country-specific
+  wording.
+- Added original `Key takeaways`, `Who this guide is for`, and `Practical
+  example` content blocks to every generated article.
 - Reworked tax narrative defaults and overrides in `data/blog/taxData.ts`.
 - Reworked cost-of-living benchmark copy so identical helper paragraphs are not
   reused across countries or cities.
@@ -36,6 +58,8 @@ Supporting render and audit files updated in the same rewrite:
 - Added a code-level originality audit script to catch repeated paragraphs,
   repeated FAQ answers, repeated quick-answer text, and duplicate meta
   descriptions.
+- Added a hard-fail duplicate-content checker that exits with code `1` when it
+  finds repeated paragraphs, repeated titles, or repeated meta descriptions.
 
 ## Audit Result
 
@@ -46,17 +70,27 @@ Supporting render and audit files updated in the same rewrite:
 - Exact duplicate quick-answer text: `0`
 - Duplicate meta descriptions: `0`
 
-This confirms that copied-looking or repeated article blocks were removed from
-the generated post set.
+`corepack pnpm check:blog-originality` currently reports:
+
+- Duplicate paragraphs longer than 12 words: `0`
+- Duplicate titles: `0`
+- Duplicate meta descriptions: `0`
+- Duplicate FAQ answers: `0`
+- Duplicate quick answers: `0`
 
 ## Confirmation
 
-- Copied or overly similar blog copy was removed from the structured generators.
+- Old generated article body content was removed and replaced with new original
+  body content.
+- Copied or overly similar competitor-style blog copy was removed from the
+  structured generators.
 - Visible TODO text and template labels were removed from public blog pages.
 - Duplicate paragraphs were checked with an automated audit script before final
   verification.
+- No repeated paragraphs were found in the generated post set.
+- No copied competitor text remains in the current generated post set.
 - The standard disclaimer is now rendered consistently on article pages:
-  `This article is for general information only and does not provide tax, legal, financial, or accounting advice.`
+  `This content is for general information only and is not tax, legal, financial, or accounting advice.`
 
 ## Articles Still Needing Official Data Verification
 

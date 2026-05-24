@@ -24,7 +24,7 @@ import type { CountryTaxRule, SalaryPeriod } from "@/lib/tax-engine/types";
 
 const BLOG_AUTHOR = "Salaryincometax.com Editorial Team";
 const ARTICLE_DISCLAIMER =
-  "This article is for general information only and does not provide tax, legal, financial, or accounting advice.";
+  "This content is for general information only and is not tax, legal, financial, or accounting advice.";
 const BASELINE_DATA_NOTE =
   "Some figures in this guide are estimated benchmark values. Actual results can change by city, household size, tax year, employer setup, and personal circumstances.";
 
