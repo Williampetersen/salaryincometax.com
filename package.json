@@ -9,14 +9,17 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "check:tax": "tsx scripts/smoke-tax-engine.ts"
+    "check:tax": "tsx scripts/smoke-tax-engine.ts",
+    "check:smtp": "tsx scripts/test-smtp.ts"
   },
   "dependencies": {
     "next": "^14.2.5",
+    "nodemailer": "^6.10.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@types/nodemailer": "^6.4.17",
     "@types/node": "^20.17.57",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",

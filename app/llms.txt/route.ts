@@ -3,6 +3,7 @@ import {
   getBlogCategories,
 } from "@/lib/blog";
 import { getAllCountries } from "@/lib/country-catalog";
+import { STATIC_SITE_PAGES } from "@/lib/navigation";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
 export async function GET(): Promise<Response> {
@@ -23,6 +24,9 @@ export async function GET(): Promise<Response> {
     `- [Homepage](${SITE_URL})`,
     `- [All salary calculators](${SITE_URL}/salary-calculator)`,
     `- [Blog](${SITE_URL}/blog)`,
+    "",
+    "## Trust and policy pages",
+    ...STATIC_SITE_PAGES.map((path) => `- [${path.slice(1)}](${SITE_URL}${path})`),
     "",
     "## Blog categories",
     ...categories.map(

@@ -1,9 +1,15 @@
-// Central GA4 helpers. All tracking goes through this file so consent checks,
-// environment handling, and development logging stay consistent.
+// Central GA4 and consent helpers. All analytics and advertising consent checks
+// go through this file so behavior stays consistent across the app.
 export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_ID ?? "";
-export const COOKIE_CONSENT_KEY = "salaryincometax-cookie-consent";
+export const ADSENSE_CLIENT_ID =
+  process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID ?? "";
+export const COOKIE_PREFERENCES_KEY = "salaryincometax-cookie-preferences";
 
-export type CookieConsentState = "granted" | "denied" | null;
+export interface CookiePreferences {
+  advertising: boolean;
+  analytics: boolean;
+  essential: true;
+}
 
 interface TrackEventInput {
   action: string;
@@ -19,6 +25,12 @@ declare global {
   }
 }
 
+export const DEFAULT_COOKIE_PREFERENCES: CookiePreferences = {
+  essential: true,
+  analytics: false,
+  advertising: false,
+};
+
 function isBrowser(): boolean {
   return typeof window !== "undefined";
 }
@@ -29,37 +41,92 @@ function debugLog(message: string, payload?: unknown): void {
   }
 }
 
-export function getCookieConsentState(): CookieConsentState {
+function isCookiePreferences(value: unknown): value is CookiePreferences {
+  if (typeof value !== "object" || value === null) {
+    return false;
+  }
+
+  const preferences = value as Record<string, unknown>;
+
+  return (
+    preferences.essential === true &&
+    typeof preferences.analytics === "boolean" &&
+    typeof preferences.advertising === "boolean"
+  );
+}
+
+export function getCookiePreferences(): CookiePreferences | null {
   if (!isBrowser()) {
     return null;
   }
 
-  const storedConsent = window.localStorage.getItem(COOKIE_CONSENT_KEY);
+  const storedPreferences = window.localStorage.getItem(COOKIE_PREFERENCES_KEY);
 
-  return storedConsent === "granted" || storedConsent === "denied"
-    ? storedConsent
-    : null;
+  if (!storedPreferences) {
+    // Backward compatibility for the old granted/denied string model.
+    const legacyValue = window.localStorage.getItem("salaryincometax-cookie-consent");
+
+    if (legacyValue === "granted") {
+      return {
+        essential: true,
+        analytics: true,
+        advertising: false,
+      };
+    }
+
+    if (legacyValue === "denied") {
+      return DEFAULT_COOKIE_PREFERENCES;
+    }
+
+    return null;
+  }
+
+  try {
+    const parsed = JSON.parse(storedPreferences) as unknown;
+
+    return isCookiePreferences(parsed) ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+export function hasMadeCookieChoice(): boolean {
+  return getCookiePreferences() !== null;
 }
 
 export function hasAnalyticsConsent(): boolean {
-  return getCookieConsentState() === "granted";
+  return getCookiePreferences()?.analytics ?? false;
 }
 
-export function persistCookieConsent(
-  nextState: Exclude<CookieConsentState, null>,
+export function hasAdvertisingConsent(): boolean {
+  return getCookiePreferences()?.advertising ?? false;
+}
+
+export function persistCookiePreferences(
+  nextPreferences: CookiePreferences,
 ): void {
   if (!isBrowser()) {
     return;
   }
 
-  window.localStorage.setItem(COOKIE_CONSENT_KEY, nextState);
-  document.documentElement.dataset.cookieConsent = nextState;
+  window.localStorage.setItem(
+    COOKIE_PREFERENCES_KEY,
+    JSON.stringify(nextPreferences),
+  );
+  window.localStorage.removeItem("salaryincometax-cookie-consent");
+
+  document.documentElement.dataset.analyticsConsent = String(
+    nextPreferences.analytics,
+  );
+  document.documentElement.dataset.advertisingConsent = String(
+    nextPreferences.advertising,
+  );
   window.dispatchEvent(
-    new CustomEvent("cookie-consent-updated", {
-      detail: nextState,
+    new CustomEvent("cookie-preferences-updated", {
+      detail: nextPreferences,
     }),
   );
-  debugLog("cookie consent updated", nextState);
+  debugLog("cookie preferences updated", nextPreferences);
 }
 
 export function buildPageUrl(pathname: string, search = ""): string {
@@ -81,7 +148,10 @@ function canTrack(): boolean {
     return false;
   }
 
-  if (process.env.NODE_ENV === "production" && typeof window.gtag !== "function") {
+  if (
+    process.env.NODE_ENV === "production" &&
+    typeof window.gtag !== "function"
+  ) {
     debugLog("tracking skipped because gtag is not ready yet");
     return false;
   }

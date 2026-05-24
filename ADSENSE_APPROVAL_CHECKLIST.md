@@ -1,0 +1,23 @@
+# AdSense Approval Checklist
+
+- HTTPS enabled
+- Custom domain active
+- Website has original content
+- At least 20–30 high-quality articles before applying
+- No copied content
+- No broken links
+- No empty placeholder pages
+- Privacy Policy exists
+- Cookie Policy exists
+- Contact page works
+- About page exists
+- Footer legal links visible
+- Sitemap submitted to Google Search Console
+- Robots.txt active
+- Google Analytics installed
+- Cookie consent working
+- Mobile responsive
+- Fast loading
+- No intrusive popups
+- No fake buttons
+- No copyrighted images without permission

@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   GA_TRACKING_ID,
   buildPageUrl,
-  getCookieConsentState,
+  getCookiePreferences,
   pageview,
 } from "@/lib/gtag";
 
@@ -16,7 +16,9 @@ import {
 export function GoogleAnalytics(): JSX.Element | null {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [consentState, setConsentState] = useState(() => getCookieConsentState());
+  const [hasAnalyticsConsent, setHasAnalyticsConsent] = useState(
+    () => getCookiePreferences()?.analytics ?? false,
+  );
   const [isScriptReady, setIsScriptReady] = useState(
     process.env.NODE_ENV !== "production",
   );
@@ -25,20 +27,20 @@ export function GoogleAnalytics(): JSX.Element | null {
   const url = buildPageUrl(pathname ?? "/", search);
   const shouldRenderScripts =
     process.env.NODE_ENV === "production" &&
-    consentState === "granted" &&
+    hasAnalyticsConsent &&
     Boolean(GA_TRACKING_ID);
 
   useEffect(() => {
     function syncConsent(): void {
-      setConsentState(getCookieConsentState());
+      setHasAnalyticsConsent(getCookiePreferences()?.analytics ?? false);
     }
 
     syncConsent();
-    window.addEventListener("cookie-consent-updated", syncConsent);
+    window.addEventListener("cookie-preferences-updated", syncConsent);
     window.addEventListener("storage", syncConsent);
 
     return () => {
-      window.removeEventListener("cookie-consent-updated", syncConsent);
+      window.removeEventListener("cookie-preferences-updated", syncConsent);
       window.removeEventListener("storage", syncConsent);
     };
   }, []);
@@ -60,7 +62,7 @@ export function GoogleAnalytics(): JSX.Element | null {
   }, [shouldRenderScripts]);
 
   useEffect(() => {
-    if (consentState !== "granted" || !isScriptReady || !GA_TRACKING_ID) {
+    if (!hasAnalyticsConsent || !isScriptReady || !GA_TRACKING_ID) {
       return;
     }
 
@@ -77,7 +79,7 @@ export function GoogleAnalytics(): JSX.Element | null {
     }
 
     pageview(url);
-  }, [consentState, isScriptReady, url]);
+  }, [hasAnalyticsConsent, isScriptReady, url]);
 
   if (!GA_TRACKING_ID) {
     return null;

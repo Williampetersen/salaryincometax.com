@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { getAllBlogPosts, getBlogStaticPaths } from "@/lib/blog";
 import { getAllCountries } from "@/lib/country-catalog";
+import { STATIC_SITE_PAGES } from "@/lib/navigation";
 import { SITE_URL } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -33,6 +34,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.72,
     lastModified,
   }));
+  const staticPageUrls = STATIC_SITE_PAGES.map((path) => ({
+    url: `${SITE_URL}${path}`,
+    changeFrequency: "monthly" as const,
+    priority: path === "/contact" || path === "/about" ? 0.78 : 0.65,
+    lastModified,
+  }));
 
   return [
     {
@@ -54,6 +61,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
     },
     ...countryUrls,
+    ...staticPageUrls,
     ...blogCategoryUrls,
     ...blogCountryUrls,
     ...blogUrls,
