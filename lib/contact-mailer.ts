@@ -22,9 +22,6 @@ export function getMissingContactEnvKeys(): string[] {
   const port = Number(portValue ?? DEFAULT_SMTP_PORT);
   const user = process.env.SMTP_USER?.trim();
   const pass = process.env.SMTP_PASSWORD ?? process.env.SMTP_PASS;
-  const mailFrom =
-    process.env.MAIL_FROM?.trim() || process.env.CONTACT_EMAIL?.trim();
-  const mailTo = process.env.MAIL_TO?.trim() || process.env.CONTACT_EMAIL?.trim();
 
   if (!host) {
     missingKeys.push("SMTP_HOST");
@@ -40,14 +37,6 @@ export function getMissingContactEnvKeys(): string[] {
 
   if (!pass) {
     missingKeys.push("SMTP_PASSWORD");
-  }
-
-  if (!mailFrom) {
-    missingKeys.push("MAIL_FROM");
-  }
-
-  if (!mailTo) {
-    missingKeys.push("MAIL_TO");
   }
 
   return missingKeys;
@@ -68,6 +57,7 @@ export function getContactSmtpConfig(): ContactSmtpConfig | null {
     mailFrom:
       process.env.MAIL_FROM?.trim() ||
       process.env.CONTACT_EMAIL?.trim() ||
+      process.env.SMTP_USER?.trim() ||
       SUPPORT_EMAIL,
     mailTo:
       process.env.MAIL_TO?.trim() ||
