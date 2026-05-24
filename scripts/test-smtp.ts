@@ -58,10 +58,9 @@ async function main(): Promise<void> {
   console.log("[smtp] connection verified", {
     host: smtpConfig.host,
     port: smtpConfig.port,
-    secure: smtpConfig.secure,
-    startTls: smtpConfig.startTls,
     user: smtpConfig.user,
-    contactEmail: smtpConfig.contactEmail,
+    mailFrom: smtpConfig.mailFrom,
+    mailTo: smtpConfig.mailTo,
   });
 }
 

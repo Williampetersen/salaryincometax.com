@@ -15,8 +15,18 @@ interface ContactPayload {
   honey?: string;
   message?: string;
   name?: string;
+  phone?: string;
   subject?: string;
 }
+
+interface RateLimitEntry {
+  count: number;
+  resetAt: number;
+}
+
+const RATE_LIMIT_MAX_REQUESTS = 5;
+const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
+const rateLimitStore = new Map<string, RateLimitEntry>();
 
 function sanitizeText(value: string): string {
   return value
@@ -38,12 +48,8 @@ function validatePayload(payload: ContactPayload): string | null {
     return "Please enter a valid email address.";
   }
 
-  if (!payload.subject || sanitizeText(payload.subject).length < 3) {
-    return "Please provide a valid subject.";
-  }
-
-  if (!payload.message || sanitizeText(payload.message).length < 20) {
-    return "Please provide a more detailed message.";
+  if (!payload.message || sanitizeText(payload.message).length < 1) {
+    return "Please enter your message.";
   }
 
   if (!payload.consent) {
@@ -53,13 +59,64 @@ function validatePayload(payload: ContactPayload): string | null {
   return null;
 }
 
-// Server-side contact endpoint with validation, sanitization, and honeypot
-// spam protection. SMTP credentials stay server-side only.
+function getClientIdentifier(request: Request): string {
+  const forwardedFor = request.headers.get("x-forwarded-for");
+  const realIp = request.headers.get("x-real-ip");
+
+  if (forwardedFor) {
+    return forwardedFor.split(",")[0]?.trim() || "unknown";
+  }
+
+  return realIp?.trim() || "unknown";
+}
+
+function isRateLimited(identifier: string): boolean {
+  const now = Date.now();
+
+  for (const [key, entry] of rateLimitStore.entries()) {
+    if (entry.resetAt <= now) {
+      rateLimitStore.delete(key);
+    }
+  }
+
+  const existingEntry = rateLimitStore.get(identifier);
+
+  if (!existingEntry) {
+    rateLimitStore.set(identifier, {
+      count: 1,
+      resetAt: now + RATE_LIMIT_WINDOW_MS,
+    });
+    return false;
+  }
+
+  if (existingEntry.count >= RATE_LIMIT_MAX_REQUESTS) {
+    return true;
+  }
+
+  existingEntry.count += 1;
+  rateLimitStore.set(identifier, existingEntry);
+  return false;
+}
+
+// Server-side contact endpoint with validation, sanitization, honeypot spam
+// protection, and a basic in-memory rate limit. SMTP credentials stay
+// server-side only.
 export async function POST(request: Request): Promise<Response> {
   const payload = (await request.json()) as ContactPayload;
+  const clientIdentifier = getClientIdentifier(request);
 
   if (payload.honey && payload.honey.trim().length > 0) {
     return NextResponse.json({ success: true });
+  }
+
+  if (isRateLimited(clientIdentifier)) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: "Sorry, your message could not be sent. Please try again later.",
+      },
+      { status: 429 },
+    );
   }
 
   const validationError = validatePayload(payload);
@@ -70,7 +127,9 @@ export async function POST(request: Request): Promise<Response> {
 
   const sanitizedName = sanitizeText(payload.name ?? "");
   const sanitizedEmail = sanitizeText(payload.email ?? "");
-  const sanitizedSubject = sanitizeText(payload.subject ?? "");
+  const sanitizedPhone = sanitizeText(payload.phone ?? "");
+  const sanitizedSubject =
+    sanitizeText(payload.subject ?? "") || "Website contact form";
   const sanitizedMessage = sanitizeText(payload.message ?? "");
   const smtpConfig = getContactSmtpConfig();
 
@@ -85,8 +144,7 @@ export async function POST(request: Request): Promise<Response> {
       {
         success: false,
         errorCode: "CONTACT_NOT_CONFIGURED",
-        error:
-          "The contact form is temporarily unavailable. Please email support@salaryincometax.com directly while we finish the mail setup.",
+        error: "Sorry, your message could not be sent. Please try again later.",
         supportEmail: SUPPORT_EMAIL,
       },
       { status: 503 },
@@ -97,57 +155,31 @@ export async function POST(request: Request): Promise<Response> {
 
   try {
     await transporter.sendMail({
-      from: `"Salary Income Tax Contact" <${smtpConfig.user}>`,
-      to: smtpConfig.contactEmail,
+      from: `"Salary Income Tax Contact" <${smtpConfig.mailFrom}>`,
+      to: smtpConfig.mailTo,
       replyTo: sanitizedEmail,
       subject: `[Contact] ${sanitizedSubject}`,
       text: [
-        `Name: ${sanitizedName}`,
+        `Full name: ${sanitizedName}`,
         `Email: ${sanitizedEmail}`,
+        `Phone number: ${sanitizedPhone || "Not provided"}`,
         `Subject: ${sanitizedSubject}`,
         "",
         sanitizedMessage,
       ].join("\n"),
       html: `
-        <p><strong>Name:</strong> ${escapeHtml(sanitizedName)}</p>
+        <p><strong>Full name:</strong> ${escapeHtml(sanitizedName)}</p>
         <p><strong>Email:</strong> ${escapeHtml(sanitizedEmail)}</p>
+        <p><strong>Phone number:</strong> ${escapeHtml(sanitizedPhone || "Not provided")}</p>
         <p><strong>Subject:</strong> ${escapeHtml(sanitizedSubject)}</p>
         <p><strong>Message:</strong></p>
         <p>${escapeHtml(sanitizedMessage).replace(/\n/g, "<br />")}</p>
       `,
     });
 
-    await transporter.sendMail({
-      from: `"Salary Income Tax" <${smtpConfig.user}>`,
-      to: sanitizedEmail,
-      replyTo: smtpConfig.contactEmail,
-      subject: "We received your message",
-      text: [
-        `Hello ${sanitizedName},`,
-        "",
-        "Thank you for contacting salaryincometax.com.",
-        "We received your message and will review it as soon as possible.",
-        "",
-        `Subject: ${sanitizedSubject}`,
-        "",
-        "If you need to add more information, reply to this email.",
-        "",
-        `Support: ${smtpConfig.contactEmail}`,
-      ].join("\n"),
-      html: `
-        <p>Hello ${escapeHtml(sanitizedName)},</p>
-        <p>Thank you for contacting salaryincometax.com.</p>
-        <p>We received your message and will review it as soon as possible.</p>
-        <p><strong>Subject:</strong> ${escapeHtml(sanitizedSubject)}</p>
-        <p>If you need to add more information, reply to this email.</p>
-        <p><strong>Support:</strong> ${escapeHtml(smtpConfig.contactEmail)}</p>
-      `,
-    });
-
     return NextResponse.json({
       success: true,
-      message:
-        "Your message was sent successfully. A confirmation email has also been sent to you.",
+      message: "Thank you. Your message has been sent successfully.",
     });
   } catch (error) {
     if (process.env.NODE_ENV !== "production") {
@@ -157,8 +189,7 @@ export async function POST(request: Request): Promise<Response> {
     return NextResponse.json(
       {
         success: false,
-        error:
-          "We could not send your message right now. Please try again later, or email support@salaryincometax.com directly.",
+        error: "Sorry, your message could not be sent. Please try again later.",
         supportEmail: SUPPORT_EMAIL,
       },
       { status: 500 },

@@ -3,24 +3,15 @@ import nodemailer from "nodemailer";
 import { SUPPORT_EMAIL } from "@/lib/site";
 
 export interface ContactSmtpConfig {
-  contactEmail: string;
   host: string;
+  mailFrom: string;
+  mailTo: string;
   pass: string;
   port: number;
-  secure: boolean;
-  startTls: boolean;
   user: string;
 }
 
 const DEFAULT_SMTP_PORT = 587;
-
-function parseBooleanEnv(value: string | undefined, fallback: boolean): boolean {
-  if (typeof value !== "string") {
-    return fallback;
-  }
-
-  return value.trim().toLowerCase() === "true";
-}
 
 // Reports which SMTP variables are missing or invalid so server logs can point
 // directly to the deployment configuration problem without exposing secrets.
@@ -30,7 +21,10 @@ export function getMissingContactEnvKeys(): string[] {
   const portValue = process.env.SMTP_PORT?.trim();
   const port = Number(portValue ?? DEFAULT_SMTP_PORT);
   const user = process.env.SMTP_USER?.trim();
-  const pass = process.env.SMTP_PASS;
+  const pass = process.env.SMTP_PASSWORD ?? process.env.SMTP_PASS;
+  const mailFrom =
+    process.env.MAIL_FROM?.trim() || process.env.CONTACT_EMAIL?.trim();
+  const mailTo = process.env.MAIL_TO?.trim() || process.env.CONTACT_EMAIL?.trim();
 
   if (!host) {
     missingKeys.push("SMTP_HOST");
@@ -45,7 +39,15 @@ export function getMissingContactEnvKeys(): string[] {
   }
 
   if (!pass) {
-    missingKeys.push("SMTP_PASS");
+    missingKeys.push("SMTP_PASSWORD");
+  }
+
+  if (!mailFrom) {
+    missingKeys.push("MAIL_FROM");
+  }
+
+  if (!mailTo) {
+    missingKeys.push("MAIL_TO");
   }
 
   return missingKeys;
@@ -58,19 +60,19 @@ export function getContactSmtpConfig(): ContactSmtpConfig | null {
     return null;
   }
 
-  const host = process.env.SMTP_HOST!.trim();
-  const port = Number(process.env.SMTP_PORT ?? DEFAULT_SMTP_PORT);
-  const user = process.env.SMTP_USER!.trim();
-  const pass = process.env.SMTP_PASS!;
-
   return {
-    host,
-    port,
-    user,
-    pass,
-    secure: parseBooleanEnv(process.env.SMTP_SECURE, port === 465),
-    startTls: parseBooleanEnv(process.env.SMTP_STARTTLS, port === 587),
-    contactEmail: process.env.CONTACT_EMAIL?.trim() || SUPPORT_EMAIL,
+    host: process.env.SMTP_HOST!.trim(),
+    port: Number(process.env.SMTP_PORT ?? DEFAULT_SMTP_PORT),
+    user: process.env.SMTP_USER!.trim(),
+    pass: process.env.SMTP_PASSWORD ?? process.env.SMTP_PASS!,
+    mailFrom:
+      process.env.MAIL_FROM?.trim() ||
+      process.env.CONTACT_EMAIL?.trim() ||
+      SUPPORT_EMAIL,
+    mailTo:
+      process.env.MAIL_TO?.trim() ||
+      process.env.CONTACT_EMAIL?.trim() ||
+      SUPPORT_EMAIL,
   };
 }
 
@@ -78,8 +80,9 @@ export function createContactTransporter(config: ContactSmtpConfig) {
   return nodemailer.createTransport({
     host: config.host,
     port: config.port,
-    secure: config.secure,
-    requireTLS: config.startTls,
+    // Simply.com uses authenticated SMTP with STARTTLS on port 587.
+    secure: false,
+    requireTLS: true,
     auth: {
       user: config.user,
       pass: config.pass,

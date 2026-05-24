@@ -11,6 +11,7 @@ interface ContactFormState {
   honey: string;
   message: string;
   name: string;
+  phone: string;
   subject: string;
 }
 
@@ -20,11 +21,12 @@ const INITIAL_STATE: ContactFormState = {
   honey: "",
   message: "",
   name: "",
+  phone: "",
   subject: "",
 };
 
 // Client-side contact form with validation, honeypot support, and a clear
-// success/error state for AdSense trust requirements.
+// success/error state for trust and support pages.
 export function ContactForm(): JSX.Element {
   const [isPending, startTransition] = useTransition();
   const [formState, setFormState] = useState<ContactFormState>(INITIAL_STATE);
@@ -53,12 +55,8 @@ export function ContactForm(): JSX.Element {
       return "Please enter a valid email address.";
     }
 
-    if (formState.subject.trim().length < 3) {
-      return "Please provide a short subject.";
-    }
-
-    if (formState.message.trim().length < 20) {
-      return "Please provide a more detailed message.";
+    if (!formState.message.trim()) {
+      return "Please enter your message.";
     }
 
     if (!formState.consent) {
@@ -110,7 +108,7 @@ export function ContactForm(): JSX.Element {
               status: "error",
               message:
                 payload.error ??
-                "We could not send your message right now. Please try again later.",
+                "Sorry, your message could not be sent. Please try again later.",
               supportEmail,
             });
             return;
@@ -119,14 +117,12 @@ export function ContactForm(): JSX.Element {
           setFormState(INITIAL_STATE);
           setFeedback({
             status: "success",
-            message:
-              "Your message has been sent. We will respond to your inquiry as soon as possible.",
+            message: "Thank you. Your message has been sent successfully.",
           });
         } catch {
           setFeedback({
             status: "error",
-            message:
-              "We could not reach the contact service right now. Please try again later, or email support@salaryincometax.com directly.",
+            message: "Sorry, your message could not be sent. Please try again later.",
             supportEmail: SUPPORT_EMAIL,
           });
         }
@@ -166,7 +162,21 @@ export function ContactForm(): JSX.Element {
               value={formState.email}
             />
           </div>
-          <div className="sm:col-span-2">
+          <div>
+            <label className="field-label" htmlFor="contact-phone">
+              Phone number
+            </label>
+            <input
+              className="form-control"
+              id="contact-phone"
+              maxLength={40}
+              onChange={(event) => updateField("phone", event.target.value)}
+              placeholder="Optional"
+              type="tel"
+              value={formState.phone}
+            />
+          </div>
+          <div>
             <label className="field-label" htmlFor="contact-subject">
               Subject
             </label>
@@ -175,7 +185,7 @@ export function ContactForm(): JSX.Element {
               id="contact-subject"
               maxLength={150}
               onChange={(event) => updateField("subject", event.target.value)}
-              required
+              placeholder="Optional"
               type="text"
               value={formState.subject}
             />
