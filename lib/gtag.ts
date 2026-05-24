@@ -1,6 +1,12 @@
 // Central GA4 and consent helpers. All analytics and advertising consent checks
 // go through this file so behavior stays consistent across the app.
-export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_ID ?? "";
+// GA measurement IDs are public identifiers, not secrets. Keep the environment
+// variable as the primary source, but fall back to the production site ID so a
+// missed Vercel env setting does not silently remove the Google tag.
+const DEFAULT_GA_TRACKING_ID = "G-JKSYLWLEVD";
+
+export const GA_TRACKING_ID =
+  process.env.NEXT_PUBLIC_GA_ID?.trim() || DEFAULT_GA_TRACKING_ID;
 export const ADSENSE_CLIENT_ID =
   process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID ?? "";
 export const COOKIE_PREFERENCES_KEY = "salaryincometax-cookie-preferences";

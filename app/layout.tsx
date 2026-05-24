@@ -95,12 +95,6 @@ export default function RootLayout({
   const shouldInstallGoogleTag =
     process.env.NODE_ENV === "production" && Boolean(GA_TRACKING_ID);
 
-  if (process.env.NODE_ENV === "production" && !GA_TRACKING_ID) {
-    throw new Error(
-      "NEXT_PUBLIC_GA_ID is missing. Add it to the production environment before deploying.",
-    );
-  }
-
   return (
     <html className={`${bodyFont.variable} ${displayFont.variable}`} lang="en">
       <head>
