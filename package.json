@@ -10,7 +10,8 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "check:tax": "tsx scripts/smoke-tax-engine.ts",
-    "check:smtp": "tsx scripts/test-smtp.ts"
+    "check:smtp": "tsx scripts/test-smtp.ts",
+    "audit:blog": "tsx scripts/audit-blog-content.ts"
   },
   "dependencies": {
     "next": "^14.2.5",

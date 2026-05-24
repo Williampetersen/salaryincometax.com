@@ -12,10 +12,10 @@ category pages, archive pages, metadata, schema, and sitemaps stay aligned.
 - `taxData.ts`
   Holds tax-specific editorial summaries and source lists.
 - `costOfLivingData.ts`
-  Holds country and city cost-of-living benchmarks, answer-first summaries, and
-  editorial notes.
+  Holds country and city cost-of-living benchmarks plus source references.
 - `blogPosts.ts`
-  Generates all blog post objects and article sections from the structured data.
+  Generates all blog post objects, original article sections, and SEO fields
+  from the structured data.
 
 ## Updating a country
 
@@ -23,18 +23,15 @@ category pages, archive pages, metadata, schema, and sitemaps stay aligned.
    assumptions changed.
 2. Update the country entry in `costOfLivingData.ts` if you have stronger local
    rent, transport, childcare, or household budget data.
-3. Update `taxData.ts` if the editorial explanation for the tax system changed.
+3. Update `taxData.ts` if the tax explanation or deduction notes changed.
 4. Keep the `sources` array current with public or official references.
-5. Run:
+5. Rewrite the article copy in `blogPosts.ts` in original wording if the guide
+   changes meaningfully. Do not copy competitor text or reuse another article
+   paragraph unchanged.
+6. Run:
    - `corepack pnpm typecheck`
    - `corepack pnpm lint`
    - `corepack pnpm build`
-
-## Detailed vs template articles
-
-- Detailed articles are meant to be publish-ready for current SEO use.
-- Template articles are intentionally visible in the UI, but they include update
-  notices so they can be upgraded country by country without breaking routes.
 
 ## Blog images
 

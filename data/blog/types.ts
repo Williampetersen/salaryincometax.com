@@ -14,7 +14,7 @@ export type BlogArticleType =
   | "expensive"
   | "best-cities";
 
-export type BlogTemplateStatus = "detailed" | "template";
+export type BlogResearchStatus = "expanded" | "baseline";
 
 export interface BlogCategoryDefinition {
   slug: BlogCategorySlug;
@@ -137,6 +137,19 @@ export interface BlogQuickAnswer {
   answer: string;
 }
 
+export interface BlogSummaryBox {
+  title: string;
+  items: string[];
+  note?: string;
+}
+
+export interface BlogPracticalExample {
+  title: string;
+  scenario: string;
+  steps: string[];
+  takeaway: string;
+}
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -158,10 +171,13 @@ export interface BlogPost {
   heroEyebrow: string;
   heroSummary: string;
   heroHighlights: string[];
-  templateStatus: BlogTemplateStatus;
+  researchStatus: BlogResearchStatus;
+  summaryBox: BlogSummaryBox;
+  whoThisGuideIsFor: string[];
   quickAnswers: BlogQuickAnswer[];
   quickFactsTable: BlogTable;
   sections: BlogSection[];
+  practicalExample: BlogPracticalExample;
   faqItems: BlogFaqItem[];
   verdictTitle: string;
   verdictSummary: string;

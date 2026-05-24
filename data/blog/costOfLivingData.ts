@@ -74,8 +74,8 @@ function buildFallbackCountryData(
     familyAnswer: `A family of four often needs about ${familyMonthly.toLocaleString("en-US")} ${country.currency} per month once rent, childcare, groceries, and transport are included.`,
     moneySavingTips: [
       `Treat rent as the first decision variable in ${country.name}; even one district further from the city core can change the monthly budget materially.`,
-      "Annualize transport, telecom, and insurance decisions instead of comparing only the monthly sticker price.",
-      "Use the salary calculator together with the local cost guide so take-home pay and living expenses are reviewed in the same currency and tax year.",
+      `In ${country.name}, annualize transport, telecom, and insurance decisions instead of comparing only the monthly sticker price.`,
+      `Use the salary calculator together with the ${country.name} cost guide so take-home pay and living expenses are reviewed in the same currency and tax year.`,
     ],
     comparisonTargets:
       country.region === "Europe"
@@ -692,8 +692,8 @@ function buildCityData(
   };
 }
 
-// TODO: Replace city baseline market estimates with local official household-spending
-// and rent datasets when they are collected country by country.
+// Refresh city baseline market estimates with stronger local household-spending
+// and rent datasets as country-level editorial sourcing improves.
 export const CITY_COST_OF_LIVING_DATA: Record<string, CityCostOfLivingData> = {
   "australia/melbourne": buildCityData("Melbourne", "melbourne", "australia", "Australia", {
     averageGrossAnnual: 87000,

@@ -29,6 +29,9 @@ interface BlogArticlePageProps {
   };
 }
 
+const ARTICLE_DISCLAIMER =
+  "This article is for general information only and does not provide tax, legal, financial, or accounting advice.";
+
 export function generateStaticParams(): Array<{ slug: string }> {
   return getBlogStaticPaths().posts.map((slug) => ({ slug }));
 }
@@ -186,6 +189,44 @@ export default function BlogArticlePage({
 
           <section className="panel p-5 sm:p-6">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-coral">
+              Summary
+            </p>
+            <h2 className="mt-4 font-[var(--font-display)] text-3xl font-bold tracking-tight text-ink">
+              {post.summaryBox.title}
+            </h2>
+            <div className="mt-5 grid gap-3">
+              {post.summaryBox.items.map((item) => (
+                <div
+                  className="rounded-3xl border border-ink/10 bg-white px-4 py-4 text-sm leading-7 text-ink/72"
+                  key={item}
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+            {post.summaryBox.note ? (
+              <p className="mt-4 text-sm leading-7 text-ink/62">{post.summaryBox.note}</p>
+            ) : null}
+          </section>
+
+          <section className="panel p-5 sm:p-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-coral">
+              Who this guide is for
+            </p>
+            <div className="mt-5 grid gap-3">
+              {post.whoThisGuideIsFor.map((item) => (
+                <div
+                  className="rounded-3xl border border-ink/10 bg-white px-4 py-4 text-sm leading-7 text-ink/72"
+                  key={item}
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="panel p-5 sm:p-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-coral">
               Quick answers
             </p>
             <div className="mt-5 grid gap-4 md:grid-cols-2">
@@ -301,6 +342,38 @@ export default function BlogArticlePage({
           </section>
 
           <section className="panel p-5 sm:p-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-coral">
+              Practical example
+            </p>
+            <h2 className="mt-4 font-[var(--font-display)] text-3xl font-bold tracking-tight text-ink">
+              {post.practicalExample.title}
+            </h2>
+            <p className="mt-4 text-base leading-8 text-ink/72">
+              {post.practicalExample.scenario}
+            </p>
+            <div className="mt-5 grid gap-3">
+              {post.practicalExample.steps.map((step) => (
+                <div
+                  className="rounded-3xl border border-ink/10 bg-white px-4 py-4 text-sm leading-7 text-ink/72"
+                  key={step}
+                >
+                  {step}
+                </div>
+              ))}
+            </div>
+            <p className="mt-4 text-sm leading-7 text-ink/62">
+              {post.practicalExample.takeaway}
+            </p>
+          </section>
+
+          <section className="panel p-5 sm:p-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-coral">
+              Important note
+            </p>
+            <p className="mt-4 text-base leading-8 text-ink/72">{ARTICLE_DISCLAIMER}</p>
+          </section>
+
+          <section className="panel p-5 sm:p-6" id="faq">
             <h2 className="font-[var(--font-display)] text-3xl font-bold tracking-tight text-ink">
               Frequently asked questions
             </h2>

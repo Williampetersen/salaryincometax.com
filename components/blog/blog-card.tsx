@@ -30,11 +30,6 @@ export function BlogCard({ post }: BlogCardProps): JSX.Element {
             <span className="rounded-full bg-white/88 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-ink/70">
               {category?.name ?? post.categoryLabel}
             </span>
-            {post.templateStatus === "template" ? (
-              <span className="rounded-full bg-sand/85 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-ink/70">
-                Template
-              </span>
-            ) : null}
           </div>
         </div>
 
