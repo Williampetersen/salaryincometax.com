@@ -15,6 +15,10 @@ import {
   SITE_TAGLINE,
   SITE_URL,
 } from "@/lib/site";
+import {
+  GA_TRACKING_ID,
+  GOOGLE_CONSENT_WAIT_FOR_UPDATE_MS,
+} from "@/lib/gtag";
 const bodyFont = Manrope({
   subsets: ["latin"],
   variable: "--font-body",
@@ -88,8 +92,39 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>): JSX.Element {
+  const shouldInstallGoogleTag =
+    process.env.NODE_ENV === "production" && Boolean(GA_TRACKING_ID);
+
   return (
     <html className={`${bodyFont.variable} ${displayFont.variable}`} lang="en">
+      <head>
+        {shouldInstallGoogleTag ? (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+            />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  window.gtag = gtag;
+                  gtag('consent', 'default', {
+                    ad_storage: 'denied',
+                    ad_user_data: 'denied',
+                    ad_personalization: 'denied',
+                    analytics_storage: 'denied',
+                    wait_for_update: ${GOOGLE_CONSENT_WAIT_FOR_UPDATE_MS}
+                  });
+                  gtag('js', new Date());
+                  gtag('config', '${GA_TRACKING_ID}');
+                `,
+              }}
+            />
+          </>
+        ) : null}
+      </head>
       <body>
         {/* Analytics and consent are mounted once here so they cover every route. */}
         <Suspense fallback={null}>
