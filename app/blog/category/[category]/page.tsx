@@ -59,6 +59,11 @@ export default function BlogCategoryPage({
   }
 
   const posts = getBlogPostsByCategory(category.slug);
+
+  if (posts.length === 0) {
+    notFound();
+  }
+
   const structuredData = [
     buildBreadcrumbSchema([
       { name: "Home", url: absoluteUrl("/") },

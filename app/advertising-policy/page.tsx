@@ -9,7 +9,7 @@ import { SUPPORT_EMAIL } from "@/lib/site";
 
 export const metadata: Metadata = buildStaticPageMetadata(
   "Advertising Policy",
-  "Read how salaryincometax.com approaches Google AdSense, sponsored content labeling, editorial independence, privacy, and ad personalization.",
+  "Read how salaryincometax.com approaches Google AdSense, ad placement, sponsored content labeling, editorial independence, and user privacy.",
   "/advertising-policy",
 );
 
@@ -27,7 +27,7 @@ export default function AdvertisingPolicyPage(): JSX.Element {
         { href: "/", label: "Home" },
         { label: "Advertising Policy" },
       ]}
-      description="This Advertising Policy explains how salaryincometax.com plans to use advertising, including Google AdSense, editorial independence, and user privacy protections."
+      description="This Advertising Policy explains how salaryincometax.com plans to use advertising, including Google AdSense, clear ad placement, editorial independence, and privacy protections."
       eyebrow="Advertising"
       title="Advertising Policy"
     >
@@ -38,6 +38,14 @@ export default function AdvertisingPolicyPage(): JSX.Element {
             title: "Google AdSense",
             paragraphs: [
               "Salaryincometax.com may display advertising through Google AdSense after approval. Advertising will be integrated in a way that does not interfere with calculator use, article readability, or site navigation.",
+              "AdSense is not active by default before approval, and the site does not intentionally display empty ad boxes, deceptive ad placeholders, or visual elements that could be mistaken for paid ads.",
+            ],
+          },
+          {
+            title: "Ad placement and labeling",
+            paragraphs: [
+              "If ads are enabled later, they will be clearly separated from navigation, calculator controls, tables, buttons, and internal-link blocks so visitors can distinguish editorial content from advertising at a glance.",
+              "Advertising labels will be clear and non-misleading. The site will not place ads under headings that make them look like tools, downloads, resources, or required next steps.",
             ],
           },
           {
@@ -56,6 +64,7 @@ export default function AdvertisingPolicyPage(): JSX.Element {
             title: "User privacy and ad personalization",
             paragraphs: [
               "Advertising-related scripts and storage are only relevant after AdSense activation and are subject to the site’s cookie consent controls. Users can reject advertising cookies or change preferences later through the cookie settings control.",
+              "The site’s Privacy Policy and Cookie Policy explain how Google-related cookies, partner-site data, and optional ad-personalization settings are handled.",
             ],
           },
           {

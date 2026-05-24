@@ -79,7 +79,8 @@ export default function SourcesPage(): JSX.Element {
             {
               title: "Update schedule",
               paragraphs: [
-                "Core tax-year rules, legal pages, and major country guides are reviewed on a recurring basis and when major tax or methodology changes are identified. Some blog templates are intentionally published with clear update notices so data quality can be upgraded without leaving broken routes.",
+                "Core tax-year rules, legal pages, and major country guides are reviewed on a recurring basis and when major tax or methodology changes are identified.",
+                "For public editorial routes, the site can restrict publishing to the stronger reviewed article set while lower-confidence drafts remain in the structured data layer until they are ready for broader indexing.",
               ],
             },
             {

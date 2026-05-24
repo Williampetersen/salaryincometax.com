@@ -24,6 +24,14 @@ const FEATURED_BLOG_SLUGS = [
   "minimum-wage-in-ireland",
 ];
 
+function isPublishedBlogPost(post: BlogPost): boolean {
+  return post.researchStatus === "expanded";
+}
+
+function getPublishedBlogPostSet(): BlogPost[] {
+  return BLOG_POSTS.filter(isPublishedBlogPost);
+}
+
 export function formatBlogDate(value: string): string {
   return new Intl.DateTimeFormat("en-US", {
     year: "numeric",
@@ -33,11 +41,11 @@ export function formatBlogDate(value: string): string {
 }
 
 export function getAllBlogPosts(): BlogPost[] {
-  return BLOG_POSTS;
+  return getPublishedBlogPostSet();
 }
 
 export function getBlogPostBySlug(slug: string): BlogPost | undefined {
-  return BLOG_POSTS.find((post) => post.slug === slug);
+  return getPublishedBlogPostSet().find((post) => post.slug === slug);
 }
 
 export function getBlogCategory(slug: string) {
@@ -49,21 +57,23 @@ export function getBlogCountry(slug: string) {
 }
 
 export function getBlogCategories() {
-  return BLOG_CATEGORIES;
+  return BLOG_CATEGORIES.filter((category) =>
+    getPublishedBlogPostSet().some((post) => post.category === category.slug),
+  );
 }
 
 export function getBlogCountries() {
   return BLOG_COUNTRIES.filter((country) =>
-    BLOG_POSTS.some((post) => post.countrySlug === country.slug),
+    getPublishedBlogPostSet().some((post) => post.countrySlug === country.slug),
   );
 }
 
 export function getBlogPostsByCategory(category: BlogCategorySlug): BlogPost[] {
-  return BLOG_POSTS.filter((post) => post.category === category);
+  return getPublishedBlogPostSet().filter((post) => post.category === category);
 }
 
 export function getBlogPostsByCountry(countrySlug: string): BlogPost[] {
-  return BLOG_POSTS.filter((post) => post.countrySlug === countrySlug);
+  return getPublishedBlogPostSet().filter((post) => post.countrySlug === countrySlug);
 }
 
 export function getFeaturedBlogPosts(limit = 6): BlogPost[] {
@@ -90,7 +100,7 @@ export function getRelatedBlogPosts(
     return explicit.slice(0, limit);
   }
 
-  const fallback = BLOG_POSTS.filter(
+  const fallback = getPublishedBlogPostSet().filter(
     (post) =>
       post.slug !== current.slug &&
       (post.countrySlug === current.countrySlug || post.category === current.category),
@@ -108,7 +118,7 @@ export function getBlogStaticPaths() {
   return {
     categories: BLOG_CATEGORIES.map((category) => category.slug),
     countries: getBlogCountries().map((country) => country.slug),
-    posts: BLOG_POSTS.map((post) => post.slug),
+    posts: getPublishedBlogPostSet().map((post) => post.slug),
   };
 }
 

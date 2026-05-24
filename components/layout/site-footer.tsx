@@ -4,6 +4,8 @@ import { FOOTER_LINK_GROUPS } from "@/lib/navigation";
 import { DISCLAIMER, SITE_NAME, SUPPORT_EMAIL } from "@/lib/site";
 
 export function SiteFooter(): JSX.Element {
+  const year = new Date().getFullYear();
+
   return (
     <footer className="border-t border-ink/10 bg-white/65">
       <div className="shell grid gap-8 py-8 text-sm text-ink/68 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.9fr)]">
@@ -40,6 +42,9 @@ export function SiteFooter(): JSX.Element {
             </div>
           ))}
         </div>
+      </div>
+      <div className="shell border-t border-ink/8 py-4 text-xs uppercase tracking-[0.16em] text-ink/48">
+        © {year} {SITE_NAME}. All rights reserved.
       </div>
     </footer>
   );

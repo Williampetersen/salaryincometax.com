@@ -5,6 +5,7 @@ import {
   SITE_DESCRIPTION,
   SITE_NAME,
   SITE_URL,
+  SUPPORT_EMAIL,
 } from "@/lib/site";
 
 export function absoluteUrl(path = ""): string {
@@ -22,6 +23,14 @@ export function buildOrganizationSchema(): Record<string, unknown> {
     name: SITE_NAME,
     url: SITE_URL,
     logo: absoluteUrl(SITE_DEFAULT_OG_IMAGE),
+    email: SUPPORT_EMAIL,
+    contactPoint: {
+      "@type": "ContactPoint",
+      email: SUPPORT_EMAIL,
+      contactType: "customer support",
+      availableLanguage: "English",
+      url: absoluteUrl("/contact"),
+    },
   };
 }
 

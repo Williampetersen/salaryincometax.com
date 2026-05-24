@@ -70,8 +70,14 @@ export default function BlogIndexPage(): JSX.Element {
         </h1>
         <p className="mt-4 text-base leading-8 text-ink/68">
           Research salary after tax, cost of living, minimum wage, and income tax
-          by country. Every article links back to the relevant salary calculator so
-          you can move from reading to estimating take-home pay in the same flow.
+          by country. Every published article links back to the relevant salary
+          calculator so you can move from reading to estimating take-home pay in
+          the same flow.
+        </p>
+        <p className="mt-3 text-sm leading-7 text-ink/62">
+          Public blog pages are limited to the stronger reviewed article set.
+          Lower-confidence drafts stay in the internal data layer until they are
+          upgraded.
         </p>
       </div>
 
@@ -120,7 +126,8 @@ export default function BlogIndexPage(): JSX.Element {
           </div>
           <p className="max-w-2xl text-sm leading-7 text-ink/66">
             Use search, country filtering, and category filtering to find the exact
-            article that matches your query. The library currently includes{" "}
+            reviewed article that matches your query. The public library currently
+            includes{" "}
             <span className="font-semibold text-ink">{posts.length}</span> pages.
           </p>
         </div>

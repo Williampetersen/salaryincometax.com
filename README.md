@@ -45,8 +45,9 @@ Global salary income tax calculator built with Next.js App Router, TypeScript, T
 
 ## Notes
 
-- Eight requested markets ship with fuller baseline models: France, Belgium, Germany, Denmark, United Kingdom, United States, Canada, and Australia.
-- Remaining countries are intentionally marked as `example` in their JSON to make update status explicit in the UI.
+- Tax rules now expose both `implementationStatus` and `coverageLevel`.
+- `coverageLevel: "partial"` means the route is source-backed but still excludes important layers such as province, state, commune, household-credit, or special local rules.
+- `coverageLevel: "estimate"` means the route remains illustrative and should be treated as planning-only until deeper country modeling is added.
 - The site displays this disclaimer in the UI: `This calculator provides an estimate only and should not be considered financial, tax, or legal advice.`
 
 ## Contact form SMTP setup
@@ -106,3 +107,23 @@ For Vercel production:
 6. Redeploy the latest production deployment.
 
 The production build now fails intentionally if `NEXT_PUBLIC_GA_ID` is missing, so the site cannot silently deploy without the Google tag.
+
+## AdSense readiness
+
+The site includes:
+
+- About, Contact, Privacy Policy, Cookie Policy, Terms, Disclaimer, Editorial Policy, Advertising Policy, and Sources pages.
+- GDPR-style cookie controls that keep analytics and advertising storage optional.
+- An `ads.txt` route at `/ads.txt`.
+- A placeholder AdSense component that does not render live ad boxes before approval.
+- Footer navigation to the trust and policy pages on every page.
+- Blog publishing restricted to the stronger reviewed article set used on public blog pages and blog sitemaps.
+
+### After approval
+
+1. Set `NEXT_PUBLIC_ADSENSE_CLIENT_ID` in Vercel.
+2. Set `ADSENSE_ADS_TXT` to the exact line from AdSense, for example:
+   - `google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0`
+3. Redeploy.
+4. Verify `https://salaryincometax.com/ads.txt` is publicly reachable.
+5. Only enable real ad placements in clearly separated content areas that cannot be mistaken for navigation, calculators, or buttons.

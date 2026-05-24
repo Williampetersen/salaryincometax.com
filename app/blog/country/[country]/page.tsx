@@ -62,6 +62,11 @@ export default function BlogCountryPage({
   }
 
   const posts = getBlogPostsByCountry(country.slug);
+
+  if (posts.length === 0) {
+    notFound();
+  }
+
   const structuredData = [
     buildBreadcrumbSchema([
       { name: "Home", url: absoluteUrl("/") },
