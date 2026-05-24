@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope, Space_Grotesk } from "next/font/google";
 import { Suspense } from "react";
+import { Analytics } from "@vercel/analytics/next";
 
 import { AnalyticsClickTracker } from "@/components/analytics-click-tracker";
 import { CookieConsent } from "@/components/CookieConsent";
@@ -132,6 +133,7 @@ export default function RootLayout({
         </Suspense>
         <AnalyticsClickTracker />
         <CookieConsent />
+        <Analytics />
         <SiteHeader />
         <main>{children}</main>
         <SiteFooter />
