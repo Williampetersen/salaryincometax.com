@@ -62,6 +62,25 @@ The contact form is sent server-side through Simply.com SMTP. Add these values i
 
 The backend uses STARTTLS on port `587`, keeps `support@salaryincometax.com` as the sender address, and sets the visitor's email as `Reply-To`.
 
+### Vercel deployment steps
+
+The live `503` error means the serverless function cannot read one or more required SMTP variables at runtime. Vercel does not read your local `.env.local` file, so you must add the same variables in the Vercel dashboard:
+
+1. Open the Vercel project for `salaryincometax.com`.
+2. Go to `Settings`.
+3. Open `Environment Variables`.
+4. Add each variable below for the `Production` environment:
+   - `SMTP_HOST=smtp.simply.com`
+   - `SMTP_PORT=587`
+   - `SMTP_USER=support@salaryincometax.com`
+   - `SMTP_PASSWORD=your real Simply.com mailbox password`
+   - `MAIL_FROM=support@salaryincometax.com`
+   - `MAIL_TO=support@salaryincometax.com`
+5. Save the variables.
+6. Redeploy the latest production deployment.
+
+If one or more variables are missing, the contact API logs the missing key names server-side and returns HTTP `503` with a clean JSON error to the browser.
+
 To test the SMTP connection locally, run:
 
 - `corepack pnpm check:smtp`

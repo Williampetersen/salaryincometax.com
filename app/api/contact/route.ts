@@ -102,7 +102,20 @@ function isRateLimited(identifier: string): boolean {
 // protection, and a basic in-memory rate limit. SMTP credentials stay
 // server-side only.
 export async function POST(request: Request): Promise<Response> {
-  const payload = (await request.json()) as ContactPayload;
+  let payload: ContactPayload;
+
+  try {
+    payload = (await request.json()) as ContactPayload;
+  } catch {
+    return NextResponse.json(
+      {
+        success: false,
+        error: "Sorry, your message could not be sent. Please try again later.",
+      },
+      { status: 400 },
+    );
+  }
+
   const clientIdentifier = getClientIdentifier(request);
 
   if (payload.honey && payload.honey.trim().length > 0) {
@@ -137,7 +150,7 @@ export async function POST(request: Request): Promise<Response> {
     const missingKeys = getMissingContactEnvKeys();
 
     console.error(
-      `[contact] SMTP environment variables are missing or invalid: ${missingKeys.join(", ") || "unknown"}`,
+      `[contact] SMTP environment variables are missing or invalid for ${request.headers.get("host") ?? "unknown-host"}: ${missingKeys.join(", ") || "unknown"}`,
     );
 
     return NextResponse.json(
@@ -182,9 +195,11 @@ export async function POST(request: Request): Promise<Response> {
       message: "Thank you. Your message has been sent successfully.",
     });
   } catch (error) {
-    if (process.env.NODE_ENV !== "production") {
-      console.error("[contact] failed to send email", error);
-    }
+    console.error("[contact] failed to send email", {
+      host: request.headers.get("host") ?? "unknown-host",
+      message: error instanceof Error ? error.message : "unknown error",
+      name: error instanceof Error ? error.name : "UnknownError",
+    });
 
     return NextResponse.json(
       {
