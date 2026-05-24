@@ -306,7 +306,7 @@ export function CalculatorShell({
           </div>
         </div>
 
-        <div className="mt-5 rounded-4xl border border-ink/10 bg-paper/45 p-4 sm:p-5">
+        <div className="mt-5 rounded-4xl border border-sky/35 bg-sky/12 p-4 sm:p-5">
           <button
             aria-expanded={showAdvancedOptions}
             className="flex w-full items-center justify-between gap-4 text-left"
@@ -314,16 +314,19 @@ export function CalculatorShell({
             type="button"
           >
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-ink/55">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-sky">
                 More options
               </p>
-              <p className="mt-2 text-sm leading-6 text-ink/62">
+              <p className="mt-2 text-sm leading-6 text-ink/72">
                 Salary period, tax year, work schedule, extra income, family
                 status, and reverse calculation.
               </p>
             </div>
-            <span className="rounded-full border border-ink/10 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-ink/55">
-              {showAdvancedOptions ? "Hide" : "Expand"}
+            <span
+              aria-hidden="true"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-sky/35 bg-white text-xl font-semibold leading-none text-sky"
+            >
+              {showAdvancedOptions ? "−" : "+"}
             </span>
           </button>
 
