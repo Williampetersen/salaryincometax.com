@@ -672,19 +672,16 @@ export function CalculatorShell({
                   />
                 </div>
                 <div className="overflow-hidden rounded-3xl border border-ink/10 bg-paper/45">
-                  <table className="min-w-full table-fixed">
-                    <thead className="bg-ink/4 text-left text-xs uppercase tracking-[0.18em] text-ink/55">
-                      <tr>
-                        <th className="w-[26%] px-5 py-4 font-semibold">Component</th>
-                        <th className="w-[24%] px-5 py-4 font-semibold text-right">
-                          Annual amount
-                        </th>
-                        <th className="px-5 py-4 font-semibold">What it covers</th>
-                      </tr>
-                    </thead>
+                  <table
+                    aria-label="Tax split details"
+                    className="min-w-full table-fixed"
+                  >
                     <tbody>
                       {taxSplitRows.map((row) => (
-                        <tr className="border-t border-ink/8 align-top" key={row.label}>
+                        <tr
+                          className="align-top border-t border-ink/8 first:border-t-0"
+                          key={row.label}
+                        >
                           <td className="px-5 py-4 font-semibold text-ink">{row.label}</td>
                           <td className="px-5 py-4 text-right font-[var(--font-display)] text-[1.5rem] font-bold leading-none tracking-tight text-ink tabular-nums whitespace-nowrap">
                             {row.value}
@@ -767,19 +764,16 @@ export function CalculatorShell({
               </div>
               <div className="grid gap-6 p-5 sm:p-6 xl:grid-cols-[minmax(0,1fr)_minmax(20rem,0.88fr)]">
                 <div className="overflow-hidden rounded-3xl border border-ink/10 bg-paper/45">
-                  <table className="min-w-full table-fixed">
-                    <thead className="bg-ink/4 text-left text-xs uppercase tracking-[0.18em] text-ink/55">
-                      <tr>
-                        <th className="w-[26%] px-5 py-4 font-semibold">Benchmark</th>
-                        <th className="w-[24%] px-5 py-4 font-semibold text-right">
-                          Annual amount
-                        </th>
-                        <th className="px-5 py-4 font-semibold">Why it matters</th>
-                      </tr>
-                    </thead>
+                  <table
+                    aria-label="Salary comparison details"
+                    className="min-w-full table-fixed"
+                  >
                     <tbody>
                       {comparisonRows.map((row) => (
-                        <tr className="border-t border-ink/8 align-top" key={row.label}>
+                        <tr
+                          className="align-top border-t border-ink/8 first:border-t-0"
+                          key={row.label}
+                        >
                           <td className="px-5 py-4 font-semibold text-ink">{row.label}</td>
                           <td className="px-5 py-4 text-right font-[var(--font-display)] text-[1.5rem] font-bold leading-none tracking-tight text-ink tabular-nums whitespace-nowrap">
                             {row.value}
