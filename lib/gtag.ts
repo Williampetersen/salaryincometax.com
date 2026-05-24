@@ -4,6 +4,7 @@ export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_ID ?? "";
 export const ADSENSE_CLIENT_ID =
   process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID ?? "";
 export const COOKIE_PREFERENCES_KEY = "salaryincometax-cookie-preferences";
+export const GOOGLE_CONSENT_WAIT_FOR_UPDATE_MS = 500;
 
 export interface CookiePreferences {
   advertising: boolean;
@@ -16,6 +17,13 @@ interface TrackEventInput {
   category: string;
   label?: string;
   value?: number;
+}
+
+interface GoogleConsentState {
+  ad_personalization: "denied" | "granted";
+  ad_storage: "denied" | "granted";
+  ad_user_data: "denied" | "granted";
+  analytics_storage: "denied" | "granted";
 }
 
 declare global {
@@ -131,6 +139,38 @@ export function persistCookiePreferences(
 
 export function buildPageUrl(pathname: string, search = ""): string {
   return search ? `${pathname}?${search}` : pathname;
+}
+
+function toConsentValue(value: boolean): "denied" | "granted" {
+  return value ? "granted" : "denied";
+}
+
+// Maps the app's cookie preferences onto Google's consent mode fields so the
+// tag can load globally while storage remains denied until the user opts in.
+export function buildGoogleConsentState(
+  preferences: CookiePreferences | null,
+): GoogleConsentState {
+  const safePreferences = preferences ?? DEFAULT_COOKIE_PREFERENCES;
+  const advertisingConsent = toConsentValue(safePreferences.advertising);
+
+  return {
+    analytics_storage: toConsentValue(safePreferences.analytics),
+    ad_storage: advertisingConsent,
+    ad_user_data: advertisingConsent,
+    ad_personalization: advertisingConsent,
+  };
+}
+
+export function updateGoogleConsent(
+  preferences: CookiePreferences | null,
+): void {
+  if (!isBrowser()) {
+    return;
+  }
+
+  const nextConsentState = buildGoogleConsentState(preferences);
+  debugLog("consent update", nextConsentState);
+  window.gtag?.("consent", "update", nextConsentState);
 }
 
 function canTrack(): boolean {

@@ -31,6 +31,7 @@ export function ContactForm(): JSX.Element {
   const [feedback, setFeedback] = useState<{
     message: string;
     status: "error" | "success";
+    supportEmail?: string;
   } | null>(null);
 
   function updateField<K extends keyof ContactFormState>(
@@ -83,35 +84,52 @@ export function ContactForm(): JSX.Element {
 
     startTransition(() => {
       void (async () => {
-        const response = await fetch("/api/contact", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formState),
-        });
+        try {
+          const response = await fetch("/api/contact", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formState),
+          });
 
-        const payload = (await response.json()) as {
-          error?: string;
-          success?: boolean;
-        };
+          const payload = (await response.json()) as {
+            error?: string;
+            errorCode?: string;
+            success?: boolean;
+            supportEmail?: string;
+          };
 
-        if (!response.ok || !payload.success) {
+          if (!response.ok || !payload.success) {
+            const supportEmail =
+              payload.errorCode === "CONTACT_NOT_CONFIGURED"
+                ? payload.supportEmail ?? SUPPORT_EMAIL
+                : payload.supportEmail;
+
+            setFeedback({
+              status: "error",
+              message:
+                payload.error ??
+                "We could not send your message right now. Please try again later.",
+              supportEmail,
+            });
+            return;
+          }
+
+          setFormState(INITIAL_STATE);
+          setFeedback({
+            status: "success",
+            message:
+              "Your message has been sent. We will respond to your inquiry as soon as possible.",
+          });
+        } catch {
           setFeedback({
             status: "error",
             message:
-              payload.error ??
-              "We could not send your message right now. Please try again later.",
+              "We could not reach the contact service right now. Please try again later, or email support@salaryincometax.com directly.",
+            supportEmail: SUPPORT_EMAIL,
           });
-          return;
         }
-
-        setFormState(INITIAL_STATE);
-        setFeedback({
-          status: "success",
-          message:
-            "Your message has been sent. We will respond to your inquiry as soon as possible.",
-        });
       })();
     });
   }
@@ -209,7 +227,15 @@ export function ContactForm(): JSX.Element {
                 : "border border-coral/25 bg-coral/8 text-coral"
             }`}
           >
-            {feedback.message}
+            <p>{feedback.message}</p>
+            {feedback.status === "error" && feedback.supportEmail ? (
+              <Link
+                className="mt-2 inline-flex font-semibold underline underline-offset-4 hover:text-ink"
+                href={`mailto:${feedback.supportEmail}`}
+              >
+                Email {feedback.supportEmail}
+              </Link>
+            ) : null}
           </div>
         ) : null}
 

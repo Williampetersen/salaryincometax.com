@@ -3,7 +3,9 @@ import { NextResponse } from "next/server";
 import {
   createContactTransporter,
   getContactSmtpConfig,
+  getMissingContactEnvKeys,
 } from "@/lib/contact-mailer";
+import { SUPPORT_EMAIL } from "@/lib/site";
 
 export const runtime = "nodejs";
 
@@ -73,17 +75,21 @@ export async function POST(request: Request): Promise<Response> {
   const smtpConfig = getContactSmtpConfig();
 
   if (!smtpConfig) {
-    if (process.env.NODE_ENV !== "production") {
-      console.error("[contact] SMTP environment variables are missing");
-    }
+    const missingKeys = getMissingContactEnvKeys();
+
+    console.error(
+      `[contact] SMTP environment variables are missing or invalid: ${missingKeys.join(", ") || "unknown"}`,
+    );
 
     return NextResponse.json(
       {
         success: false,
+        errorCode: "CONTACT_NOT_CONFIGURED",
         error:
-          "Contact email is not configured on the server yet. Please try again later.",
+          "The contact form is temporarily unavailable. Please email support@salaryincometax.com directly while we finish the mail setup.",
+        supportEmail: SUPPORT_EMAIL,
       },
-      { status: 500 },
+      { status: 503 },
     );
   }
 
@@ -152,7 +158,8 @@ export async function POST(request: Request): Promise<Response> {
       {
         success: false,
         error:
-          "We could not send your message right now. Please try again later.",
+          "We could not send your message right now. Please try again later, or email support@salaryincometax.com directly.",
+        supportEmail: SUPPORT_EMAIL,
       },
       { status: 500 },
     );

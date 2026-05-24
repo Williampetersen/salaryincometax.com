@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope, Space_Grotesk } from "next/font/google";
+import Script from "next/script";
 import { Suspense } from "react";
 
 import { AnalyticsClickTracker } from "@/components/analytics-click-tracker";
@@ -15,6 +16,10 @@ import {
   SITE_TAGLINE,
   SITE_URL,
 } from "@/lib/site";
+import {
+  GA_TRACKING_ID,
+  GOOGLE_CONSENT_WAIT_FOR_UPDATE_MS,
+} from "@/lib/gtag";
 
 const bodyFont = Manrope({
   subsets: ["latin"],
@@ -89,9 +94,39 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>): JSX.Element {
+  const shouldLoadGoogleTag =
+    process.env.NODE_ENV === "production" && Boolean(GA_TRACKING_ID);
+
   return (
     <html className={`${bodyFont.variable} ${displayFont.variable}`} lang="en">
       <body>
+        {shouldLoadGoogleTag ? (
+          <>
+            <Script
+              id="google-tag-loader"
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+              strategy="beforeInteractive"
+            />
+            <Script id="google-tag-config" strategy="beforeInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                window.gtag = gtag;
+                gtag('consent', 'default', {
+                  'ad_storage': 'denied',
+                  'ad_user_data': 'denied',
+                  'ad_personalization': 'denied',
+                  'analytics_storage': 'denied',
+                  'wait_for_update': ${GOOGLE_CONSENT_WAIT_FOR_UPDATE_MS}
+                });
+                gtag('js', new Date());
+                gtag('config', '${GA_TRACKING_ID}', {
+                  'send_page_view': false
+                });
+              `}
+            </Script>
+          </>
+        ) : null}
         {/* Analytics and consent are mounted once here so they cover every route. */}
         <Suspense fallback={null}>
           <GoogleAnalytics />

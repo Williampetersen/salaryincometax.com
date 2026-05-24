@@ -12,6 +12,8 @@ export interface ContactSmtpConfig {
   user: string;
 }
 
+const DEFAULT_SMTP_PORT = 587;
+
 function parseBooleanEnv(value: string | undefined, fallback: boolean): boolean {
   if (typeof value !== "string") {
     return fallback;
@@ -20,17 +22,46 @@ function parseBooleanEnv(value: string | undefined, fallback: boolean): boolean 
   return value.trim().toLowerCase() === "true";
 }
 
-// Loads and normalizes SMTP configuration from environment variables so the
-// route handler and development test script use identical transport settings.
-export function getContactSmtpConfig(): ContactSmtpConfig | null {
+// Reports which SMTP variables are missing or invalid so server logs can point
+// directly to the deployment configuration problem without exposing secrets.
+export function getMissingContactEnvKeys(): string[] {
+  const missingKeys: string[] = [];
   const host = process.env.SMTP_HOST?.trim();
-  const port = Number(process.env.SMTP_PORT ?? "587");
+  const portValue = process.env.SMTP_PORT?.trim();
+  const port = Number(portValue ?? DEFAULT_SMTP_PORT);
   const user = process.env.SMTP_USER?.trim();
   const pass = process.env.SMTP_PASS;
 
-  if (!host || !port || !user || !pass) {
+  if (!host) {
+    missingKeys.push("SMTP_HOST");
+  }
+
+  if (portValue && Number.isNaN(port)) {
+    missingKeys.push("SMTP_PORT");
+  }
+
+  if (!user) {
+    missingKeys.push("SMTP_USER");
+  }
+
+  if (!pass) {
+    missingKeys.push("SMTP_PASS");
+  }
+
+  return missingKeys;
+}
+
+// Loads and normalizes SMTP configuration from environment variables so the
+// route handler and development test script use identical transport settings.
+export function getContactSmtpConfig(): ContactSmtpConfig | null {
+  if (getMissingContactEnvKeys().length > 0) {
     return null;
   }
+
+  const host = process.env.SMTP_HOST!.trim();
+  const port = Number(process.env.SMTP_PORT ?? DEFAULT_SMTP_PORT);
+  const user = process.env.SMTP_USER!.trim();
+  const pass = process.env.SMTP_PASS!;
 
   return {
     host,

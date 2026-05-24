@@ -1,38 +1,41 @@
 "use client";
 
-import Script from "next/script";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import {
+  DEFAULT_COOKIE_PREFERENCES,
   GA_TRACKING_ID,
   buildPageUrl,
   getCookiePreferences,
   pageview,
+  type CookiePreferences,
+  updateGoogleConsent,
 } from "@/lib/gtag";
 
-// Global GA4 loader for the App Router. The scripts only render in production
-// after consent is granted, while route changes still log in development.
-export function GoogleAnalytics(): JSX.Element | null {
+// Client-side GA tracker for the App Router. The Google tag itself is injected
+// from the root layout so Google can detect it globally, while this component
+// keeps consent state and route-change pageviews in sync.
+export function GoogleAnalytics(): null {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [hasAnalyticsConsent, setHasAnalyticsConsent] = useState(
-    () => getCookiePreferences()?.analytics ?? false,
+  const [preferences, setPreferences] = useState<CookiePreferences>(
+    () => getCookiePreferences() ?? DEFAULT_COOKIE_PREFERENCES,
   );
   const [isScriptReady, setIsScriptReady] = useState(
     process.env.NODE_ENV !== "production",
   );
-  const hasHandledInitialRoute = useRef(false);
+  const lastTrackedUrl = useRef<string | null>(null);
   const search = searchParams?.toString() ?? "";
   const url = buildPageUrl(pathname ?? "/", search);
-  const shouldRenderScripts =
-    process.env.NODE_ENV === "production" &&
-    hasAnalyticsConsent &&
-    Boolean(GA_TRACKING_ID);
 
   useEffect(() => {
     function syncConsent(): void {
-      setHasAnalyticsConsent(getCookiePreferences()?.analytics ?? false);
+      setPreferences(getCookiePreferences() ?? DEFAULT_COOKIE_PREFERENCES);
+    }
+
+    if (process.env.NODE_ENV !== "production" && !GA_TRACKING_ID) {
+      console.log("[ga] NEXT_PUBLIC_GA_ID is missing");
     }
 
     syncConsent();
@@ -46,7 +49,7 @@ export function GoogleAnalytics(): JSX.Element | null {
   }, []);
 
   useEffect(() => {
-    if (!shouldRenderScripts) {
+    if (process.env.NODE_ENV !== "production" || !GA_TRACKING_ID) {
       setIsScriptReady(process.env.NODE_ENV !== "production");
       return;
     }
@@ -59,47 +62,33 @@ export function GoogleAnalytics(): JSX.Element | null {
     }, 100);
 
     return () => window.clearInterval(interval);
-  }, [shouldRenderScripts]);
+  }, []);
 
   useEffect(() => {
-    if (!hasAnalyticsConsent || !isScriptReady || !GA_TRACKING_ID) {
+    if (!isScriptReady || !GA_TRACKING_ID) {
       return;
     }
 
-    // The initial production page view is handled by gtag('config'). Manual
-    // pageview events are sent for subsequent App Router navigations.
-    if (!hasHandledInitialRoute.current) {
-      hasHandledInitialRoute.current = true;
+    updateGoogleConsent(preferences);
+  }, [isScriptReady, preferences]);
 
-      if (process.env.NODE_ENV !== "production") {
-        pageview(url);
-      }
-
+  useEffect(() => {
+    if (!preferences.analytics) {
+      lastTrackedUrl.current = null;
       return;
     }
 
+    if (!isScriptReady || !GA_TRACKING_ID) {
+      return;
+    }
+
+    if (lastTrackedUrl.current === url) {
+      return;
+    }
+
+    lastTrackedUrl.current = url;
     pageview(url);
-  }, [hasAnalyticsConsent, isScriptReady, url]);
+  }, [isScriptReady, preferences.analytics, url]);
 
-  if (!GA_TRACKING_ID) {
-    return null;
-  }
-
-  return shouldRenderScripts ? (
-    <>
-      <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
-        strategy="afterInteractive"
-      />
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          window.gtag = gtag;
-          gtag('js', new Date());
-          gtag('config', '${GA_TRACKING_ID}');
-        `}
-      </Script>
-    </>
-  ) : null;
+  return null;
 }
