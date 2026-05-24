@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { CountryGroups } from "@/components/home/country-groups";
+import { TypewriterHeading } from "@/components/home/typewriter-heading";
 import { StructuredData } from "@/components/seo/structured-data";
 import { getAllCountries, getCountryGroups } from "@/lib/country-catalog";
 import {
@@ -54,7 +55,7 @@ export default function HomePage(): JSX.Element {
             <div>
               <p className="eyebrow">Salary calculator</p>
               <h1 className="mt-5 max-w-3xl font-[var(--font-display)] text-5xl font-bold tracking-tight text-ink sm:text-6xl">
-                Find your salary after tax
+                <TypewriterHeading text="Find your salary after tax" />
               </h1>
               <p className="mt-5 max-w-2xl text-base leading-8 text-ink/68 sm:text-lg">
                 Check take-home pay in 19 countries. Compare gross and net salary

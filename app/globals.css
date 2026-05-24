@@ -10,6 +10,18 @@ html {
   scroll-behavior: smooth;
 }
 
+@keyframes typewriter-caret {
+  0%,
+  49% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
 body {
   min-height: 100vh;
   background:
@@ -62,5 +74,9 @@ a {
 
   .status-chip {
     @apply inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold;
+  }
+
+  .animate-typewriter-caret {
+    animation: typewriter-caret 0.9s steps(1) infinite;
   }
 }
