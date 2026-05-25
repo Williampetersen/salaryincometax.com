@@ -1,6 +1,6 @@
 # AdSense Approval Checklist
 
-Last updated: 2026-05-24
+Last updated: 2026-05-25
 
 This checklist is for `salaryincometax.com` before submitting or resubmitting the
 site for Google AdSense review.
@@ -28,10 +28,16 @@ site for Google AdSense review.
 ## AdSense policy alignment
 
 - [x] No language encourages users to click ads.
+- [x] No language offers rewards, support-us prompts, or similar incentives for ad clicks or ad views.
+- [x] No fake download buttons, fake streaming claims, fake next-step prompts, or deceptive labels are used.
 - [x] No fake download buttons, fake navigation items, or deceptive UI patterns are used.
 - [x] No automatic redirects, popups, or software-driven navigation tricks are used.
+- [x] No pages are intentionally published just to hold ads.
 - [x] Ad placeholders do not render before approval.
-- [x] Future ads must be visually separate from navigation, calculators, buttons, and tables.
+- [x] Future ads must be visually separate from navigation, calculators, buttons, tables, and country-picker controls.
+- [x] Future ads must not be paired with arrows, images, animation, or copy that draws unnatural attention to ads.
+- [x] Future ads must not be implemented inside pop-ups, emails, or software-style screens.
+- [x] Future ads must use clear advertising labels where appropriate.
 - [x] Sponsored content must be labeled clearly if introduced later.
 - [x] Advertising must not influence editorial or calculator methodology.
 
@@ -54,15 +60,22 @@ site for Google AdSense review.
 - [x] The contact form works server-side and returns clear errors.
 - [x] The site builds successfully for production.
 - [x] The site is mobile responsive.
+- [x] No forced downloads, malware behavior, pop-unders, or browser-setting changes are implemented by the site.
 
 ## Manual checks before applying
 
+- [ ] Do not click your own ads after approval.
+- [ ] Do not ask friends, staff, or contractors to click ads.
+- [ ] Do not buy paid-to-click, autosurf, click-exchange, or other invalid-traffic services.
+- [ ] Review any paid traffic campaign against Google's landing page quality expectations before sending traffic to ad pages.
 - [ ] Review Google Search Console for indexing issues.
 - [ ] Check Vercel production for broken images, 404s, and console errors.
 - [ ] Manually review the published blog library for grammar, factual, and formatting issues.
 - [ ] Confirm no copyrighted images are used without permission.
 - [ ] Confirm no low-value pages are being linked prominently from the public navigation.
+- [ ] Confirm no public page includes misleading navigation that could be confused with a future ad unit.
 - [ ] Confirm `https://salaryincometax.com/ads.txt` serves the correct AdSense line after approval.
+- [ ] Review Google Publisher Policies for content-level issues before enabling ads on newly published articles.
 
 ## Google references
 
@@ -71,6 +84,8 @@ site for Google AdSense review.
 - Ad placement policies:
   https://support.google.com/adsense/answer/1346295
 - Google Publisher Policies privacy disclosures:
+  https://support.google.com/publisherpolicies/answer/10437794
+- Google Publisher Policies:
   https://support.google.com/adsense/answer/10502938
 - Ads.txt guide:
   https://support.google.com/adsense/answer/12171612

@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { ContentPageShell } from "@/components/content/content-page-shell";
 import { ContentSections } from "@/components/content/content-sections";
 import { StructuredData } from "@/components/seo/structured-data";
 import { buildStaticPageMetadata } from "@/lib/navigation";
 import { absoluteUrl, buildBreadcrumbSchema } from "@/lib/seo";
-import { SUPPORT_EMAIL } from "@/lib/site";
+import {
+  GOOGLE_ADS_SETTINGS_URL,
+  GOOGLE_PARTNER_SITES_DATA_URL,
+  SUPPORT_EMAIL,
+} from "@/lib/site";
 
 export const metadata: Metadata = buildStaticPageMetadata(
   "Cookie Policy",
@@ -39,6 +44,7 @@ export default function CookiePolicyPage(): JSX.Element {
             paragraphs: [
               "Cookies are small text files or similar browser-storage technologies used to remember preferences, measure website usage, and support certain website features.",
               "Salaryincometax.com also uses browser storage for features such as recent calculator history and cookie preference choices.",
+              "Depending on the service involved, similar technologies can also include web beacons, pixels, IP-based identifiers, or other browser and device identifiers.",
             ],
           },
           {
@@ -70,6 +76,7 @@ export default function CookiePolicyPage(): JSX.Element {
             title: "Google AdSense cookies",
             paragraphs: [
               "If Google AdSense is activated after approval, Google and third-party vendors may use cookies to serve ads based on previous visits to this or other sites. Advertising-related storage remains disabled unless the visitor explicitly accepts advertising cookies.",
+              "When advertising is active, Google or other participating vendors may also use web beacons, IP addresses, or similar identifiers for ad delivery, measurement, fraud prevention, and personalization where permitted.",
             ],
           },
           {
@@ -93,6 +100,26 @@ export default function CookiePolicyPage(): JSX.Element {
           },
         ]}
       />
+      <section className="panel mt-6 p-5 text-base leading-8 text-ink/72 sm:p-7">
+        <h2 className="font-[var(--font-display)] text-3xl font-bold tracking-tight text-ink">
+          Helpful controls
+        </h2>
+        <p className="mt-4">
+          Google Ad Settings:{" "}
+          <Link className="text-coral hover:text-ink" href={GOOGLE_ADS_SETTINGS_URL}>
+            {GOOGLE_ADS_SETTINGS_URL}
+          </Link>
+        </p>
+        <p className="mt-3">
+          How Google uses data from partner sites:{" "}
+          <Link
+            className="text-coral hover:text-ink"
+            href={GOOGLE_PARTNER_SITES_DATA_URL}
+          >
+            {GOOGLE_PARTNER_SITES_DATA_URL}
+          </Link>
+        </p>
+      </section>
     </ContentPageShell>
   );
 }

@@ -106,7 +106,7 @@ For Vercel production:
 5. Save the variable.
 6. Redeploy the latest production deployment.
 
-The production build now fails intentionally if `NEXT_PUBLIC_GA_ID` is missing, so the site cannot silently deploy without the Google tag.
+The site uses `NEXT_PUBLIC_GA_ID` for the live Google tag configuration. Keep it set in Vercel production so Google Analytics loads with the expected measurement ID on deployed pages.
 
 ## AdSense readiness
 
@@ -118,6 +118,7 @@ The site includes:
 - A placeholder AdSense component that does not render live ad boxes before approval.
 - Footer navigation to the trust and policy pages on every page.
 - Blog publishing restricted to the stronger reviewed article set used on public blog pages and blog sitemaps.
+- Policy pages that explicitly cover invalid clicks, no click encouragement, traffic quality, ad placement, deceptive navigation, privacy disclosures, and sponsored-content labeling.
 
 ### After approval
 
@@ -127,3 +128,5 @@ The site includes:
 3. Redeploy.
 4. Verify `https://salaryincometax.com/ads.txt` is publicly reachable.
 5. Only enable real ad placements in clearly separated content areas that cannot be mistaken for navigation, calculators, or buttons.
+6. Do not encourage ad clicks, do not click your own ads, and do not buy invalid traffic from paid-to-click, autosurf, or click-exchange services.
+7. Keep ads away from menu items, country pickers, calculator controls, result tables, download-style prompts, and any arrows or visual hints that could cause accidental clicks.

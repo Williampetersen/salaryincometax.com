@@ -87,20 +87,21 @@ export default function PrivacyPolicyPage(): JSX.Element {
               title: "Google AdSense and advertising cookies",
               paragraphs: [
                 "The website may display ads through Google AdSense after approval. If advertising is activated in the future, Google and third-party vendors may use cookies to serve ads based on previous visits to this site or other sites.",
-                "Advertising-related scripts and storage are not activated until the relevant advertising consent has been granted through the site’s cookie controls.",
+                "Advertising-related scripts and storage are not activated until the relevant advertising consent has been granted through the site's cookie controls.",
+                "When advertising is active, Google or other participating vendors may place and read cookies, use web beacons, collect IP address information, or use similar identifiers to support ad delivery, measurement, fraud prevention, and ad personalization where legally permitted.",
               ],
             },
             {
               title: "Third-party vendors and Google partner-site data",
               paragraphs: [
                 "Third-party vendors, including Google, may process data in connection with analytics or advertising services when those services are active and consent has been provided where required.",
-                "Users can manage ad personalization through Google Ad Settings and can learn more about how Google uses data from partner sites through Google’s partner-sites data disclosure.",
+                "Users can manage ad personalization through Google Ad Settings and can learn more about how Google uses data from partner sites through Google's partner-sites data disclosure.",
               ],
             },
             {
               title: "Legal basis for EU and GDPR users",
               paragraphs: [
-                "Where the GDPR or similar laws apply, our legal bases may include consent for optional analytics and advertising cookies, legitimate interests for site security and essential operation, and steps taken at the user’s request when responding to contact inquiries.",
+                "Where the GDPR or similar laws apply, our legal bases may include consent for optional analytics and advertising cookies, legitimate interests for site security and essential operation, and steps taken at the user's request when responding to contact inquiries.",
                 "Essential website functions remain available even if optional analytics or advertising consent is rejected.",
               ],
             },
@@ -154,7 +155,7 @@ export default function PrivacyPolicyPage(): JSX.Element {
           ]}
         />
 
-        <section className="panel p-5 sm:p-7 text-base leading-8 text-ink/72">
+        <section className="panel p-5 text-base leading-8 text-ink/72 sm:p-7">
           <h2 className="font-[var(--font-display)] text-3xl font-bold tracking-tight text-ink">
             Helpful external controls
           </h2>
