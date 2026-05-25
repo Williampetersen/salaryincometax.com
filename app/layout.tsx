@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { Manrope, Space_Grotesk } from "next/font/google";
 import { Suspense } from "react";
 
@@ -135,6 +136,8 @@ export default function RootLayout({
         <SiteHeader />
         <main>{children}</main>
         <SiteFooter />
+        {/* Vercel Analytics runs globally here without changing the page layout. */}
+        <Analytics />
       </body>
     </html>
   );
