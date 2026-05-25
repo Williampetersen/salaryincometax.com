@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Manrope, Space_Grotesk } from "next/font/google";
 import { Suspense } from "react";
 
@@ -138,6 +139,8 @@ export default function RootLayout({
         <SiteFooter />
         {/* Vercel Analytics runs globally here without changing the page layout. */}
         <Analytics />
+        {/* Vercel Speed Insights collects performance metrics across all routes. */}
+        <SpeedInsights />
       </body>
     </html>
   );
