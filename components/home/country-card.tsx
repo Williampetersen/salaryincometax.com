@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { CountryFlag } from "@/components/shared/country-flag";
@@ -17,7 +18,7 @@ export function CountryCard({ country }: CountryCardProps): JSX.Element {
       href={`/salary-calculator/${country.slug}`}
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(93,184,224,0.2),transparent_32%),linear-gradient(180deg,rgba(255,255,255,0.2),rgba(255,255,255,0))] opacity-0 transition duration-300 group-hover:opacity-100" />
-      <div className="relative flex h-full items-center justify-between gap-4">
+      <div className="relative flex h-full items-center justify-between gap-3">
         <div className="min-w-0">
           <div className="flex items-center gap-4">
             <CountryFlag
@@ -39,9 +40,14 @@ export function CountryCard({ country }: CountryCardProps): JSX.Element {
             </div>
           </div>
         </div>
-        <div className="inline-flex shrink-0 items-center rounded-full bg-ink px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-ink/12 transition duration-300 group-hover:bg-sky group-hover:shadow-sky/20">
-          Calculate now
-        </div>
+        <Image
+          alt=""
+          aria-hidden="true"
+          className="h-10 w-10 shrink-0 object-contain transition duration-300 group-hover:translate-x-1"
+          height={40}
+          src="/arrow/arrownext.png"
+          width={40}
+        />
       </div>
     </Link>
   );
