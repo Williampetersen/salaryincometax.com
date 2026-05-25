@@ -1,5 +1,8 @@
 import { SITE_URL } from "@/lib/site";
 
+const DEFAULT_ADSENSE_ADS_TXT =
+  "google.com, pub-6566909288019503, DIRECT, f08c47fec0942fa0";
+
 function buildAdsTxt(): string {
   const configuredValue = process.env.ADSENSE_ADS_TXT?.trim();
 
@@ -7,14 +10,7 @@ function buildAdsTxt(): string {
     return configuredValue.endsWith("\n") ? configuredValue : `${configuredValue}\n`;
   }
 
-  return [
-    "# salaryincometax.com ads.txt",
-    "# Add your real Google AdSense publisher line after approval.",
-    "# Example format:",
-    "# google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0",
-    `# Site: ${SITE_URL}`,
-    "",
-  ].join("\n");
+  return `${DEFAULT_ADSENSE_ADS_TXT}\n`;
 }
 
 export async function GET(): Promise<Response> {
