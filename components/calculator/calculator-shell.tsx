@@ -276,10 +276,6 @@ export function CalculatorShell({
           </span>
         </div>
 
-        <div className="mb-5 rounded-3xl border border-ink/10 bg-white/80 px-4 py-3 text-sm leading-6 text-ink/70">
-          {coverageDescription}
-        </div>
-
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="sm:col-span-2">
             <label className="field-label" htmlFor="country-picker">
