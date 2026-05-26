@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { CountryGroups } from "@/components/home/country-groups";
+import { SalaryCountryMap } from "@/components/home/salary-country-map";
 import { TypewriterHeading } from "@/components/home/typewriter-heading";
 import { StructuredData } from "@/components/seo/structured-data";
 import { getAllCountries, getCountryGroups } from "@/lib/country-catalog";
@@ -182,6 +183,8 @@ export default function HomePage(): JSX.Element {
           <p className="mt-4 max-w-4xl text-sm leading-7 text-ink/70">{DISCLAIMER}</p>
         </div>
       </section>
+
+      <SalaryCountryMap countries={countries} />
     </div>
   );
 }

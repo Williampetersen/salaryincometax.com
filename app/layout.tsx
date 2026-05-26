@@ -9,6 +9,7 @@ import { CookieConsent } from "@/components/CookieConsent";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import "maplibre-gl/dist/maplibre-gl.css";
 import "@/app/globals.css";
 import {
   SITE_DEFAULT_OG_IMAGE,
