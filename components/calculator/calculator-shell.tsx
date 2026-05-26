@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 
 import { CountryPicker } from "@/components/calculator/country-picker";
 import { ComparisonChart } from "@/components/charts/comparison-chart";
@@ -68,6 +68,8 @@ export function CalculatorShell({
   const [error, setError] = useState<string | null>(null);
   const [recentHistory, setRecentHistory] = useState<HistoryItem[]>([]);
   const [form, setForm] = useState<CalculationInput>(initialResult.input);
+  const [resultAnimationKey, setResultAnimationKey] = useState(0);
+  const summaryRef = useRef<HTMLDivElement | null>(null);
   const coverageLabel = getCoverageLabel(rule.coverageLevel);
   const coverageDescription = getCoverageDescription(rule.coverageLevel);
 
@@ -150,6 +152,7 @@ export function CalculatorShell({
         }
 
         setResult(payload);
+        setResultAnimationKey((current) => current + 1);
         saveHistory(payload);
         trackEvent({
           action: "salary_calculated",
@@ -166,6 +169,15 @@ export function CalculatorShell({
             value: Math.round(payload.reverseEstimatedGross ?? payload.annual.gross),
           });
         }
+
+        window.setTimeout(() => {
+          if (window.matchMedia("(max-width: 1023px)").matches) {
+            summaryRef.current?.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        }, 80);
       })();
     });
   }
@@ -544,7 +556,14 @@ export function CalculatorShell({
       </form>
 
       <div className="min-w-0 space-y-6">
-        <section className="panel min-w-0 p-5 sm:p-7">
+        <section className="panel relative min-w-0 overflow-hidden p-5 sm:p-7">
+          {resultAnimationKey > 0 ? (
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-y-0 -left-1/2 z-10 w-1/2 bg-white/65 blur-[1px] animate-result-sweep"
+              key={resultAnimationKey}
+            />
+          ) : null}
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div className="min-w-0">
               <p className="eyebrow">Results</p>
@@ -562,7 +581,10 @@ export function CalculatorShell({
                   Estimated gross needed
                 </p>
                 <p className="mt-1 font-[var(--font-display)] text-2xl font-bold leading-tight">
-                  {formatCurrency(result.reverseEstimatedGross, result.currency)}
+                  <AnimatedNumber
+                    animationKey={resultAnimationKey}
+                    value={formatCurrency(result.reverseEstimatedGross, result.currency)}
+                  />
                 </p>
               </div>
             ) : null}
@@ -575,24 +597,31 @@ export function CalculatorShell({
 
           <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:hidden">
             <MetricCard
+              animationKey={resultAnimationKey}
               label="Gross salary"
               value={formatCurrency(result.annual.gross, result.currency)}
             />
             <MetricCard
+              animationKey={resultAnimationKey}
               label="Net salary"
               value={formatCurrency(result.annual.net, result.currency)}
             />
             <MetricCard
+              animationKey={resultAnimationKey}
               label="Total tax"
               value={formatCurrency(result.annual.totalTax, result.currency)}
             />
             <MetricCard
+              animationKey={resultAnimationKey}
               label="Effective rate"
               value={formatPercent(result.effectiveTaxRate)}
             />
           </div>
 
-          <div className="mt-6 hidden overflow-hidden rounded-4xl border border-ink/10 bg-white xl:block">
+          <div
+            className="mt-6 scroll-mt-24 overflow-hidden rounded-4xl border border-ink/10 bg-white"
+            ref={summaryRef}
+          >
             <div className="border-b border-ink/10 px-6 py-5">
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-ink/55">
                 Annual pay summary
@@ -603,7 +632,7 @@ export function CalculatorShell({
               </p>
             </div>
             <div className="overflow-x-auto">
-              <table className="min-w-full table-fixed">
+              <table className="min-w-[38rem] table-fixed xl:min-w-full">
                 <thead className="bg-ink/4 text-left text-xs uppercase tracking-[0.18em] text-ink/55">
                   <tr>
                     <th className="w-[24%] px-6 py-4 font-semibold">Metric</th>
@@ -618,7 +647,10 @@ export function CalculatorShell({
                     <tr className="border-t border-ink/8 align-top" key={row.label}>
                       <td className="px-6 py-4 font-semibold text-ink">{row.label}</td>
                       <td className="px-6 py-4 text-right font-[var(--font-display)] text-[1.75rem] font-bold leading-none tracking-tight text-ink tabular-nums whitespace-nowrap">
-                        {row.value}
+                        <AnimatedNumber
+                          animationKey={resultAnimationKey}
+                          value={row.value}
+                        />
                       </td>
                       <td className="px-6 py-4 text-sm leading-6 text-ink/68">
                         {row.note}
@@ -878,18 +910,58 @@ export function CalculatorShell({
 function MetricCard({
   label,
   value,
+  animationKey,
 }: {
   label: string;
   value: string;
+  animationKey: number;
 }): JSX.Element {
   return (
     <div className="min-w-0 rounded-3xl border border-ink/10 bg-white p-4">
       <p className="text-xs uppercase tracking-[0.18em] text-ink/50">{label}</p>
       <p className="mt-3 break-words font-[var(--font-display)] text-[clamp(1.75rem,2vw,2.5rem)] font-bold leading-[1.02] tracking-tight text-ink tabular-nums">
-        {value}
+        <AnimatedNumber animationKey={animationKey} value={value} />
       </p>
     </div>
   );
+}
+
+function AnimatedNumber({
+  animationKey,
+  value,
+}: {
+  animationKey: number;
+  value: string;
+}): JSX.Element {
+  const [displayValue, setDisplayValue] = useState(value);
+
+  useEffect(() => {
+    if (animationKey === 0) {
+      setDisplayValue(value);
+      return;
+    }
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setDisplayValue(value);
+      return;
+    }
+
+    let index = 0;
+    setDisplayValue("");
+
+    const interval = window.setInterval(() => {
+      index += 1;
+      setDisplayValue(value.slice(0, index));
+
+      if (index >= value.length) {
+        window.clearInterval(interval);
+      }
+    }, 28);
+
+    return () => window.clearInterval(interval);
+  }, [animationKey, value]);
+
+  return <span>{displayValue}</span>;
 }
 
 function TaxBlock({
