@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
 import { CountryGroups } from "@/components/home/country-groups";
@@ -98,18 +99,22 @@ export default function HomePage(): JSX.Element {
               <div className="grid gap-4 sm:grid-cols-2">
                 <FeatureCard
                   description="Yearly, monthly, weekly, daily, or hourly pay."
+                  iconSrc="/iconforhomepage/diagram.gif"
                   title="Pay periods"
                 />
                 <FeatureCard
                   description="Your last five checks stay in your browser."
+                  iconSrc="/iconforhomepage/connection.gif"
                   title="Saved history"
                 />
                 <FeatureCard
                   description="See your pay next to median salary and minimum wage."
+                  iconSrc="/iconforhomepage/money-bag.gif"
                   title="Salary compare"
                 />
                 <FeatureCard
                   description="Country tax rules are easy to update."
+                  iconSrc="/iconforhomepage/award (1).gif"
                   title="Tax rules"
                 />
               </div>
@@ -122,14 +127,10 @@ export default function HomePage(): JSX.Element {
         <div className="mb-8 flex items-end justify-between gap-4">
           <div>
             <p className="eyebrow">Regions</p>
-            <h2 className="mt-4 font-[var(--font-display)] text-3xl font-bold">
+            <h2 className="mt-4 font-[var(--font-display)] text-2xl font-bold sm:text-3xl">
               Choose a country
             </h2>
           </div>
-          <p className="max-w-xl text-sm leading-6 text-ink/62">
-            Each card opens a dedicated salary calculator page with dynamic SEO,
-            country-specific tax rules, a FAQ, and internal links to nearby markets.
-          </p>
         </div>
         <CountryGroups groups={groups} />
       </section>
@@ -205,12 +206,23 @@ function StatCard({
 function FeatureCard({
   title,
   description,
+  iconSrc,
 }: {
   title: string;
   description: string;
+  iconSrc: string;
 }): JSX.Element {
   return (
     <div className="rounded-3xl border border-ink/10 bg-white/78 p-5">
+      <Image
+        alt=""
+        aria-hidden="true"
+        className="mb-4 h-12 w-12 object-contain"
+        height={48}
+        src={iconSrc}
+        unoptimized
+        width={48}
+      />
       <p className="font-semibold text-ink">{title}</p>
       <p className="mt-2 text-sm leading-6 text-ink/62">{description}</p>
     </div>
