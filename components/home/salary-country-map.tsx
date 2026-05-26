@@ -100,7 +100,7 @@ export function SalaryCountryMap({ countries }: SalaryCountryMapProps): JSX.Elem
     const markerInstances = markers.map((country) => {
       const markerElement = document.createElement("a");
       markerElement.className =
-        "block h-4 w-4 rounded-full border-2 border-white bg-coral shadow-[0_0_0_6px_rgba(245,107,79,0.18)] transition hover:scale-110 focus:outline-none focus:ring-2 focus:ring-coral focus:ring-offset-2";
+        "block h-4 w-4 rounded-full border-2 border-white bg-moss shadow-[0_0_0_6px_rgba(49,95,76,0.18)] transition hover:scale-110 focus:outline-none focus:ring-2 focus:ring-moss focus:ring-offset-2";
       markerElement.href = `/salary-calculator/${country.slug}`;
       markerElement.title = `${country.name} salary calculator`;
       markerElement.setAttribute("aria-label", `${country.name} salary calculator`);
@@ -128,7 +128,7 @@ export function SalaryCountryMap({ countries }: SalaryCountryMapProps): JSX.Elem
   return (
     <section className="shell pt-12" id="country-map">
       <div className="panel overflow-hidden p-0">
-        <div className="grid gap-0 lg:grid-cols-[0.72fr_1.28fr]">
+        <div className="grid gap-0 lg:grid-cols-[0.48fr_1.52fr]">
           <div className="p-6 sm:p-8">
             <p className="eyebrow">Global coverage</p>
             <h2 className="mt-4 font-[var(--font-display)] text-2xl font-bold sm:text-3xl">
@@ -138,17 +138,6 @@ export function SalaryCountryMap({ countries }: SalaryCountryMapProps): JSX.Elem
               Explore the countries currently covered by the salary and income tax
               calculators.
             </p>
-            <div className="mt-6 grid grid-cols-2 gap-2 text-sm sm:grid-cols-3 lg:grid-cols-2">
-              {markers.map((country) => (
-                <a
-                  className="rounded-2xl border border-ink/10 bg-white/72 px-3 py-2 font-semibold text-ink transition hover:border-coral/30 hover:text-coral"
-                  href={`/salary-calculator/${country.slug}`}
-                  key={country.slug}
-                >
-                  {country.name}
-                </a>
-              ))}
-            </div>
           </div>
           <div className="min-h-[380px] border-t border-ink/10 lg:border-l lg:border-t-0">
             <div
