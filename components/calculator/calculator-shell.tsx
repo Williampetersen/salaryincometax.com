@@ -262,10 +262,6 @@ export function CalculatorShell({
             <h2 className="mt-4 font-[var(--font-display)] text-3xl font-bold text-ink">
               Calculator inputs
             </h2>
-            <p className="mt-2 text-sm leading-6 text-ink/66">
-              Adjust the core salary inputs first, then expand more options for tax
-              year, bonus, household details, and reverse calculation.
-            </p>
           </div>
           <span
             className={`status-chip ${

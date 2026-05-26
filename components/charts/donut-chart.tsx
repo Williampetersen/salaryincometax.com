@@ -36,7 +36,7 @@ export function DonutChart({
     }
 
     let frameId = 0;
-    const duration = 4000;
+    const duration = 1000;
     const startedAt = performance.now();
 
     function animate(now: number): void {
