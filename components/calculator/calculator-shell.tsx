@@ -69,7 +69,7 @@ export function CalculatorShell({
   const [recentHistory, setRecentHistory] = useState<HistoryItem[]>([]);
   const [form, setForm] = useState<CalculationInput>(initialResult.input);
   const [resultAnimationKey, setResultAnimationKey] = useState(0);
-  const summaryRef = useRef<HTMLDivElement | null>(null);
+  const taxSplitRef = useRef<HTMLDivElement | null>(null);
   const coverageLabel = getCoverageLabel(rule.coverageLevel);
   const coverageDescription = getCoverageDescription(rule.coverageLevel);
 
@@ -172,7 +172,7 @@ export function CalculatorShell({
 
         window.setTimeout(() => {
           if (window.matchMedia("(max-width: 1023px)").matches) {
-            summaryRef.current?.scrollIntoView({
+            taxSplitRef.current?.scrollIntoView({
               behavior: "smooth",
               block: "start",
             });
@@ -590,7 +590,32 @@ export function CalculatorShell({
             ) : null}
           </div>
 
-          <div className="mt-5 rounded-3xl border border-ink/10 bg-white/84 px-4 py-3 text-sm leading-6 text-ink/70">
+          <div
+            className="mt-6 scroll-mt-24 overflow-hidden rounded-4xl border border-ink/10 bg-white"
+            ref={taxSplitRef}
+          >
+            <div className="border-b border-ink/10 px-5 py-5 sm:px-6">
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-ink/55">
+                Tax split
+              </p>
+              <p className="mt-2 max-w-3xl text-sm leading-6 text-ink/62">
+                A separate annual view of take-home pay, income tax, social
+                contributions, and local charges.
+              </p>
+            </div>
+            <div className="bg-paper/35 p-5 sm:p-6">
+              <div className="mx-auto w-full max-w-[24rem] rounded-4xl border border-white/70 bg-white/80 p-5 shadow-card">
+                <DonutChart
+                  centerLabel="Annual net"
+                  centerValue={formatCurrency(result.annual.net, result.currency)}
+                  currency={result.currency}
+                  segments={donutSegments}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 rounded-3xl border border-ink/10 bg-white/84 px-4 py-3 text-sm leading-6 text-ink/70">
             <span className="font-semibold text-ink">{coverageLabel} coverage:</span>{" "}
             {coverageDescription} {rule.notes}
           </div>
@@ -620,7 +645,6 @@ export function CalculatorShell({
 
           <div
             className="mt-6 scroll-mt-24 overflow-hidden rounded-4xl border border-ink/10 bg-white"
-            ref={summaryRef}
           >
             <div className="border-b border-ink/10 px-6 py-5">
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-ink/55">
@@ -663,28 +687,6 @@ export function CalculatorShell({
           </div>
 
           <div className="mt-6 space-y-6">
-            <div className="overflow-hidden rounded-4xl border border-ink/10 bg-white">
-              <div className="border-b border-ink/10 px-5 py-5 sm:px-6">
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-ink/55">
-                  Tax split
-                </p>
-                <p className="mt-2 max-w-3xl text-sm leading-6 text-ink/62">
-                  A separate annual view of take-home pay, income tax, social
-                  contributions, and local charges.
-                </p>
-              </div>
-              <div className="p-5 sm:p-6">
-                <div className="mx-auto w-full max-w-[20rem]">
-                  <DonutChart
-                    centerLabel="Annual net"
-                    centerValue={formatCurrency(result.annual.net, result.currency)}
-                    currency={result.currency}
-                    segments={donutSegments}
-                  />
-                </div>
-              </div>
-            </div>
-
             <div className="overflow-hidden rounded-4xl border border-ink/10 bg-paper/60">
               <div className="border-b border-ink/10 px-5 py-5 sm:px-6">
                 <p className="text-sm font-semibold uppercase tracking-[0.2em] text-ink/55">
