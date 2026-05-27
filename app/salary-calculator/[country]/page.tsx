@@ -16,7 +16,6 @@ import {
   getCountrySummary,
   getRelatedCountries,
 } from "@/lib/country-catalog";
-import { getCalculatorExperienceData } from "@/lib/calculator-experience";
 import {
   absoluteUrl,
   buildBreadcrumbSchema,
@@ -83,7 +82,6 @@ export default function CountryPage({ params }: CountryPageProps): JSX.Element {
   const countryGroups = getCountryGroups();
   const faqItems = getCountryFaqItems(rule);
   const relatedCountries = getRelatedCountries(rule.slug, 4);
-  const experienceData = getCalculatorExperienceData(rule.slug);
   const structuredData = [
     buildBreadcrumbSchema([
       { name: "Home", url: absoluteUrl("/") },
@@ -133,7 +131,6 @@ export default function CountryPage({ params }: CountryPageProps): JSX.Element {
       <CalculatorShell
         country={country}
         countryGroups={countryGroups}
-        experienceData={experienceData}
         initialResult={initialResult}
         relatedCountries={relatedCountries}
         rule={rule}
