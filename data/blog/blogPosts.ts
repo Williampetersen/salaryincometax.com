@@ -44,9 +44,25 @@ const DETAILED_COST_COUNTRIES = new Set([
 ]);
 
 const DETAILED_TAX_COUNTRIES = new Set([
+  "australia",
+  "belgium",
+  "canada",
   "denmark",
+  "france",
   "germany",
+  "ireland",
+  "italy",
+  "japan",
+  "luxembourg",
+  "malta",
+  "netherlands",
+  "new-zealand",
+  "norway",
+  "singapore",
+  "spain",
+  "sweden",
   "united-kingdom",
+  "united-states",
 ]);
 
 const DETAILED_MINIMUM_WAGE_COUNTRIES = new Set(["canada", "ireland"]);
@@ -321,6 +337,18 @@ function buildCountryStatusNote(
   return status === "baseline" ? buildEstimateNote(locationName) : undefined;
 }
 
+function buildIncomeTaxCoverageNote(rule: CountryTaxRule): string | undefined {
+  if (rule.coverageLevel === "verified") {
+    return undefined;
+  }
+
+  if (rule.coverageLevel === "partial") {
+    return `This guide uses official tax-authority references for ${rule.countryName} and the current salary calculator model, but local, state, provincial, municipal, or household-specific payroll details can still change the exact payslip result.`;
+  }
+
+  return `This guide uses official public tax references and the current salary calculator model for ${rule.countryName}, but the route still needs deeper country-specific payroll coverage before it should be treated as a full official payroll calculation.`;
+}
+
 function getHousingPressure(costData: CostOfLivingArticleData): number {
   return costData.rentOneBedroom / Math.max(costData.averageNetMonthly, 1);
 }
@@ -443,16 +471,16 @@ function buildIncomeTaxSummaryBox(
   averageNetMonthly: number,
   topRate: number,
   taxYear: number,
-  status: BlogResearchStatus,
+  note?: string,
 ): BlogSummaryBox {
   return {
     title: `${countryName} income tax in plain English`,
     items: [
       `${countryName} uses a layered payroll model, so the final deduction is shaped by income tax, social contributions, and the tax year assumptions behind the calculation.`,
-      `The top configured income-tax rate in this baseline is ${formatPercent(topRate)} for tax year ${taxYear}, but your effective rate is lower because progressive systems tax income in slices.`,
+      `The top configured income-tax rate in the current guide model is ${formatPercent(topRate)} for tax year ${taxYear}, but your effective rate is lower because progressive systems tax income in slices.`,
       `A typical salary in this guide converts to about ${formatMaybeEstimate(averageNetMonthly, currency)} net per month, which is the number that should be compared with rent and household bills.`,
     ],
-    note: status === "baseline" ? buildEstimateNote(countryName) : undefined,
+    note,
   };
 }
 
@@ -475,7 +503,7 @@ function buildIncomeTaxPracticalExample(
     scenario: `Imagine a role advertised at ${formatMaybeEstimate(annualGross, currency)} gross per year in ${countryName}. The gross number helps negotiation, but it does not show what reaches the bank account each month.`,
     steps: [
       `Annualize the full package, including bonuses or extra salary months, before you estimate tax.`,
-      `Translate the result into a monthly net figure. In this baseline, that level of salary lands close to ${formatMaybeEstimate(monthlyNet, currency)} per month after tax and payroll deductions.`,
+      `Translate the result into a monthly net figure. In the current guide model, that level of salary lands close to ${formatMaybeEstimate(monthlyNet, currency)} per month after tax and payroll deductions.`,
       `Only then compare the offer with rent, savings goals, and local living costs. That prevents a strong-looking gross package from being mistaken for strong cash flow.`,
     ],
     takeaway: `The practical habit is to negotiate in gross pay, budget in net pay, and compare countries only after both numbers are on the same period basis.`,
@@ -758,7 +786,7 @@ function buildIncomeTaxFaq(
     },
     {
       question: `What is the average salary after tax in ${countryName}?`,
-      answer: `Using the current baseline salary in the calculator, a typical after-tax income works out to about ${formatCurrency(salary.averageNetMonthly, rule.currency)} per month.`,
+      answer: `Using the current guide salary in the calculator, a typical after-tax income works out to about ${formatCurrency(salary.averageNetMonthly, rule.currency)} per month.`,
     },
     {
       question: `Where can I calculate my take-home pay in ${countryName}?`,
@@ -1188,7 +1216,7 @@ function buildIncomeTaxPost(countrySlug: string): BlogPost {
   const taxData = TAX_DATA[countrySlug];
   const salary = SALARY_DATA[countrySlug];
   const researchStatus = buildResearchStatus(DETAILED_TAX_COUNTRIES.has(countrySlug));
-  const note = buildCountryStatusNote(researchStatus, country.name);
+  const note = buildIncomeTaxCoverageNote(rule);
 
   const sections = [
     createSection("Introduction", [
@@ -1201,7 +1229,7 @@ function buildIncomeTaxPost(countrySlug: string): BlogPost {
     ]),
     createSection("Gross Salary vs Net Salary", [
       `In ${country.name}, gross salary is the contract figure before deductions. Net salary is the amount left after income tax, payroll contributions, and other configured deductions have been processed.`,
-      `In the current baseline for ${country.name}, a salary around ${formatCurrency(salary.averageGrossAnnual, country.currency)} gross per year turns into about ${formatCurrency(salary.averageNetMonthly, country.currency)} net per month. That gap is exactly why gross-only comparisons can mislead job seekers.`,
+      `In the current guide model for ${country.name}, a salary around ${formatCurrency(salary.averageGrossAnnual, country.currency)} gross per year turns into about ${formatCurrency(salary.averageNetMonthly, country.currency)} net per month. That gap is exactly why gross-only comparisons can mislead job seekers.`,
     ], {
       table: {
         columns: ["Metric", "Value"],
@@ -1213,7 +1241,7 @@ function buildIncomeTaxPost(countrySlug: string): BlogPost {
       },
     }),
     createSection("Tax Brackets", [
-      `The current ${rule.taxYear} baseline for ${country.name} uses a progressive structure. In other words, higher rates apply only to the slice of taxable income above each threshold, not to the entire salary.`,
+      `The current ${rule.taxYear} guide model for ${country.name} uses a progressive structure. In other words, higher rates apply only to the slice of taxable income above each threshold, not to the entire salary.`,
       `That distinction matters in ${country.name} because many people mistake the top marginal rate for the rate on all earnings. Effective tax rates are normally much lower.`,
     ], {
       table: buildBracketTable(rule),
@@ -1226,7 +1254,7 @@ function buildIncomeTaxPost(countrySlug: string): BlogPost {
     }),
     createSection("Personal Allowances", [
       taxData.personalAllowanceSummary,
-      `The baseline model for ${country.name} includes a personal allowance of ${formatCurrency(rule.allowances.personal, country.currency)} and a child allowance of ${formatCurrency(rule.allowances.child, country.currency)} where applicable.`,
+      `The current guide model for ${country.name} includes a personal allowance of ${formatCurrency(rule.allowances.personal, country.currency)} and a child allowance of ${formatCurrency(rule.allowances.child, country.currency)} where applicable.`,
     ]),
     createSection("Tax Deductions", [
       taxData.deductionSummary,
@@ -1271,7 +1299,7 @@ function buildIncomeTaxPost(countrySlug: string): BlogPost {
     updatedAt: taxData.updatedAt,
     author: BLOG_AUTHOR,
     heroEyebrow: "Income tax guide",
-    heroSummary: `Income tax in ${country.name} is progressive and layered with payroll deductions. In the current baseline, the average salary after tax lands around ${formatCurrency(salary.averageNetMonthly, country.currency)} per month.`,
+    heroSummary: `Income tax in ${country.name} is progressive and layered with payroll deductions. In the current guide model, the average salary after tax lands around ${formatCurrency(salary.averageNetMonthly, country.currency)} per month.`,
     heroHighlights: [
       `Top configured rate: ${formatPercent(taxData.topRate)}`,
       `Average net salary: ${formatCurrency(salary.averageNetMonthly, country.currency)} per month`,
@@ -1284,14 +1312,14 @@ function buildIncomeTaxPost(countrySlug: string): BlogPost {
       salary.averageNetMonthly,
       taxData.topRate,
       rule.taxYear,
-      researchStatus,
+      note,
     ),
     whoThisGuideIsFor: buildIncomeTaxAudience(country.name),
     quickAnswers: [
       { question: `How does income tax work in ${country.name}?`, answer: taxData.howItWorks[0] },
       {
         question: "What is the top tax rate?",
-        answer: `The top configured rate in this baseline model is ${formatPercent(taxData.topRate)}.`,
+        answer: `The top configured rate in the current guide model is ${formatPercent(taxData.topRate)}.`,
       },
       {
         question: "What is the average salary after tax?",
