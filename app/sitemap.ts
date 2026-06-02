@@ -1,14 +1,14 @@
 import type { MetadataRoute } from "next";
 
 import { getAllBlogPosts, getBlogStaticPaths } from "@/lib/blog";
-import { getAllCountries } from "@/lib/country-catalog";
+import { getPublicCalculatorCountries } from "@/lib/country-catalog";
 import { STATIC_SITE_PAGES } from "@/lib/navigation";
 import { SITE_URL } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
 
-  const countryUrls = getAllCountries().map((country) => ({
+  const countryUrls = getPublicCalculatorCountries().map((country) => ({
     url: `${SITE_URL}/salary-calculator/${country.slug}`,
     changeFrequency: "weekly" as const,
     priority: 0.8,

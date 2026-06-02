@@ -5,6 +5,7 @@ import {
 } from "@/data/blog/countries";
 import { BLOG_POSTS } from "@/data/blog/blogPosts";
 import type { BlogCategorySlug, BlogFaqItem, BlogPost } from "@/data/blog/types";
+import { getPublicCalculatorCountries } from "@/lib/country-catalog";
 import { absoluteUrl } from "@/lib/seo";
 import { SITE_DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/site";
 
@@ -24,8 +25,16 @@ const FEATURED_BLOG_SLUGS = [
   "minimum-wage-in-ireland",
 ];
 
+const PUBLIC_CALCULATOR_COUNTRY_SLUGS = new Set(
+  getPublicCalculatorCountries().map((country) => country.slug),
+);
+const MINIMUM_COUNTRY_ARCHIVE_POSTS = 3;
+
 function isPublishedBlogPost(post: BlogPost): boolean {
-  return post.researchStatus === "expanded";
+  return (
+    post.researchStatus === "expanded" &&
+    PUBLIC_CALCULATOR_COUNTRY_SLUGS.has(post.countrySlug)
+  );
 }
 
 function getPublishedBlogPostSet(): BlogPost[] {
@@ -64,7 +73,15 @@ export function getBlogCategories() {
 
 export function getBlogCountries() {
   return BLOG_COUNTRIES.filter((country) =>
-    getPublishedBlogPostSet().some((post) => post.countrySlug === country.slug),
+    getPublishedBlogPostSet().filter((post) => post.countrySlug === country.slug).length >=
+      MINIMUM_COUNTRY_ARCHIVE_POSTS,
+  );
+}
+
+export function hasBlogCountryArchive(countrySlug: string): boolean {
+  return (
+    getPublishedBlogPostSet().filter((post) => post.countrySlug === countrySlug).length >=
+    MINIMUM_COUNTRY_ARCHIVE_POSTS
   );
 }
 
@@ -135,6 +152,7 @@ export function buildArticleSchema(post: BlogPost): Record<string, unknown> {
     author: {
       "@type": "Organization",
       name: post.author,
+      url: absoluteUrl("/authors/salaryincometax-editorial-team"),
     },
     publisher: {
       "@type": "Organization",

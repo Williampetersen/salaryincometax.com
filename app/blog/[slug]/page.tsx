@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { ArticleDecisionSupport } from "@/components/blog/article-decision-support";
 import { BlogBreadcrumbs } from "@/components/blog/blog-breadcrumbs";
 import { BlogCard } from "@/components/blog/blog-card";
 import { BlogFaq } from "@/components/blog/blog-faq";
@@ -19,6 +20,7 @@ import {
   getBlogPostBySlug,
   getBlogStaticPaths,
   getRelatedBlogPosts,
+  hasBlogCountryArchive,
 } from "@/lib/blog";
 import { absoluteUrl, buildBreadcrumbSchema } from "@/lib/seo";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
@@ -85,6 +87,10 @@ export default function BlogArticlePage({
   }
 
   const country = getBlogCountry(post.countrySlug);
+  const countryHref =
+    country && hasBlogCountryArchive(country.slug)
+      ? `/blog/country/${country.slug}`
+      : post.calculatorUrl;
   const relatedPosts = getRelatedBlogPosts(post.slug, 3);
   const structuredData = [
     buildBreadcrumbSchema([
@@ -143,7 +149,7 @@ export default function BlogArticlePage({
                   {country ? (
                     <Link
                       className="rounded-full bg-white/90 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-ink/70"
-                      href={`/blog/country/${country.slug}`}
+                      href={countryHref}
                     >
                       {country.name}
                     </Link>
@@ -159,6 +165,12 @@ export default function BlogArticlePage({
                   <span>{post.readingTime}</span>
                   <span>Updated {formatBlogDate(post.updatedAt)}</span>
                   <span>{post.author}</span>
+                  <Link
+                    className="underline underline-offset-4 transition hover:text-white"
+                    href="/authors/salaryincometax-editorial-team"
+                  >
+                    Editorial profile
+                  </Link>
                   {country ? (
                     <span className="inline-flex items-center gap-2">
                       <CountryFlag
@@ -186,6 +198,8 @@ export default function BlogArticlePage({
               </div>
             ))}
           </section>
+
+          <ArticleDecisionSupport post={post} />
 
           <section className="panel p-5 sm:p-6">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-coral">

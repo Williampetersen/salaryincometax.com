@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ContentPageShell } from "@/components/content/content-page-shell";
 import { ContentSections } from "@/components/content/content-sections";
 import { StructuredData } from "@/components/seo/structured-data";
-import { getAllCountries } from "@/lib/country-catalog";
+import { getPublicCalculatorCountries } from "@/lib/country-catalog";
 import { buildStaticPageMetadata } from "@/lib/navigation";
 import { absoluteUrl, buildBreadcrumbSchema } from "@/lib/seo";
 import { DISCLAIMER, SUPPORT_EMAIL } from "@/lib/site";
@@ -16,7 +16,7 @@ export const metadata: Metadata = buildStaticPageMetadata(
 );
 
 export default function AboutPage(): JSX.Element {
-  const countries = getAllCountries();
+  const countries = getPublicCalculatorCountries();
   const structuredData = [
     buildBreadcrumbSchema([
       { name: "Home", url: absoluteUrl("/") },
@@ -55,7 +55,7 @@ export default function AboutPage(): JSX.Element {
             {
               title: "Countries covered",
               paragraphs: [
-                "The calculator and blog system currently cover the following countries. Coverage quality differs by route and data model, but every published page is built from our own structured project files rather than copied content.",
+                "The public calculator catalog currently focuses on source-backed country models. Earlier estimate files stay internal until they have enough country-specific source coverage to provide useful public pages.",
               ],
             },
             {
@@ -63,6 +63,20 @@ export default function AboutPage(): JSX.Element {
               paragraphs: [
                 "Each calculator route converts the selected salary period into an annual gross figure, applies the configured tax-year assumptions, deductions, allowances, social contributions, and any local or regional payroll layers defined for that market, then converts the result back into yearly, monthly, weekly, daily, and hourly views.",
                 "Where reverse calculation is enabled, the site estimates the gross salary required to reach a desired net amount using an iterative search. That makes the tool useful for both pay analysis and salary negotiation planning.",
+              ],
+            },
+            {
+              title: "Editorial and review process",
+              paragraphs: [
+                "The editorial process starts with the user decision: comparing an offer, checking monthly take-home pay, planning a relocation, or understanding a payroll deduction. Articles are written to support that decision with examples, caveats, source notes, and links to the relevant calculator.",
+                "When a country model is not strong enough for public use, it stays out of public navigation and the sitemap until it has enough source-backed detail. That keeps the public site focused on pages that can genuinely help readers.",
+              ],
+            },
+            {
+              title: "Corrections and feedback",
+              paragraphs: [
+                "Readers, employers, payroll specialists, and tax professionals can report corrections or missing assumptions. Useful reports include the page URL, the tax year, the disputed figure, and a link to the official or public source that should be reviewed.",
+                `Correction requests can be sent through the contact page or directly to ${SUPPORT_EMAIL}.`,
               ],
             },
             {
@@ -96,6 +110,43 @@ export default function AboutPage(): JSX.Element {
                 {country.name}
               </Link>
             ))}
+          </div>
+        </section>
+
+        <section className="panel p-5 sm:p-7">
+          <h2 className="font-[var(--font-display)] text-3xl font-bold tracking-tight text-ink">
+            Editorial team and policies
+          </h2>
+          <p className="mt-4 text-base leading-8 text-ink/72">
+            The site keeps its editorial standards, author profile, source notes,
+            advertising rules, and correction process public so readers can judge
+            the work behind each calculator and guide.
+          </p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Link
+              className="rounded-full border border-ink/10 bg-white px-4 py-2.5 text-sm font-semibold text-ink transition hover:border-coral/25 hover:text-coral"
+              href="/authors/salaryincometax-editorial-team"
+            >
+              Editorial team
+            </Link>
+            <Link
+              className="rounded-full border border-ink/10 bg-white px-4 py-2.5 text-sm font-semibold text-ink transition hover:border-coral/25 hover:text-coral"
+              href="/editorial-policy"
+            >
+              Editorial policy
+            </Link>
+            <Link
+              className="rounded-full border border-ink/10 bg-white px-4 py-2.5 text-sm font-semibold text-ink transition hover:border-coral/25 hover:text-coral"
+              href="/sources"
+            >
+              Sources
+            </Link>
+            <Link
+              className="rounded-full border border-ink/10 bg-white px-4 py-2.5 text-sm font-semibold text-ink transition hover:border-coral/25 hover:text-coral"
+              href="/contact"
+            >
+              Contact
+            </Link>
           </div>
         </section>
       </div>

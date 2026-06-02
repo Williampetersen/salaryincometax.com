@@ -66,6 +66,7 @@ export const FOOTER_LINK_GROUPS: Array<{
     heading: "Company",
     links: [
       { href: "/about", label: "About" },
+      { href: "/authors/salaryincometax-editorial-team", label: "Editorial Team" },
       { href: "/editorial-policy", label: "Editorial Policy" },
       { href: "/advertising-policy", label: "Advertising Policy" },
       { href: "/sources", label: "Sources" },
@@ -85,6 +86,7 @@ export const FOOTER_LINK_GROUPS: Array<{
 export const STATIC_SITE_PAGES = [
   "/about",
   "/contact",
+  "/authors/salaryincometax-editorial-team",
   "/privacy-policy",
   "/cookie-policy",
   "/terms",

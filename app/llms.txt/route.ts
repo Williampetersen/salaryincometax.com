@@ -2,12 +2,12 @@ import {
   getFeaturedBlogPosts,
   getBlogCategories,
 } from "@/lib/blog";
-import { getAllCountries } from "@/lib/country-catalog";
+import { getPublicCalculatorCountries } from "@/lib/country-catalog";
 import { STATIC_SITE_PAGES } from "@/lib/navigation";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
 export async function GET(): Promise<Response> {
-  const countries = getAllCountries();
+  const countries = getPublicCalculatorCountries();
   const categories = getBlogCategories();
   const featuredBlogPosts = getFeaturedBlogPosts(10);
 

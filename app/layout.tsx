@@ -19,9 +19,15 @@ import {
   SITE_URL,
 } from "@/lib/site";
 import {
+  ADSENSE_CLIENT_ID,
   GA_TRACKING_ID,
   GOOGLE_CONSENT_WAIT_FOR_UPDATE_MS,
 } from "@/lib/gtag";
+import {
+  ADDITIONAL_HEAD_SCRIPT_URLS,
+  GOOGLE_CERTIFIED_CMP_ACTIVE,
+  GOOGLE_CERTIFIED_CMP_SCRIPT_SRC,
+} from "@/lib/head-scripts";
 const bodyFont = Manrope({
   subsets: ["latin"],
   variable: "--font-body",
@@ -97,10 +103,47 @@ export default function RootLayout({
 }>): JSX.Element {
   const shouldInstallGoogleTag =
     process.env.NODE_ENV === "production" && Boolean(GA_TRACKING_ID);
+  const shouldInstallAdSenseCode =
+    process.env.NODE_ENV === "production" && Boolean(ADSENSE_CLIENT_ID);
+  const shouldInstallCertifiedCmpScript =
+    process.env.NODE_ENV === "production" && Boolean(GOOGLE_CERTIFIED_CMP_SCRIPT_SRC);
 
   return (
     <html className={`${bodyFont.variable} ${displayFont.variable}`} lang="en">
       <head>
+        <script
+          id="google-privacy-messaging-bootstrap"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.googlefc = window.googlefc || {};
+              window.googlefc.callbackQueue = window.googlefc.callbackQueue || [];
+            `,
+          }}
+        />
+        {shouldInstallCertifiedCmpScript ? (
+          <script
+            async
+            data-purpose="google-certified-cmp"
+            src={GOOGLE_CERTIFIED_CMP_SCRIPT_SRC}
+          />
+        ) : null}
+        {process.env.NODE_ENV === "production"
+          ? ADDITIONAL_HEAD_SCRIPT_URLS.map((scriptUrl) => (
+              <script
+                async
+                data-purpose="additional-head-script"
+                key={scriptUrl}
+                src={scriptUrl}
+              />
+            ))
+          : null}
+        {shouldInstallAdSenseCode ? (
+          <script
+            async
+            crossOrigin="anonymous"
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`}
+          />
+        ) : null}
         {shouldInstallGoogleTag ? (
           <>
             <script
@@ -134,7 +177,7 @@ export default function RootLayout({
           <GoogleAnalytics />
         </Suspense>
         <AnalyticsClickTracker />
-        <CookieConsent />
+        <CookieConsent certifiedCmpActive={GOOGLE_CERTIFIED_CMP_ACTIVE} />
         <SiteHeader />
         <main>{children}</main>
         <SiteFooter />

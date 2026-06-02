@@ -25,6 +25,11 @@ export function TableOfContents({
             </li>
           ))}
           <li>
+            <a className="transition hover:text-coral" href="#decision-checklist">
+              Decision checklist
+            </a>
+          </li>
+          <li>
             <a className="transition hover:text-coral" href="#faq">
               FAQ
             </a>

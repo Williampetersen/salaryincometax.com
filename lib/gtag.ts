@@ -4,11 +4,12 @@
 // variable as the primary source, but fall back to the production site ID so a
 // missed Vercel env setting does not silently remove the Google tag.
 const DEFAULT_GA_TRACKING_ID = "G-JKSYLWLEVD";
+const DEFAULT_ADSENSE_CLIENT_ID = "ca-pub-6566909288019503";
 
 export const GA_TRACKING_ID =
   process.env.NEXT_PUBLIC_GA_ID?.trim() || DEFAULT_GA_TRACKING_ID;
 export const ADSENSE_CLIENT_ID =
-  process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID ?? "";
+  process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID?.trim() || DEFAULT_ADSENSE_CLIENT_ID;
 export const COOKIE_PREFERENCES_KEY = "salaryincometax-cookie-preferences";
 export const GOOGLE_CONSENT_WAIT_FOR_UPDATE_MS = 500;
 
@@ -35,6 +36,10 @@ interface GoogleConsentState {
 declare global {
   interface Window {
     dataLayer: unknown[];
+    googlefc?: {
+      callbackQueue?: Array<Record<string, () => void> | (() => void)>;
+      showRevocationMessage?: () => void;
+    };
     gtag?: (...args: unknown[]) => void;
   }
 }
@@ -177,6 +182,26 @@ export function updateGoogleConsent(
   const nextConsentState = buildGoogleConsentState(preferences);
   debugLog("consent update", nextConsentState);
   window.gtag?.("consent", "update", nextConsentState);
+}
+
+export function requestGoogleConsentRevocationMessage(): boolean {
+  if (!isBrowser()) {
+    return false;
+  }
+
+  const googlefc = window.googlefc;
+
+  if (!googlefc?.callbackQueue) {
+    return false;
+  }
+
+  googlefc.callbackQueue.push({
+    CONSENT_API_READY: () => {
+      window.googlefc?.showRevocationMessage?.();
+    },
+  });
+
+  return true;
 }
 
 function canTrack(): boolean {

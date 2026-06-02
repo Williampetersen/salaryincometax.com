@@ -44,7 +44,7 @@ export default function AdvertisingPolicyPage(): JSX.Element {
             title: "Google AdSense and policy scope",
             paragraphs: [
               "Salaryincometax.com may display advertising through Google AdSense after approval. Advertising will be integrated in a way that does not interfere with calculator use, article readability, or site navigation.",
-              "AdSense is not active by default before approval, and the site does not intentionally display empty ad boxes, deceptive ad placeholders, or visual elements that could be mistaken for paid ads.",
+              "The AdSense publisher script may be present for verification and site-readiness review, but the site does not intentionally display ad units, empty ad boxes, deceptive ad placeholders, or visual elements that could be mistaken for paid ads before approval.",
               "If AdSense is enabled later, this site will follow the Google AdSense Program Policies, Google ad placement policies, Google Publisher Policies, and related privacy requirements that apply to publishers.",
             ],
           },
@@ -94,7 +94,8 @@ export default function AdvertisingPolicyPage(): JSX.Element {
           {
             title: "Privacy, cookies, and ad personalization",
             paragraphs: [
-              "Advertising-related scripts and storage are only relevant after AdSense activation and are subject to the site's cookie consent controls. Users can reject advertising cookies or change preferences later through the cookie settings control.",
+              "Advertising-related scripts and storage are only relevant after AdSense activation and are subject to consent controls. For users in the European Economic Area, the United Kingdom, and Switzerland, ad consent should be collected through Google Privacy & Messaging or another Google-certified CMP integrated with the IAB Transparency and Consent Framework before personalized ads are served.",
+              "Users can reject advertising cookies or change preferences later through the cookie settings control. Where Google's certified Privacy & Messaging CMP is active, that control opens the Google consent revocation flow rather than relying only on the site's local fallback banner.",
               "The site's Privacy Policy and Cookie Policy explain how Google-related cookies, identifiers, partner-site data, and optional ad-personalization settings are handled.",
             ],
           },

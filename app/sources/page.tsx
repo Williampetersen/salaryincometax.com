@@ -8,7 +8,7 @@ import { COUNTRY_COST_OF_LIVING_DATA } from "@/data/blog/costOfLivingData";
 import { SALARY_DATA } from "@/data/blog/salaryData";
 import { TAX_RULES } from "@/data/tax-rules";
 import {
-  getAllCountries,
+  getPublicCalculatorCountries,
   getCoverageLabel,
 } from "@/lib/country-catalog";
 import { buildStaticPageMetadata } from "@/lib/navigation";
@@ -22,7 +22,7 @@ export const metadata: Metadata = buildStaticPageMetadata(
 );
 
 export default function SourcesPage(): JSX.Element {
-  const countries = getAllCountries();
+  const countries = getPublicCalculatorCountries();
   const structuredData = [
     buildBreadcrumbSchema([
       { name: "Home", url: absoluteUrl("/") },
@@ -66,7 +66,7 @@ export default function SourcesPage(): JSX.Element {
             {
               title: "Cost of living data sources",
               paragraphs: [
-                "Cost-of-living guides use structured market baselines for rent, transport, food, utilities, childcare, and household budgets. For some countries and cities the content is detailed and publish-ready, while others remain structured templates that are clearly marked for future data refreshes.",
+                "Cost-of-living guides use structured market baselines for rent, transport, food, utilities, childcare, and household budgets. Public guides are limited to pages with enough country or city detail to be useful for planning.",
               ],
             },
             {
@@ -80,7 +80,7 @@ export default function SourcesPage(): JSX.Element {
               title: "Update schedule",
               paragraphs: [
                 "Core tax-year rules, legal pages, and major country guides are reviewed on a recurring basis and when major tax or methodology changes are identified.",
-                "For public editorial routes, the site can restrict publishing to the stronger reviewed article set while lower-confidence drafts remain in the structured data layer until they are ready for broader indexing.",
+                "For public editorial routes, the site restricts publishing to the stronger reviewed article set while lighter internal notes remain out of public indexing until they are ready.",
               ],
             },
             {
@@ -143,7 +143,7 @@ export default function SourcesPage(): JSX.Element {
                         <td className="px-4 py-3 text-ink/72">{rule.source.length}</td>
                         <td className="px-4 py-3 text-ink/72">{salary.sources.length}</td>
                         <td className="px-4 py-3 text-ink/72">
-                          {costData.updatedAt.startsWith("2026") ? "Tracked" : "Needs refresh"}
+                          {costData.updatedAt.startsWith("2026") ? "Tracked" : "Baseline"}
                         </td>
                       </tr>
                     );

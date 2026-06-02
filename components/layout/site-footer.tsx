@@ -44,7 +44,7 @@ export function SiteFooter(): JSX.Element {
         </div>
       </div>
       <div className="shell border-t border-ink/8 py-4 text-xs uppercase tracking-[0.16em] text-ink/48">
-        © {year} {SITE_NAME}. All rights reserved.
+        &copy; {year} {SITE_NAME}. All rights reserved.
       </div>
     </footer>
   );

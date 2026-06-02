@@ -5,7 +5,7 @@ import {
   getCoverageLabel,
   type CountrySummary,
 } from "@/lib/country-catalog";
-import { formatCurrency } from "@/lib/formatters";
+import { formatCurrency, formatPercent } from "@/lib/formatters";
 import type { CountryTaxRule } from "@/lib/tax-engine/types";
 
 interface CountrySeoContentProps {
@@ -23,6 +23,16 @@ export function CountrySeoContent({
   const statusLabels = rule.personalStatuses.map((status) => status.label).join(", ");
   const coverageLabel = getCoverageLabel(rule.coverageLevel);
   const coverageDescription = getCoverageDescription(rule.coverageLevel);
+  const bracketSummary = buildBracketSummary(rule);
+  const deductionSummary = rule.standardDeductions
+    .map((deduction) => deduction.name)
+    .join(", ");
+  const contributionSummary = rule.socialSecurityRules
+    .map((contribution) => contribution.name)
+    .join(", ");
+  const regionalSummary = rule.regionalTaxes
+    .map((regionalTax) => regionalTax.name)
+    .join(", ");
 
   return (
     <section className="panel p-6 sm:p-8">
@@ -61,6 +71,9 @@ export function CountrySeoContent({
               freelance alternatives, and bonus scenarios in {rule.countryName}. It
               supports personal status options such as {statusLabels.toLowerCase()},
               plus children, extra income, and reverse net-to-gross planning.
+            </p>
+            <p>
+              Model note: {rule.notes}
             </p>
           </div>
         </div>
@@ -116,6 +129,49 @@ export function CountrySeoContent({
 
         <div className="rounded-4xl border border-ink/10 bg-white p-5">
           <h3 className="font-[var(--font-display)] text-2xl font-bold">
+            How this {rule.countryName} model is built
+          </h3>
+          <div className="mt-4 space-y-3 text-sm leading-7 text-ink/70">
+            <p>
+              The {rule.taxYear} rule starts from a median salary benchmark of{" "}
+              {formatCurrency(rule.medianSalary, rule.currency)} and a minimum-wage
+              benchmark of {formatCurrency(rule.minimumWage, rule.currency)}. The
+              default calculator amount uses the median salary so users see a
+              realistic first result before editing the input.
+            </p>
+            <p>
+              Income tax brackets in this model are summarized as {bracketSummary}.
+              Standard deductions include {deductionSummary || "no configured standard deduction"},
+              while employee contribution rules include{" "}
+              {contributionSummary || "no configured employee contribution"}.
+            </p>
+            <p>
+              {regionalSummary
+                ? `Regional or local payroll layers include ${regionalSummary}.`
+                : "No regional or local payroll layer is configured for this country model."}{" "}
+              Because payroll rules can vary by household, employer, local authority,
+              and benefit package, the result should be treated as a planning
+              estimate rather than a final tax assessment.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-8 grid gap-6 lg:grid-cols-2">
+        <div className="rounded-4xl border border-ink/10 bg-paper/50 p-5">
+          <h3 className="font-[var(--font-display)] text-2xl font-bold">
+            Practical ways to use this page
+          </h3>
+          <ul className="mt-4 space-y-3 text-sm leading-7 text-ink/70">
+            <li>Compare a written job offer with the default median salary benchmark.</li>
+            <li>Switch from yearly to monthly or weekly pay if your offer uses another period.</li>
+            <li>Use extra income for a bonus or allowance that should be included in annual gross pay.</li>
+            <li>Run reverse mode when you know the net salary you want to negotiate toward.</li>
+          </ul>
+        </div>
+
+        <div className="rounded-4xl border border-ink/10 bg-white p-5">
+          <h3 className="font-[var(--font-display)] text-2xl font-bold">
             Source and update notes
           </h3>
           <p className="mt-4 text-sm leading-7 text-ink/70">
@@ -138,6 +194,32 @@ export function CountrySeoContent({
               </li>
             ))}
           </ul>
+        </div>
+      </div>
+
+      <div className="mt-8 grid gap-6 lg:grid-cols-2">
+        <div className="rounded-4xl border border-ink/10 bg-white p-5">
+          <h3 className="font-[var(--font-display)] text-2xl font-bold">
+            Common mistakes when estimating {rule.countryName} net pay
+          </h3>
+          <ul className="mt-4 space-y-3 text-sm leading-7 text-ink/70">
+            <li>Comparing a gross annual offer with monthly rent before converting salary to monthly net pay.</li>
+            <li>Treating the top tax bracket as if it applies to the full salary instead of the relevant taxable slice.</li>
+            <li>Forgetting that bonuses, paid months, pension choices, benefits, and local payroll layers can change the payslip.</li>
+            <li>Using the default median salary result without replacing it with the actual offer or target salary.</li>
+          </ul>
+        </div>
+
+        <div className="rounded-4xl border border-ink/10 bg-paper/50 p-5">
+          <h3 className="font-[var(--font-display)] text-2xl font-bold">
+            Before you rely on the result
+          </h3>
+          <ol className="mt-4 space-y-3 text-sm leading-7 text-ink/70">
+            <li>1. Confirm the tax year and make sure the salary period matches your offer.</li>
+            <li>2. Add recurring taxable bonuses or allowances as extra income when they are part of the package.</li>
+            <li>3. Compare the monthly net result with housing, commute, childcare, insurance, and savings needs.</li>
+            <li>4. Ask payroll, HR, or a qualified adviser to confirm edge cases before making a binding decision.</li>
+          </ol>
         </div>
       </div>
 
@@ -185,4 +267,24 @@ function InfoRow({
       <dd className="text-right font-semibold text-ink">{value}</dd>
     </div>
   );
+}
+
+function buildBracketSummary(rule: CountryTaxRule): string {
+  const brackets =
+    rule.incomeTaxBrackets.default ?? Object.values(rule.incomeTaxBrackets)[0] ?? [];
+
+  if (brackets.length === 0) {
+    return "no configured progressive brackets";
+  }
+
+  return brackets
+    .map((bracket) => {
+      const threshold =
+        bracket.upTo == null
+          ? "remaining taxable income"
+          : `income up to ${formatCurrency(bracket.upTo, rule.currency)}`;
+
+      return `${formatPercent(bracket.rate)} on ${threshold}`;
+    })
+    .join("; ");
 }

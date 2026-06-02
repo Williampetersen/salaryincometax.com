@@ -101,11 +101,41 @@ export function getAllCountries(): CountrySummary[] {
     });
 }
 
+export function isPublicCalculatorCountry(country: CountrySummary): boolean {
+  return (
+    country.implementationStatus === "complete" &&
+    country.coverageLevel !== "estimate"
+  );
+}
+
+export function getPublicCalculatorCountries(): CountrySummary[] {
+  return getAllCountries().filter(isPublicCalculatorCountry);
+}
+
 export function getCountryGroups(): Array<{
   region: Region;
   countries: CountrySummary[];
 }> {
   const countries = getAllCountries();
+  const groups = new Map<Region, CountrySummary[]>();
+
+  for (const country of countries) {
+    const existing = groups.get(country.region) ?? [];
+    existing.push(country);
+    groups.set(country.region, existing);
+  }
+
+  return Array.from(groups.entries()).map(([region, countriesInRegion]) => ({
+    region,
+    countries: countriesInRegion,
+  }));
+}
+
+export function getPublicCountryGroups(): Array<{
+  region: Region;
+  countries: CountrySummary[];
+}> {
+  const countries = getPublicCalculatorCountries();
   const groups = new Map<Region, CountrySummary[]>();
 
   for (const country of countries) {
@@ -134,7 +164,7 @@ export function getRelatedCountries(
     return [];
   }
 
-  const countries = getAllCountries().filter(
+  const countries = getPublicCalculatorCountries().filter(
     (country) => country.slug !== currentSlug,
   );
   const sameRegion = countries.filter(

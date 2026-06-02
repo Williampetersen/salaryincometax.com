@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { BlogBreadcrumbs } from "@/components/blog/blog-breadcrumbs";
@@ -10,6 +11,7 @@ import {
   getBlogCountries,
   getBlogPostsByCountry,
   getBlogStaticPaths,
+  hasBlogCountryArchive,
 } from "@/lib/blog";
 import { getBlogCountry } from "@/data/blog/countries";
 import { absoluteUrl, buildBreadcrumbSchema } from "@/lib/seo";
@@ -21,6 +23,8 @@ interface BlogCountryPageProps {
   };
 }
 
+export const dynamicParams = false;
+
 export function generateStaticParams(): Array<{ country: string }> {
   return getBlogStaticPaths().countries.map((country) => ({ country }));
 }
@@ -30,7 +34,7 @@ export function generateMetadata({
 }: BlogCountryPageProps): Metadata {
   const country = getBlogCountry(params.country);
 
-  if (!country) {
+  if (!country || !hasBlogCountryArchive(country.slug)) {
     return {
       title: "Country blog archive",
     };
@@ -57,7 +61,7 @@ export default function BlogCountryPage({
 }: BlogCountryPageProps): JSX.Element {
   const country = getBlogCountry(params.country);
 
-  if (!country) {
+  if (!country || !hasBlogCountryArchive(country.slug)) {
     notFound();
   }
 
@@ -114,11 +118,58 @@ export default function BlogCountryPage({
         </p>
       </div>
 
+      <section className="panel mt-8 grid gap-5 p-5 sm:p-7 lg:grid-cols-3">
+        <CountryArchiveCard
+          text={`Start with the ${country.name} salary calculator to translate a gross offer into monthly net pay, then use these guides to judge rent, tax, and affordability.`}
+          title="Start with take-home pay"
+        />
+        <CountryArchiveCard
+          text={`Use the ${country.name} tax and cost guides together. Tax explains the paycheck; housing and routine costs explain whether the paycheck is enough.`}
+          title="Read tax and costs together"
+        />
+        <CountryArchiveCard
+          text="Replace benchmark numbers with current quotes from employers, landlords, childcare providers, insurers, or official local data before making a final decision."
+          title="Verify before acting"
+        />
+      </section>
+
+      <section className="mt-6 rounded-4xl border border-sand/70 bg-sand/35 p-5 text-sm leading-7 text-ink/72 sm:p-6">
+        <p className="font-semibold text-ink">Best next step</p>
+        <p className="mt-2">
+          If you are evaluating an offer in {country.name}, open the{" "}
+          <Link
+            className="font-semibold text-coral hover:text-ink"
+            href={country.calculatorUrl}
+          >
+            {country.name} salary calculator
+          </Link>{" "}
+          first, then return to this archive for articles that explain the result
+          and the local budget around it.
+        </p>
+      </section>
+
       <div className="mt-8 grid gap-5 lg:grid-cols-2 2xl:grid-cols-3">
         {posts.map((post) => (
           <BlogCard key={post.slug} post={post} />
         ))}
       </div>
+    </div>
+  );
+}
+
+function CountryArchiveCard({
+  text,
+  title,
+}: {
+  text: string;
+  title: string;
+}): JSX.Element {
+  return (
+    <div className="rounded-3xl border border-ink/10 bg-white p-4">
+      <h2 className="font-[var(--font-display)] text-2xl font-bold text-ink">
+        {title}
+      </h2>
+      <p className="mt-3 text-sm leading-7 text-ink/68">{text}</p>
     </div>
   );
 }

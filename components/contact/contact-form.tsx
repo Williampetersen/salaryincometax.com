@@ -304,6 +304,15 @@ export function ContactForm(): JSX.Element {
             for more detail.
           </p>
         </div>
+        <div className="mt-5 rounded-3xl border border-sand/70 bg-sand/35 p-4 text-sm leading-7 text-ink/68">
+          <p className="font-semibold text-ink">For correction requests</p>
+          <p className="mt-2">
+            Include the page URL, the tax year, the figure or paragraph you want
+            reviewed, and the official or public source you believe should be used.
+            That makes it much easier to check the issue and update the page
+            accurately.
+          </p>
+        </div>
       </div>
     </div>
   );

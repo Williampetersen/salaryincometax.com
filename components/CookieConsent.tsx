@@ -8,12 +8,21 @@ import {
   getCookiePreferences,
   hasMadeCookieChoice,
   persistCookiePreferences,
+  requestGoogleConsentRevocationMessage,
   type CookiePreferences,
 } from "@/lib/gtag";
 
+interface CookieConsentProps {
+  certifiedCmpActive?: boolean;
+}
+
 // GDPR-focused cookie banner with explicit preferences for essential,
-// analytics, and advertising cookies.
-export function CookieConsent(): JSX.Element {
+// analytics, and advertising cookies. When a Google-certified CMP is active,
+// this component defers first-choice collection to that CMP and remains as a
+// local fallback/settings entry point.
+export function CookieConsent({
+  certifiedCmpActive = false,
+}: CookieConsentProps): JSX.Element {
   const [preferences, setPreferences] = useState<CookiePreferences>(
     DEFAULT_COOKIE_PREFERENCES,
   );
@@ -23,8 +32,8 @@ export function CookieConsent(): JSX.Element {
   useEffect(() => {
     const storedPreferences = getCookiePreferences();
     setPreferences(storedPreferences ?? DEFAULT_COOKIE_PREFERENCES);
-    setIsBannerOpen(!hasMadeCookieChoice());
-  }, []);
+    setIsBannerOpen(!certifiedCmpActive && !hasMadeCookieChoice());
+  }, [certifiedCmpActive]);
 
   function savePreferences(nextPreferences: CookiePreferences): void {
     persistCookiePreferences(nextPreferences);
@@ -46,7 +55,9 @@ export function CookieConsent(): JSX.Element {
           <p className="mt-3 text-sm leading-7 text-ink/70">
             Essential cookies keep the site working. Analytics cookies help us
             understand usage, and advertising cookies are only relevant after
-            AdSense approval. You can read more in our{" "}
+            AdSense approval. If Google Privacy & Messaging is active in your
+            region, Google&apos;s certified CMP may also ask for consent. You can
+            read more in our{" "}
             <Link className="text-coral hover:text-ink" href="/privacy-policy">
               Privacy Policy
             </Link>{" "}
@@ -130,10 +141,18 @@ export function CookieConsent(): JSX.Element {
         </div>
       ) : null}
 
-      {hasMadeCookieChoice() ? (
+      {certifiedCmpActive || hasMadeCookieChoice() ? (
         <button
           className="fixed bottom-4 right-4 z-40 rounded-full border border-ink/12 bg-white/92 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-ink/65 shadow-card transition hover:border-coral/30 hover:text-coral"
           onClick={() => {
+            const requestedCertifiedCmp = certifiedCmpActive
+              ? requestGoogleConsentRevocationMessage()
+              : false;
+
+            if (requestedCertifiedCmp) {
+              return;
+            }
+
             setPreferences(getCookiePreferences() ?? DEFAULT_COOKIE_PREFERENCES);
             setIsBannerOpen(true);
             setIsManagingPreferences(true);

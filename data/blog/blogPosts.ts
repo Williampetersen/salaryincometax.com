@@ -51,16 +51,6 @@ const DETAILED_TAX_COUNTRIES = new Set([
   "france",
   "germany",
   "ireland",
-  "italy",
-  "japan",
-  "luxembourg",
-  "malta",
-  "netherlands",
-  "new-zealand",
-  "norway",
-  "singapore",
-  "spain",
-  "sweden",
   "united-kingdom",
   "united-states",
 ]);
@@ -1319,7 +1309,7 @@ function buildIncomeTaxPost(countrySlug: string): BlogPost {
       { question: `How does income tax work in ${country.name}?`, answer: taxData.howItWorks[0] },
       {
         question: "What is the top tax rate?",
-        answer: `The top configured rate in the current guide model is ${formatPercent(taxData.topRate)}.`,
+        answer: `For ${country.name}, the top configured rate in the current guide model is ${formatPercent(taxData.topRate)}.`,
       },
       {
         question: "What is the average salary after tax?",

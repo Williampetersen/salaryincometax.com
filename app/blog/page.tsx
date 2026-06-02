@@ -75,9 +75,9 @@ export default function BlogIndexPage(): JSX.Element {
           the same flow.
         </p>
         <p className="mt-3 text-sm leading-7 text-ink/62">
-          Public blog pages are limited to the stronger reviewed article set.
-          Lower-confidence drafts stay in the internal data layer until they are
-          upgraded.
+          Public blog pages are limited to reviewed articles with country-specific
+          examples, calculator links, and data notes. Lighter internal notes are
+          kept out of public indexing until they are ready.
         </p>
       </div>
 

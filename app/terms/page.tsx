@@ -45,6 +45,16 @@ export default function TermsPage(): JSX.Element {
             title: "Calculator estimates",
             paragraphs: [
               "Calculator results are estimates generated from structured assumptions and country-specific rule files. They are not payroll slips, tax filings, or official tax authority outputs.",
+              "A result can be useful for comparing job offers, checking whether a monthly budget is realistic, or preparing questions for HR, payroll, or an adviser. It should not be treated as a final assessment of tax due, benefits eligibility, pension treatment, or residency status.",
+            ],
+          },
+          {
+            title: "Appropriate use examples",
+            bullets: [
+              "Comparing the same gross salary across two countries before a relocation discussion.",
+              "Estimating monthly take-home pay before signing a lease or accepting an offer.",
+              "Using reverse mode to understand the gross salary range needed for a target net income.",
+              "Reading source notes and caveats before relying on any country-specific assumption.",
             ],
           },
           {
@@ -59,6 +69,14 @@ export default function TermsPage(): JSX.Element {
               "Use the site with accurate input values when relying on estimates.",
               "Review official rules or professional advice before acting on major decisions.",
               "Do not submit unlawful, abusive, or misleading material through forms or other site features.",
+              "Do not present calculator results as guaranteed payroll, tax authority, or employer-approved figures.",
+            ],
+          },
+          {
+            title: "Corrections and content quality",
+            paragraphs: [
+              "We may update, merge, remove, or redirect pages when a calculator model, article, or data note is no longer useful enough for public users. Keeping weak pages unpublished is part of the site's quality process.",
+              "If you find a factual issue, send the page URL, tax year, disputed figure, and the official or public source that supports the correction.",
             ],
           },
           {

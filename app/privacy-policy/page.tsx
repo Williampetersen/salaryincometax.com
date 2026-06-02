@@ -86,8 +86,9 @@ export default function PrivacyPolicyPage(): JSX.Element {
             {
               title: "Google AdSense and advertising cookies",
               paragraphs: [
-                "The website may display ads through Google AdSense after approval. If advertising is activated in the future, Google and third-party vendors may use cookies to serve ads based on previous visits to this site or other sites.",
-                "Advertising-related scripts and storage are not activated until the relevant advertising consent has been granted through the site's cookie controls.",
+                "The website may display ads through Google AdSense after approval. The AdSense publisher script may be present for site verification and advertising readiness, but ad placements are not intentionally shown before approval.",
+                "Advertising storage and personalization are controlled through consent settings. For users in the European Economic Area, the United Kingdom, and Switzerland, AdSense-related consent should be collected through Google Privacy & Messaging or another Google-certified CMP integrated with the IAB Transparency and Consent Framework.",
+                "Users can reject advertising cookies or change their preferences later through the cookie settings control. Where Google's certified Privacy & Messaging CMP is active, the site can open the Google consent revocation flow for those choices.",
                 "When advertising is active, Google or other participating vendors may place and read cookies, use web beacons, collect IP address information, or use similar identifiers to support ad delivery, measurement, fraud prevention, and ad personalization where legally permitted.",
               ],
             },

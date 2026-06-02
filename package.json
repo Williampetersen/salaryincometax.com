@@ -12,7 +12,8 @@
     "check:tax": "tsx scripts/smoke-tax-engine.ts",
     "check:smtp": "tsx scripts/test-smtp.ts",
     "audit:blog": "tsx scripts/audit-blog-content.ts",
-    "check:blog-originality": "tsx scripts/check-blog-originality.ts"
+    "check:blog-originality": "tsx scripts/check-blog-originality.ts",
+    "audit:quality": "tsx scripts/audit-public-content-quality.ts"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

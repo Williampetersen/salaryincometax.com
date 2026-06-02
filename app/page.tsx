@@ -6,7 +6,10 @@ import { CountryGroups } from "@/components/home/country-groups";
 import { SalaryCountryMap } from "@/components/home/salary-country-map";
 import { TypewriterHeading } from "@/components/home/typewriter-heading";
 import { StructuredData } from "@/components/seo/structured-data";
-import { getAllCountries, getCountryGroups } from "@/lib/country-catalog";
+import {
+  getPublicCalculatorCountries,
+  getPublicCountryGroups,
+} from "@/lib/country-catalog";
 import {
   absoluteUrl,
   buildBreadcrumbSchema,
@@ -32,11 +35,9 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage(): JSX.Element {
-  const groups = getCountryGroups();
-  const countries = getAllCountries();
-  const sourceBackedModelCount = countries.filter(
-    (country) => country.coverageLevel !== "estimate",
-  ).length;
+  const groups = getPublicCountryGroups();
+  const countries = getPublicCalculatorCountries();
+  const sourceBackedModelCount = countries.length;
   const structuredData = [
     buildOrganizationSchema(),
     buildWebsiteSchema(),
@@ -60,8 +61,8 @@ export default function HomePage(): JSX.Element {
                 <TypewriterHeading text="Find your salary after tax" />
               </h1>
               <p className="mt-5 max-w-2xl text-base leading-8 text-ink/68 sm:text-lg">
-                Check take-home pay in 19 countries. Compare gross and net salary
-                in a few steps.
+                Check take-home pay with source-backed country calculators.
+                Compare gross and net salary in a few steps.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
@@ -78,11 +79,11 @@ export default function HomePage(): JSX.Element {
                 </Link>
               </div>
               <div className="mt-10 grid gap-4 sm:grid-cols-3">
-                <StatCard label="Countries" value="19" />
                 <StatCard
-                  label="Detailed models"
+                  label="Public calculators"
                   value={String(sourceBackedModelCount)}
                 />
+                <StatCard label="Published focus" value="Reviewed routes" />
                 <StatCard label="Reverse mode" value="Net to gross" />
               </div>
             </div>
@@ -153,6 +154,52 @@ export default function HomePage(): JSX.Element {
             text="Return take-home pay, effective tax rate, period breakdowns, history items, and comparison charts."
             title="Return results"
           />
+        </div>
+      </section>
+
+      <section className="shell pt-12">
+        <div className="panel grid gap-8 p-6 sm:p-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
+          <div>
+            <p className="eyebrow">Methodology</p>
+            <h2 className="mt-4 font-[var(--font-display)] text-3xl font-bold tracking-tight text-ink">
+              Built around source-backed country rules
+            </h2>
+            <div className="mt-5 space-y-4 text-sm leading-7 text-ink/70">
+              <p>
+                Each public calculator starts from a country tax-rule file that
+                defines the tax year, currency, pay-period defaults, personal
+                allowances, social contributions, income tax brackets, and local
+                or regional tax layers where those are modeled. The same
+                structured rule powers the input form, charts, salary-period
+                breakdowns, and source notes.
+              </p>
+              <p>
+                This keeps the site more useful than a generic percentage
+                estimate. A person comparing a job offer can enter yearly,
+                monthly, weekly, daily, or hourly pay, then review the net result
+                next to tax split, effective tax rate, median salary, and minimum
+                wage context for that country.
+              </p>
+              <p>
+                Estimate-only internal models are not promoted as public
+                calculators until they have enough country-specific source
+                coverage. Public pages focus on reviewed routes with clear
+                assumptions, limitations, and links to source material.
+              </p>
+            </div>
+          </div>
+          <div className="rounded-4xl border border-ink/10 bg-white p-5">
+            <h3 className="font-[var(--font-display)] text-2xl font-bold">
+              What makes the results useful
+            </h3>
+            <ul className="mt-4 space-y-3 text-sm leading-7 text-ink/70">
+              <li>Gross-to-net and net-to-gross salary estimates in one workflow.</li>
+              <li>Annual, monthly, weekly, daily, and hourly result views.</li>
+              <li>Tax split charts for income tax, social contributions, and local layers.</li>
+              <li>Country pages that disclose coverage level, source links, and caveats.</li>
+              <li>Saved calculation history kept locally in the user&apos;s browser.</li>
+            </ul>
+          </div>
         </div>
       </section>
 

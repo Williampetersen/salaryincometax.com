@@ -75,7 +75,8 @@ export default function CookiePolicyPage(): JSX.Element {
           {
             title: "Google AdSense cookies",
             paragraphs: [
-              "If Google AdSense is activated after approval, Google and third-party vendors may use cookies to serve ads based on previous visits to this or other sites. Advertising-related storage remains disabled unless the visitor explicitly accepts advertising cookies.",
+              "If Google AdSense is activated after approval, Google and third-party vendors may use cookies to serve ads based on previous visits to this or other sites. Advertising-related storage remains disabled unless the visitor explicitly accepts advertising cookies or gives consent through an applicable certified CMP flow.",
+              "For visitors in the European Economic Area, the United Kingdom, and Switzerland, AdSense advertising consent should be handled by Google Privacy & Messaging or another Google-certified CMP integrated with the IAB Transparency and Consent Framework before personalized ads are served.",
               "When advertising is active, Google or other participating vendors may also use web beacons, IP addresses, or similar identifiers for ad delivery, measurement, fraud prevention, and personalization where permitted.",
             ],
           },
@@ -90,6 +91,7 @@ export default function CookiePolicyPage(): JSX.Element {
             title: "Cookie consent explanation",
             paragraphs: [
               "Salaryincometax.com uses a consent-based model for non-essential cookies. Essential cookies stay enabled because the website relies on them for basic operation, while analytics and advertising cookies remain optional.",
+              "The local cookie banner is used for general preferences and fallback controls. If a Google-certified CMP is active for AdSense, Google advertising consent choices are collected and revoked through that certified CMP flow.",
             ],
           },
           {

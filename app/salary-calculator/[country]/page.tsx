@@ -9,9 +9,10 @@ import { StructuredData } from "@/components/seo/structured-data";
 import { CountryFlag } from "@/components/shared/country-flag";
 import {
   buildDefaultInput,
-  getAllCountries,
   getCountryFaqItems,
-  getCountryGroups,
+  getPublicCalculatorCountries,
+  getPublicCountryGroups,
+  isPublicCalculatorCountry,
   getCountryRule,
   getCountrySummary,
   getRelatedCountries,
@@ -30,8 +31,10 @@ interface CountryPageProps {
   };
 }
 
+export const dynamicParams = false;
+
 export function generateStaticParams(): Array<{ country: string }> {
-  return getAllCountries().map((country) => ({
+  return getPublicCalculatorCountries().map((country) => ({
     country: country.slug,
   }));
 }
@@ -77,9 +80,13 @@ export default function CountryPage({ params }: CountryPageProps): JSX.Element {
     notFound();
   }
 
+  if (!isPublicCalculatorCountry(country)) {
+    notFound();
+  }
+
   const initialInput = buildDefaultInput(rule);
   const initialResult = calculateSalaryTax(initialInput, rule);
-  const countryGroups = getCountryGroups();
+  const countryGroups = getPublicCountryGroups();
   const faqItems = getCountryFaqItems(rule);
   const relatedCountries = getRelatedCountries(rule.slug, 4);
   const structuredData = [
