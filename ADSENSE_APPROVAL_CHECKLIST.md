@@ -55,8 +55,8 @@ site for Google AdSense review.
 - [x] `robots.txt` is active and allows crawling.
 - [x] `sitemap.xml` is active.
 - [x] `blog-sitemap.xml` is active.
-- [x] `ads.txt` route exists at `/ads.txt`.
-- [ ] Set `ADSENSE_ADS_TXT` after AdSense approval using the exact publisher line from AdSense.
+- [x] Static `public/ads.txt` exists and is served at `/ads.txt`.
+- [x] `public/ads.txt` uses the exact publisher line from AdSense.
 - [x] The contact form works server-side and returns clear errors.
 - [x] The site builds successfully for production.
 - [x] The site is mobile responsive.

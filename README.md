@@ -115,7 +115,7 @@ The site includes:
 - About, Contact, Privacy Policy, Cookie Policy, Terms, Disclaimer, Editorial Policy, Advertising Policy, and Sources pages.
 - GDPR-style cookie controls that keep analytics and advertising storage optional.
 - Google Privacy & Messaging bootstrap support and a configurable hook for a Google-certified CMP script.
-- An `ads.txt` route at `/ads.txt`.
+- A static `public/ads.txt` file served at `/ads.txt`.
 - A placeholder AdSense component that does not render live ad boxes before approval.
 - Footer navigation to the trust and policy pages on every page.
 - Blog publishing restricted to the stronger reviewed article set used on public blog pages and blog sitemaps.
@@ -124,7 +124,6 @@ The site includes:
 ### AdSense and CMP environment variables
 
 - `NEXT_PUBLIC_ADSENSE_CLIENT_ID=ca-pub-6566909288019503`
-- `ADSENSE_ADS_TXT=google.com, pub-6566909288019503, DIRECT, f08c47fec0942fa0`
 - `GOOGLE_CERTIFIED_CMP_ACTIVE=true` after a Google Privacy & Messaging GDPR message or another Google-certified CMP is active for the production domain.
 - `GOOGLE_CERTIFIED_CMP_SCRIPT_SRC=https://...` when a certified third-party CMP provides a script URL that must be loaded in the page head.
 - `ADDITIONAL_HEAD_SCRIPT_URLS=https://example.com/script.js,https://example.com/other.js` for other HTTPS-only verification scripts that must be injected into every page head.
@@ -136,7 +135,7 @@ Before requesting AdSense review, keep at least 15 to 30 high-quality original a
 ### After approval
 
 1. Set `NEXT_PUBLIC_ADSENSE_CLIENT_ID` in Vercel.
-2. Set `ADSENSE_ADS_TXT` to the exact line from AdSense, for example:
+2. Confirm `public/ads.txt` contains the exact line from AdSense, for example:
    - `google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0`
 3. Redeploy.
 4. Verify `https://salaryincometax.com/ads.txt` is publicly reachable.
