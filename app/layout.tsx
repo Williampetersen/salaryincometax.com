@@ -46,6 +46,9 @@ export const metadata: Metadata = {
   },
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
+  other: {
+    "google-adsense-account": ADSENSE_CLIENT_ID,
+  },
   keywords: [
     "salary after tax",
     "salary calculator",
