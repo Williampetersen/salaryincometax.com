@@ -2,6 +2,13 @@
 
 Last updated: 2026-06-02
 
+> **Superseded 2026-07-06**: most blog article rows below are no longer
+> public. `CONTENT_QUALITY_AUDIT_2026-07-06.md` pruned the blog to a
+> 14-article flagship allowlist after another AdSense rejection. The Core,
+> Trust, and Legal Pages table below is still accurate. The Country
+> Calculator table is still accurate. The blog article, category-archive, and
+> country-archive tables reflect the pre-prune state only.
+
 This scorecard evaluates the current public, indexable route set by content quality and user value, not by article count, word count, or keyword density.
 
 ## Scoring Method

@@ -2,6 +2,15 @@
 
 Last updated: 2026-05-24
 
+> **Superseded 2026-07-06**: the "Ready For AdSense Review" and "Still Needing
+> Official Data Verification" lists below predate a further pruning pass.
+> After another AdSense rejection, `CONTENT_QUALITY_AUDIT_2026-07-06.md`
+> reduced the public blog to a 14-article flagship allowlist to address a
+> "scaled content abuse" risk (many near-identical templated pages), which is
+> a different problem from the text-level duplication this document checks.
+> The originality-checking method and scripts below are still valid and
+> should keep being run; only the article publish-status lists are stale.
+
 ## Scope
 
 The current blog system is generated from structured data. There are no

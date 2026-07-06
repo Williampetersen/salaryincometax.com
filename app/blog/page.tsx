@@ -9,7 +9,7 @@ import {
   buildBlogCollectionSchema,
   getAllBlogPosts,
   getBlogCategories,
-  getBlogCountries,
+  getBlogCountriesWithPosts,
   getFeaturedBlogPosts,
 } from "@/lib/blog";
 import { absoluteUrl, buildBreadcrumbSchema } from "@/lib/seo";
@@ -40,7 +40,7 @@ export default function BlogIndexPage(): JSX.Element {
   const posts = getAllBlogPosts();
   const featuredPosts = getFeaturedBlogPosts(6);
   const categories = getBlogCategories();
-  const countries = getBlogCountries();
+  const countries = getBlogCountriesWithPosts();
   const structuredData = [
     buildBreadcrumbSchema([
       { name: "Home", url: absoluteUrl("/") },

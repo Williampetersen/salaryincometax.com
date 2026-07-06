@@ -2,6 +2,14 @@
 
 Last updated: 2026-06-02
 
+> **Superseded 2026-07-06**: the public article count and list below (~90
+> public routes) no longer reflect the site. After another AdSense rejection,
+> `CONTENT_QUALITY_AUDIT_2026-07-06.md` pruned the public blog to a 14-article
+> flagship allowlist to address a "scaled content abuse" risk that this pass
+> did not check for (it verified text-level originality, not structural
+> template-at-scale risk). Read `CONTENT_QUALITY_AUDIT_2026-07-06.md` first.
+> This document is kept for its originality methodology and per-article notes.
+
 This report documents the AdSense-focused content quality pass for
 `salaryincometax.com`. The goal was not to add words for the sake of length. The
 goal was to make the public site more useful, more transparent, easier to crawl,

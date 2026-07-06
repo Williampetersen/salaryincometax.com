@@ -12,7 +12,10 @@ export type BlogArticleType =
   | "average-salary"
   | "gross-vs-net"
   | "expensive"
-  | "best-cities";
+  | "best-cities"
+  // Hand-written, country-agnostic educational guides (not generated from a
+  // country/city template loop). These use an empty countrySlug/countryName.
+  | "editorial-guide";
 
 export type BlogResearchStatus = "expanded" | "baseline";
 

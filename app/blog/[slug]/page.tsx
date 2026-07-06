@@ -73,7 +73,7 @@ export function generateMetadata({
       description: post.metaDescription,
       images: [post.image],
     },
-    keywords: [post.keyword, post.countryName, post.categoryLabel],
+    keywords: [post.keyword, post.countryName, post.categoryLabel].filter(Boolean),
   };
 }
 
@@ -199,7 +199,10 @@ export default function BlogArticlePage({
             ))}
           </section>
 
-          <ArticleDecisionSupport post={post} />
+          {/* This checklist assumes a specific country context (calculator
+              link, "open the X calculator" copy) and does not apply to
+              hand-written, country-agnostic guides. */}
+          {post.countryName ? <ArticleDecisionSupport post={post} /> : null}
 
           <section className="panel p-5 sm:p-6">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-coral">

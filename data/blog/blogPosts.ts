@@ -3,6 +3,7 @@ import {
   CITY_COST_OF_LIVING_DATA,
   COUNTRY_COST_OF_LIVING_DATA,
 } from "@/data/blog/costOfLivingData";
+import { GENERIC_GUIDE_POSTS } from "@/data/blog/genericGuides";
 import { SALARY_DATA } from "@/data/blog/salaryData";
 import { TAX_DATA } from "@/data/blog/taxData";
 import type {
@@ -32,24 +33,40 @@ const CATEGORY_LABELS = Object.fromEntries(
   BLOG_CATEGORIES.map((category) => [category.slug, category.name]),
 ) as Record<BlogCategorySlug, string>;
 
-const DETAILED_COST_COUNTRIES = new Set([
-  "australia",
-  "canada",
+// AdSense resubmission flagship allowlist (2026-06 pruning pass).
+//
+// The public blog was previously built from a handful of templates looped
+// over every supported country and city (income tax, minimum wage, average
+// salary, gross-vs-net, "is X expensive", best cities, plus per-city cost of
+// living). Individual sentences were unique, but the sheer volume of
+// structurally identical pages is a real match for Google's "scaled content
+// abuse" guidance, which is a separate and more serious problem than thin
+// content. Until the site is approved and has established trust, keep only
+// a small, diverse flagship set public (~14 articles across 7 countries,
+// 2 templates each, no per-city pages) instead of gating by "does this
+// country have data" alone. Re-expand deliberately, a few countries at a
+// time, after approval - see ADSENSE_APPROVAL_CHECKLIST.md.
+//
+// Each set below deliberately controls ONE template only, so a country can
+// be added to one flagship list without silently publishing every other
+// template for that same country.
+const DETAILED_COUNTRY_COST_COUNTRIES = new Set([
   "denmark",
   "germany",
-  "japan",
-  "singapore",
   "united-kingdom",
   "united-states",
 ]);
 
-const DETAILED_TAX_COUNTRIES = new Set([
+const DETAILED_AVERAGE_SALARY_COUNTRIES = new Set([
   "australia",
-  "belgium",
   "canada",
-  "denmark",
-  "france",
   "germany",
+]);
+
+const DETAILED_IS_EXPENSIVE_COUNTRIES = new Set(["australia"]);
+
+const DETAILED_TAX_COUNTRIES = new Set([
+  "denmark",
   "ireland",
   "united-kingdom",
   "united-states",
@@ -820,7 +837,7 @@ function buildCountryCostPost(countrySlug: string): BlogPost {
   }
 
   const costData = COUNTRY_COST_OF_LIVING_DATA[countrySlug];
-  const researchStatus = buildResearchStatus(DETAILED_COST_COUNTRIES.has(countrySlug));
+  const researchStatus = buildResearchStatus(DETAILED_COUNTRY_COST_COUNTRIES.has(countrySlug));
   const locationName = country.name;
   const note = buildCountryStatusNote(researchStatus, locationName);
   const expensiveAnswer = buildCostLevelAnswer(locationName, costData);
@@ -1028,7 +1045,11 @@ function buildCityCostPost(countrySlug: string, citySlug: string): BlogPost {
 
   const title = `Cost of Living in ${cityData.cityName}`;
   const slug = `cost-of-living-in-${citySlug}`;
-  const researchStatus: BlogResearchStatus = "expanded";
+  // Per-city guides are kept unpublished for the AdSense resubmission pass:
+  // publishing one per city (dozens of near-identical pages) is the clearest
+  // "scaled content abuse" risk on the site. See the flagship allowlist note
+  // near DETAILED_COUNTRY_COST_COUNTRIES above.
+  const researchStatus: BlogResearchStatus = "baseline";
   const locationName = cityData.cityName;
   const expensiveAnswer = buildCostLevelAnswer(locationName, cityData);
   const comfortableAnswer = buildComfortableIncomeAnswer(
@@ -1512,7 +1533,7 @@ function buildAverageSalaryPost(countrySlug: string): BlogPost {
   const salary = SALARY_DATA[countrySlug];
   const costData = COUNTRY_COST_OF_LIVING_DATA[countrySlug];
   const rule = getRule(countrySlug);
-  const researchStatus = buildResearchStatus(DETAILED_COST_COUNTRIES.has(countrySlug));
+  const researchStatus = buildResearchStatus(DETAILED_AVERAGE_SALARY_COUNTRIES.has(countrySlug));
   const note = buildCountryStatusNote(researchStatus, country.name);
 
   const sections = [
@@ -1805,7 +1826,7 @@ function buildExpensivePost(countrySlug: string): BlogPost {
   }
 
   const costData = COUNTRY_COST_OF_LIVING_DATA[countrySlug];
-  const researchStatus = buildResearchStatus(DETAILED_COST_COUNTRIES.has(countrySlug));
+  const researchStatus = buildResearchStatus(DETAILED_IS_EXPENSIVE_COUNTRIES.has(countrySlug));
   const note = buildCountryStatusNote(researchStatus, country.name);
   const expensiveAnswer = buildCostLevelAnswer(country.name, costData);
   const comfortableAnswer = buildComfortableIncomeAnswer(
@@ -1915,7 +1936,11 @@ function buildBestCitiesPost(countrySlug: string): BlogPost {
     .filter((city) => city.slug !== country.slug)
     .map((city) => CITY_COST_OF_LIVING_DATA[`${countrySlug}/${city.slug}`])
     .filter(Boolean);
-  const researchStatus = buildResearchStatus(cityEntries.length > 0);
+  // "Best cities" guides are kept unpublished for the AdSense resubmission
+  // pass regardless of city-data availability - see the flagship allowlist
+  // note near DETAILED_COUNTRY_COST_COUNTRIES above. cityEntries is still
+  // used below to build the article body/ranking once this is re-enabled.
+  const researchStatus = buildResearchStatus(false);
   const note =
     researchStatus === "baseline"
       ? `${BASELINE_DATA_NOTE} This guide still gives a framework for comparing cities in ${country.name}, but you should confirm local rent and payroll details before deciding.`
@@ -2111,6 +2136,8 @@ const cityPosts = BLOG_COUNTRIES.flatMap((country) =>
     .map((city) => buildCityCostPost(country.slug, city.slug)),
 );
 
-export const BLOG_POSTS: BlogPost[] = [...countryPosts, ...cityPosts].sort((left, right) =>
-  left.title.localeCompare(right.title),
-);
+export const BLOG_POSTS: BlogPost[] = [
+  ...countryPosts,
+  ...cityPosts,
+  ...GENERIC_GUIDE_POSTS,
+].sort((left, right) => left.title.localeCompare(right.title));

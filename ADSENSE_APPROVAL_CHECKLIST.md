@@ -1,9 +1,28 @@
 # AdSense Approval Checklist
 
-Last updated: 2026-05-25
+Last updated: 2026-07-06
 
 This checklist is for `salaryincometax.com` before submitting or resubmitting the
 site for Google AdSense review.
+
+## 2026-07-06 update: rejection and remediation
+
+Google AdSense rejected the site citing "Low value content" / "Your site
+isn't ready to show ads." Most items below were already true (trust pages,
+robots.txt, sitemap, ads.txt, cookie consent, and the homepage were all
+already in place and were verified directly in code, not just assumed from
+this checklist). The most likely real cause was a structural one this
+checklist did not previously test for: the public blog was built from six
+templates looped over every country/city, producing roughly 90 public
+articles that all share an identical section skeleton - a pattern that
+matches Google's "scaled content abuse" policy even though the underlying
+sentences were unique.
+
+Action taken: the public blog was pruned to a 14-article flagship allowlist
+(7 countries, 2 templates each, no per-city or "best cities" pages) and 5
+new hand-written, non-templated evergreen guide articles were added. See
+`CONTENT_QUALITY_AUDIT_2026-07-06.md` for the full rationale and file list
+before resubmitting.
 
 ## Core site requirements
 

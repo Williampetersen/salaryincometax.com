@@ -15,6 +15,7 @@ const ARTICLE_TYPE_LABELS: Record<BlogArticleType, string> = {
   "gross-vs-net": "gross-versus-net guide",
   expensive: "affordability guide",
   "best-cities": "city-comparison guide",
+  "editorial-guide": "practical guide",
 };
 
 export function ArticleDecisionSupport({

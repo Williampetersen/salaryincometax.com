@@ -9,20 +9,25 @@ import { getPublicCalculatorCountries } from "@/lib/country-catalog";
 import { absoluteUrl } from "@/lib/seo";
 import { SITE_DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/site";
 
+// Kept in sync with the flagship allowlist in data/blog/blogPosts.ts (see
+// the comment near DETAILED_COUNTRY_COST_COUNTRIES). Ordered so the first
+// six slugs already cover six of the seven flagship countries, since
+// getFeaturedBlogPosts(6) powers the public blog index hero row.
 const FEATURED_BLOG_SLUGS = [
-  "cost-of-living-in-germany",
-  "cost-of-living-in-denmark",
+  "income-tax-in-united-states",
   "cost-of-living-in-united-kingdom",
-  "cost-of-living-in-united-states",
-  "cost-of-living-in-canada",
-  "cost-of-living-in-australia",
-  "cost-of-living-in-singapore",
-  "cost-of-living-in-japan",
-  "income-tax-in-germany",
   "income-tax-in-denmark",
-  "income-tax-in-united-kingdom",
-  "minimum-wage-in-canada",
+  "average-salary-in-germany-after-tax",
+  "average-salary-in-canada-after-tax",
+  "average-salary-in-australia-after-tax",
+  "income-tax-in-ireland",
   "minimum-wage-in-ireland",
+  "cost-of-living-in-united-states",
+  "cost-of-living-in-denmark",
+  "cost-of-living-in-germany",
+  "is-australia-expensive-to-live-in",
+  "minimum-wage-in-canada",
+  "income-tax-in-united-kingdom",
 ];
 
 const PUBLIC_CALCULATOR_COUNTRY_SLUGS = new Set(
@@ -31,10 +36,18 @@ const PUBLIC_CALCULATOR_COUNTRY_SLUGS = new Set(
 const MINIMUM_COUNTRY_ARCHIVE_POSTS = 3;
 
 function isPublishedBlogPost(post: BlogPost): boolean {
-  return (
-    post.researchStatus === "expanded" &&
-    PUBLIC_CALCULATOR_COUNTRY_SLUGS.has(post.countrySlug)
-  );
+  if (post.researchStatus !== "expanded") {
+    return false;
+  }
+
+  // Hand-written, country-agnostic guides (articleType "editorial-guide")
+  // use an empty countrySlug and are not gated by the public-calculator
+  // country list, since they are not tied to any single country's data.
+  if (post.articleType === "editorial-guide") {
+    return true;
+  }
+
+  return PUBLIC_CALCULATOR_COUNTRY_SLUGS.has(post.countrySlug);
 }
 
 function getPublishedBlogPostSet(): BlogPost[] {
@@ -76,6 +89,19 @@ export function getBlogCountries() {
     getPublishedBlogPostSet().filter((post) => post.countrySlug === country.slug).length >=
       MINIMUM_COUNTRY_ARCHIVE_POSTS,
   );
+}
+
+// Countries with at least one published post, for UI filtering only (for
+// example the blog country dropdown). Unlike getBlogCountries(), this does
+// not require enough posts for a dedicated /blog/country/[country] archive
+// page, so a leaner flagship set (2 posts per country) still gets a useful
+// filter option even while its standalone archive page stays unpublished.
+export function getBlogCountriesWithPosts() {
+  const publishedCountrySlugs = new Set(
+    getPublishedBlogPostSet().map((post) => post.countrySlug),
+  );
+
+  return BLOG_COUNTRIES.filter((country) => publishedCountrySlugs.has(country.slug));
 }
 
 export function hasBlogCountryArchive(countrySlug: string): boolean {
@@ -172,7 +198,7 @@ export function buildArticleSchema(post: BlogPost): Record<string, unknown> {
       post.countryName,
       post.categoryLabel,
       country?.calculatorUrl ? absoluteUrl(country.calculatorUrl) : absoluteUrl("/salary-calculator"),
-    ],
+    ].filter(Boolean),
   };
 }
 
