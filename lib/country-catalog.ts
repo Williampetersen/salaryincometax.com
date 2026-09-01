@@ -1,4 +1,5 @@
 import { TAX_RULES } from "@/data/tax-rules";
+import { getCountryHighlight } from "@/data/tax-rules/countryHighlights";
 import type {
   CalculationInput,
   CountryTaxRule,
@@ -194,21 +195,38 @@ export function buildDefaultInput(rule: CountryTaxRule): CalculationInput {
   };
 }
 
+const GENERIC_COUNTRY_FAQS: FAQItem[] = [
+  {
+    question: "Can I use this calculator for net-to-gross planning?",
+    answer:
+      "Yes. The reverse mode uses a binary search to estimate the gross pay required to reach your requested net salary under the current rule set for the selected year.",
+  },
+  {
+    question: "Is this result exact?",
+    answer:
+      "No. This page provides an estimate built from a structured tax model. It is useful for planning and comparison, but it does not replace a payroll slip, accountant, or official tax assessment.",
+  },
+];
+
 export function getCountryFaqItems(rule: CountryTaxRule): FAQItem[] {
-  return [
-    {
-      question: `How does the ${rule.countryName} salary tax calculator work?`,
-      answer: `It converts your chosen pay period into an annual gross salary, applies the ${rule.taxYear} deductions, allowances, income tax bands, social contributions, and any configured regional layers in this model, then converts the result back into yearly, monthly, weekly, daily, and hourly figures.`,
-    },
-    {
-      question: `Can I use this ${rule.countryName} calculator for net-to-gross planning?`,
-      answer: "Yes. The reverse mode uses a binary search to estimate the gross pay required to reach your requested net salary under the current rule set for the selected year.",
-    },
-    {
-      question: `Is the ${rule.countryName} result exact?`,
-      answer: `No. This page provides an estimate built from a structured ${getCoverageLabel(rule.coverageLevel).toLowerCase()} tax model. It is useful for planning and comparison, but it does not replace a payroll slip, accountant, or official tax assessment.`,
-    },
-  ];
+  const highlight = getCountryHighlight(rule.slug);
+  const netToGrossFaq = {
+    question: `Can I use this ${rule.countryName} calculator for net-to-gross planning?`,
+    answer:
+      "Yes. The reverse mode uses a binary search to estimate the gross pay required to reach your requested net salary under the current rule set for the selected year.",
+  };
+
+  if (!highlight) {
+    return [
+      {
+        question: `How does the ${rule.countryName} salary tax calculator work?`,
+        answer: `It converts your chosen pay period into an annual gross salary, applies the ${rule.taxYear} deductions, allowances, income tax bands, social contributions, and any configured regional layers in this model, then converts the result back into yearly, monthly, weekly, daily, and hourly figures.`,
+      },
+      ...GENERIC_COUNTRY_FAQS,
+    ];
+  }
+
+  return [...highlight.faqs, netToGrossFaq];
 }
 
 export function getCoverageLabel(
