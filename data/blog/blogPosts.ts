@@ -179,6 +179,23 @@ const BLOG_AVERAGE_SALARY_NOTES: Record<string, string> = {
     "Germany's real income-tax formula is a continuous curve rather than a table of fixed brackets, so this baseline uses a scalable approximation built from the published allowance thresholds rather than the exact statutory function - close enough for planning, not identical to a payslip calculation. It also leaves church tax out entirely: that charge only applies to registered members of a recognized church and typically adds another 8-9% on top of the income-tax bill for those who pay it, so check whether that line applies before comparing this figure with a real payslip.",
 };
 
+// minimum-wage-in-ireland's title override ("...After USC and PRSI: What's
+// Left Once Both Charges Apply") promises USC/PRSI mechanics the base
+// minimum-wage template never mentions - found by reading the full article,
+// where an earlier keyword-count check had been fooled by the title string
+// repeating across meta tags and the hydration payload rather than actually
+// appearing in the body. Ireland's PAYE system note already covers the
+// general credits-based mechanism, but it's already used on the (separate,
+// published) income-tax-in-ireland article, so reusing it here verbatim
+// would duplicate it across two live pages. This is fresh content, framed
+// around what matters specifically at minimum-wage income - grounded in the
+// actual configured PRSI/USC data (a flat 4.1% PRSI rate and USC's first two
+// bands, up to roughly EUR 27,382) rather than an invented figure.
+const BLOG_MINIMUM_WAGE_NOTES: Record<string, string> = {
+  ireland:
+    "At minimum-wage income specifically, PRSI does more of the work than USC. This baseline applies PRSI as a flat 4.1% on gross pay, while USC is progressive and starts much lower - 0.5% on roughly the first EUR 12,012, then 2% up to about EUR 27,382 - so most of a minimum-wage income falls into USC's cheapest bands rather than the higher rates a bigger salary would reach. That's the reverse of how USC often gets discussed: at this end of the pay scale, PRSI and tax credits shape take-home pay far more than USC does.",
+};
+
 // AdSense resubmission flagship allowlist (2026-06 pruning pass).
 //
 // The public blog was previously built from a handful of templates looped
@@ -1660,6 +1677,13 @@ function buildMinimumWagePost(countrySlug: string): BlogPost {
     ], { note: [note, statutoryNote].filter(Boolean).join(" ") || undefined }),
     ...(countrySlug === "canada" && buildCountrySystemSection(countrySlug, country.name)
       ? [buildCountrySystemSection(countrySlug, country.name) as BlogSection]
+      : []),
+    ...(BLOG_MINIMUM_WAGE_NOTES[countrySlug]
+      ? [
+          createSection(`What makes ${country.name}'s minimum wage different`, [
+            BLOG_MINIMUM_WAGE_NOTES[countrySlug],
+          ]),
+        ]
       : []),
     createSection("Current Minimum Wage", [
       `The current site baseline for minimum wage in ${country.name} is ${formatCurrency(minimumWage.annualGross, country.currency)} gross per year.`,
