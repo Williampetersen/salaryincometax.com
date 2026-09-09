@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import { CountryFlag } from "@/components/shared/country-flag";
@@ -40,14 +39,20 @@ export function CountryCard({ country }: CountryCardProps): JSX.Element {
             </div>
           </div>
         </div>
-        <Image
-          alt=""
+        <svg
           aria-hidden="true"
-          className="h-10 w-10 shrink-0 object-contain transition duration-300 group-hover:translate-x-1"
-          height={40}
-          src="/arrow/previous.png"
-          width={40}
-        />
+          className="h-6 w-6 shrink-0 text-ink/40 transition duration-300 group-hover:translate-x-1 group-hover:text-coral"
+          fill="none"
+          height={24}
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.75}
+          viewBox="0 0 24 24"
+          width={24}
+        >
+          <path d="M9 6l6 6-6 6" />
+        </svg>
       </div>
     </Link>
   );

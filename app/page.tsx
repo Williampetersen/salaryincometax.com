@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 
 import { CountryGroups } from "@/components/home/country-groups";
@@ -101,22 +100,22 @@ export default function HomePage(): JSX.Element {
               <div className="grid gap-4 sm:grid-cols-2">
                 <FeatureCard
                   description="Yearly, monthly, weekly, daily, or hourly pay."
-                  iconSrc="/iconforhomepage/diagram.gif"
+                  icon={<PayPeriodsIcon />}
                   title="Pay periods"
                 />
                 <FeatureCard
                   description="Your last five checks stay in your browser."
-                  iconSrc="/iconforhomepage/connection.gif"
+                  icon={<SavedHistoryIcon />}
                   title="Saved history"
                 />
                 <FeatureCard
                   description="See your pay next to median salary and minimum wage."
-                  iconSrc="/iconforhomepage/money-bag.gif"
+                  icon={<SalaryCompareIcon />}
                   title="Salary compare"
                 />
                 <FeatureCard
                   description="Country tax rules are easy to update."
-                  iconSrc="/iconforhomepage/award (1).gif"
+                  icon={<TaxRulesIcon />}
                   title="Tax rules"
                 />
               </div>
@@ -256,26 +255,76 @@ function StatCard({
 function FeatureCard({
   title,
   description,
-  iconSrc,
+  icon,
 }: {
   title: string;
   description: string;
-  iconSrc: string;
+  icon: JSX.Element;
 }): JSX.Element {
   return (
     <div className="rounded-3xl border border-ink/10 bg-white/78 p-5">
-      <Image
-        alt=""
-        aria-hidden="true"
-        className="mb-4 h-12 w-12 object-contain"
-        height={48}
-        src={iconSrc}
-        unoptimized
-        width={48}
-      />
+      <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-coral/10 text-coral">
+        {icon}
+      </div>
       <p className="font-semibold text-ink">{title}</p>
       <p className="mt-2 text-sm leading-6 text-ink/62">{description}</p>
     </div>
+  );
+}
+
+// Simple, self-authored line icons - avoids depending on third-party icon
+// packs whose license terms can't be verified from the file alone.
+function iconProps(): React.SVGProps<SVGSVGElement> {
+  return {
+    fill: "none",
+    height: 24,
+    stroke: "currentColor",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: 1.75,
+    viewBox: "0 0 24 24",
+    width: 24,
+  };
+}
+
+function PayPeriodsIcon(): JSX.Element {
+  return (
+    <svg {...iconProps()}>
+      <circle cx="12" cy="12" r="8.25" />
+      <path d="M12 7.5V12l3 2" />
+    </svg>
+  );
+}
+
+function SavedHistoryIcon(): JSX.Element {
+  return (
+    <svg {...iconProps()}>
+      <path d="M4.5 6.5v5l3.2-2.4" />
+      <path d="M4.9 11a7.5 7.5 0 1 0 1.9-6.4" />
+      <path d="M12 8.5v4l3 2" />
+    </svg>
+  );
+}
+
+function SalaryCompareIcon(): JSX.Element {
+  return (
+    <svg {...iconProps()}>
+      <path d="M4.5 19.5v-6" />
+      <path d="M12 19.5V6.5" />
+      <path d="M19.5 19.5v-9.5" />
+      <path d="M3.5 19.5h17" />
+    </svg>
+  );
+}
+
+function TaxRulesIcon(): JSX.Element {
+  return (
+    <svg {...iconProps()}>
+      <path d="M7 3.5h7l3.5 3.5v13.5H7z" />
+      <path d="M14 3.5V7h3.5" />
+      <path d="M9.5 13h5" />
+      <path d="M9.5 16.5h5" />
+    </svg>
   );
 }
 
