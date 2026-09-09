@@ -36,15 +36,28 @@ This document defines the writing rules for all future blog content on
 
 ## Structure Rules
 
-Each article should include:
+**Updated 2026-09-09**: the rule below used to mandate the same fixed box
+order (summary, who-this-is-for, quick answers, quick facts, ..., verdict)
+on every article. That literal rule is itself what the 2026-09-09 AdSense
+remediation pass identified and fixed as a "scaled content" signal - an
+identical, rigid skeleton repeated across every published article regardless
+of topic. Do not reintroduce a single fixed order. See
+`ARTICLE_TYPE_LAYOUTS` in `app/blog/[slug]/page.tsx` for the current system:
+each `BlogArticleType` gets its own section labels, disclaimer wording, and
+box order. When adding a new article type, add a new entry there with its
+own distinct labels/order rather than reusing another type's layout or
+falling back to a "default."
+
+Each article should still include, in whatever order and under whatever
+labels its `ARTICLE_TYPE_LAYOUTS` entry specifies:
 
 - One H1 only.
 - A unique SEO title.
 - A unique meta description.
-- A summary box.
-- A `Who this guide is for` section.
-- A `Quick answers` section.
-- A quick facts table.
+- A summary/takeaways block.
+- An audience ("who this is for") block.
+- A quick-answers block.
+- A quick-facts table.
 - Main H2 sections that match the search intent.
 - A practical example.
 - FAQ content and FAQ schema where relevant.
