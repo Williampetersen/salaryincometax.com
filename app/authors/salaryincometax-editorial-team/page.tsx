@@ -10,14 +10,15 @@ import { buildStaticPageMetadata } from "@/lib/navigation";
 import { absoluteUrl, buildBreadcrumbSchema } from "@/lib/seo";
 import {
   DISCLAIMER,
-  SITE_NAME,
   SITE_URL,
   SUPPORT_EMAIL,
 } from "@/lib/site";
 
+const AUTHOR_NAME = "William Petersen";
+
 export const metadata: Metadata = buildStaticPageMetadata(
-  "Salaryincometax.com Editorial Team",
-  "Meet the editorial team behind salaryincometax.com and learn how salary, tax, and cost-of-living guides are researched, reviewed, and corrected.",
+  `${AUTHOR_NAME} - Salaryincometax.com`,
+  "William Petersen founded and maintains salaryincometax.com, including the tax-rule sourcing, calculator methodology, and editorial review process behind its salary, tax, and cost-of-living guides.",
   "/authors/salaryincometax-editorial-team",
 );
 
@@ -28,7 +29,7 @@ export default function EditorialTeamAuthorPage(): JSX.Element {
     buildBreadcrumbSchema([
       { name: "Home", url: absoluteUrl("/") },
       {
-        name: "Editorial Team",
+        name: AUTHOR_NAME,
         url: absoluteUrl("/authors/salaryincometax-editorial-team"),
       },
     ]),
@@ -37,12 +38,18 @@ export default function EditorialTeamAuthorPage(): JSX.Element {
       "@type": "ProfilePage",
       url: `${SITE_URL}/authors/salaryincometax-editorial-team`,
       mainEntity: {
-        "@type": "Organization",
-        name: "Salaryincometax.com Editorial Team",
+        "@type": "Person",
+        name: AUTHOR_NAME,
         url: SITE_URL,
         email: SUPPORT_EMAIL,
+        jobTitle: "Founder and editor",
+        worksFor: {
+          "@type": "Organization",
+          name: "Salaryincometax.com",
+          url: SITE_URL,
+        },
         description:
-          "Editorial and research team responsible for salary after tax, income tax, cost-of-living, and calculator methodology content on salaryincometax.com.",
+          "Founder and editor of salaryincometax.com, responsible for the site's tax-rule sourcing, calculator methodology, and editorial review process.",
       },
     },
   ];
@@ -51,11 +58,11 @@ export default function EditorialTeamAuthorPage(): JSX.Element {
     <ContentPageShell
       breadcrumbs={[
         { href: "/", label: "Home" },
-        { label: "Editorial Team" },
+        { label: AUTHOR_NAME },
       ]}
-      description="The salaryincometax.com editorial team creates and maintains salary after tax, income tax, and cost-of-living content for job seekers, relocators, expats, and compensation researchers."
+      description="William Petersen founded and maintains salaryincometax.com, including its tax-rule sourcing, calculator methodology, and editorial review process."
       eyebrow="Author"
-      title="Salaryincometax.com Editorial Team"
+      title={AUTHOR_NAME}
     >
       <StructuredData data={structuredData} />
       <div className="space-y-6">
@@ -68,32 +75,33 @@ export default function EditorialTeamAuthorPage(): JSX.Element {
         <ContentSections
           sections={[
             {
-              title: "What this team covers",
+              title: "Who I am",
               paragraphs: [
-                "The editorial team focuses on practical salary questions: how gross salary becomes net pay, how tax and social contributions work, how cost of living changes affordability, and how workers can compare job offers across countries.",
-                "The goal is not to replace a payroll department or tax adviser. The goal is to help readers ask better questions, understand the assumptions behind salary calculators, and spot the costs that can change a relocation or negotiation decision.",
+                `${AUTHOR_NAME} founded salaryincometax.com and is personally responsible for the tax-rule sourcing, calculator methodology, and editorial decisions published on the site.`,
+                "The focus is practical salary questions: how gross salary becomes net pay, how tax and social contributions work, how cost of living changes affordability, and how workers can compare job offers across countries.",
+                "The goal is not to replace a payroll department or tax adviser. It's to help readers ask better questions, understand the assumptions behind salary calculators, and spot the costs that can change a relocation or negotiation decision.",
               ],
             },
             {
               title: "Research method",
               bullets: [
-                "Use official tax authority, statistics office, and public payroll references where available.",
+                "Use official tax authority, statistics office, and public payroll references where available - see the Sources page for the reference list behind each country model.",
                 "Separate source-backed calculator pages from illustrative estimate models that are not ready for public navigation.",
                 "Translate tax and salary rules into practical examples, monthly cash-flow context, and clear limitations.",
-                "Link country guides to calculators, source notes, and related cost-of-living articles so readers can verify assumptions.",
+                "Link country guides to calculators, source notes, and related cost-of-living articles so readers can verify assumptions themselves rather than take a figure on faith.",
               ],
             },
             {
               title: "Editorial standards",
               paragraphs: [
                 "Articles are written for readers making real salary decisions, not for search engines alone. Every guide should answer the core question directly, include practical examples, explain common mistakes, and identify when a reader should replace benchmark data with current quotes or professional advice.",
-                "When a figure is estimated, benchmark-based, or dependent on household circumstances, the page should say so clearly.",
+                "When a figure is estimated, benchmark-based, or dependent on household circumstances, the page says so clearly. The full process is documented on the Editorial Policy page, including where AI-assisted drafting is used and how it's reviewed.",
               ],
             },
             {
               title: "Corrections and updates",
               paragraphs: [
-                "Tax rules, contribution rates, wage benchmarks, and housing costs change. The team reviews source-backed country pages and blog guides as new tax-year data becomes available or when readers report an issue.",
+                "Tax rules, contribution rates, wage benchmarks, and housing costs change. Source-backed country pages and blog guides are reviewed as new tax-year data becomes available or when readers report an issue.",
                 `Corrections can be sent to ${SUPPORT_EMAIL}. Please include the page URL, the disputed figure or paragraph, and the source you believe should be reviewed.`,
               ],
             },

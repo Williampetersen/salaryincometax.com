@@ -176,7 +176,7 @@ export function buildArticleSchema(post: BlogPost): Record<string, unknown> {
     dateModified: post.updatedAt,
     datePublished: post.updatedAt,
     author: {
-      "@type": "Organization",
+      "@type": "Person",
       name: post.author,
       url: absoluteUrl("/authors/salaryincometax-editorial-team"),
     },

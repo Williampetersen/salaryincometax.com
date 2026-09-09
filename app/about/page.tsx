@@ -41,7 +41,7 @@ export default function AboutPage(): JSX.Element {
             {
               title: "Who we are",
               paragraphs: [
-                "Salaryincometax.com is an independent salary and tax information website focused on helping users understand what a salary may look like after tax in different countries.",
+                "Salaryincometax.com is an independent salary and tax information website founded and maintained by William Petersen, focused on helping users understand what a salary may look like after tax in different countries.",
                 "The site is built for job seekers, relocators, expats, employers, and anyone comparing compensation between countries or cities.",
               ],
             },
@@ -115,10 +115,10 @@ export default function AboutPage(): JSX.Element {
 
         <section className="panel p-5 sm:p-7">
           <h2 className="font-[var(--font-display)] text-3xl font-bold tracking-tight text-ink">
-            Editorial team and policies
+            Author and policies
           </h2>
           <p className="mt-4 text-base leading-8 text-ink/72">
-            The site keeps its editorial standards, author profile, source notes,
+            The site keeps its author profile, editorial standards, source notes,
             advertising rules, and correction process public so readers can judge
             the work behind each calculator and guide.
           </p>
@@ -127,7 +127,7 @@ export default function AboutPage(): JSX.Element {
               className="rounded-full border border-ink/10 bg-white px-4 py-2.5 text-sm font-semibold text-ink transition hover:border-coral/25 hover:text-coral"
               href="/authors/salaryincometax-editorial-team"
             >
-              Editorial team
+              William Petersen
             </Link>
             <Link
               className="rounded-full border border-ink/10 bg-white px-4 py-2.5 text-sm font-semibold text-ink transition hover:border-coral/25 hover:text-coral"

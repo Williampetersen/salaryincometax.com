@@ -11,6 +11,15 @@ export function SiteFooter(): JSX.Element {
       <div className="shell grid gap-8 py-8 text-sm text-ink/68 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.9fr)]">
         <div>
           <p className="font-semibold text-ink">{SITE_NAME}</p>
+          <p className="mt-1 text-xs text-ink/55">
+            Founded and maintained by{" "}
+            <Link
+              className="font-medium text-ink/70 transition hover:text-coral"
+              href="/authors/salaryincometax-editorial-team"
+            >
+              William Petersen
+            </Link>
+          </p>
           <p className="mt-3 leading-7">{DISCLAIMER}</p>
           <Link
             className="mt-3 inline-flex font-medium text-coral transition hover:text-ink"

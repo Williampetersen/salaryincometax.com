@@ -9,7 +9,7 @@ import type { BlogPost } from "@/data/blog/types";
 // the flagship-allowlist note in blogPosts.ts and
 // CONTENT_QUALITY_AUDIT_2026-07-06.md for why this distinction matters.
 
-const GUIDE_AUTHOR = "Salaryincometax.com Editorial Team";
+const GUIDE_AUTHOR = "William Petersen";
 const GUIDE_DISCLAIMER =
   "This content is for general information only and is not tax, legal, financial, or accounting advice. Tax rules vary by country, region, and personal circumstances - confirm details with your employer's payroll team or your local tax authority.";
 const GUIDE_CATEGORY = "salary-guides" as const;

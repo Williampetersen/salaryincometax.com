@@ -23,7 +23,7 @@ import { formatCurrency, formatNumber, formatPercent } from "@/lib/formatters";
 import { calculateSalaryTax } from "@/lib/tax-engine/calculate";
 import type { CountryTaxRule, SalaryPeriod } from "@/lib/tax-engine/types";
 
-const BLOG_AUTHOR = "Salaryincometax.com Editorial Team";
+const BLOG_AUTHOR = "William Petersen";
 const ARTICLE_DISCLAIMER =
   "This content is for general information only and is not tax, legal, financial, or accounting advice.";
 const BASELINE_DATA_NOTE =
