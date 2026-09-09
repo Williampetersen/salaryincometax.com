@@ -6,7 +6,7 @@ import { ArticleDecisionSupport } from "@/components/blog/article-decision-suppo
 import { BlogBreadcrumbs } from "@/components/blog/blog-breadcrumbs";
 import { BlogCard } from "@/components/blog/blog-card";
 import { BlogFaq } from "@/components/blog/blog-faq";
-import { BlogImage } from "@/components/blog/blog-image";
+import { BlogHeroArt } from "@/components/blog/blog-hero-art";
 import { BlogAnalytics } from "@/components/blog/blog-analytics";
 import { RelatedCalculatorBox } from "@/components/blog/related-calculator-box";
 import { TableOfContents } from "@/components/blog/table-of-contents";
@@ -24,7 +24,7 @@ import {
   hasBlogCountryArchive,
 } from "@/lib/blog";
 import { absoluteUrl, buildBreadcrumbSchema } from "@/lib/seo";
-import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { SITE_DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/site";
 
 interface BlogArticlePageProps {
   params: {
@@ -219,7 +219,7 @@ export function generateMetadata({
       type: "article",
       images: [
         {
-          url: post.image,
+          url: SITE_DEFAULT_OG_IMAGE,
           alt: post.title,
         },
       ],
@@ -228,7 +228,7 @@ export function generateMetadata({
       card: "summary_large_image",
       title: `${post.metaTitle} | ${SITE_NAME}`,
       description: post.metaDescription,
-      images: [post.image],
+      images: [SITE_DEFAULT_OG_IMAGE],
     },
     keywords: [post.keyword, post.countryName, post.categoryLabel].filter(Boolean),
   };
@@ -287,14 +287,7 @@ export default function BlogArticlePage({
         <article className="min-w-0 space-y-6">
           <header className="panel overflow-hidden">
             <div className="relative aspect-[16/8] min-h-[16rem] bg-ink/5">
-              <BlogImage
-                alt={post.title}
-                className="object-cover"
-                fill
-                priority
-                sizes="(min-width: 1280px) 900px, 100vw"
-                src={post.image}
-              />
+              <BlogHeroArt className="absolute inset-0" post={post} priority />
               <div className="absolute inset-0 bg-gradient-to-t from-ink/65 via-ink/20 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8">
                 <div className="flex flex-wrap gap-2">

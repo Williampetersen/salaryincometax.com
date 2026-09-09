@@ -189,7 +189,7 @@ export function buildArticleSchema(post: BlogPost): Record<string, unknown> {
         url: absoluteUrl(SITE_DEFAULT_OG_IMAGE),
       },
     },
-    image: absoluteUrl(post.image || SITE_DEFAULT_OG_IMAGE),
+    image: absoluteUrl(SITE_DEFAULT_OG_IMAGE),
     mainEntityOfPage: absoluteUrl(`/blog/${post.slug}`),
     inLanguage: "en",
     articleSection: [post.categoryLabel, post.countryName],

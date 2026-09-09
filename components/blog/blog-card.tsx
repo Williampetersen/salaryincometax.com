@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { BlogImage } from "@/components/blog/blog-image";
+import { BlogHeroArt } from "@/components/blog/blog-hero-art";
 import { CountryFlag } from "@/components/shared/country-flag";
 import type { BlogPost } from "@/data/blog/types";
 import { getBlogCountry, getBlogCategory } from "@/lib/blog";
@@ -18,12 +18,9 @@ export function BlogCard({ post }: BlogCardProps): JSX.Element {
     <article className="group h-full rounded-4xl border border-ink/10 bg-white/90 shadow-card transition hover:-translate-y-1 hover:border-coral/25">
       <Link className="flex h-full flex-col" href={`/blog/${post.slug}`}>
         <div className="relative aspect-[16/10] overflow-hidden rounded-t-4xl bg-ink/5">
-          <BlogImage
-            alt={post.title}
-            className="object-cover transition duration-500 group-hover:scale-[1.03]"
-            fill
-            sizes="(min-width: 1280px) 24rem, (min-width: 768px) 45vw, 100vw"
-            src={post.image}
+          <BlogHeroArt
+            className="absolute inset-0 transition duration-500 group-hover:scale-[1.03]"
+            post={post}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-ink/40 via-transparent to-transparent" />
           <div className="absolute left-4 top-4 flex flex-wrap gap-2">
