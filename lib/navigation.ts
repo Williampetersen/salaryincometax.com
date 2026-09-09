@@ -66,7 +66,7 @@ export const FOOTER_LINK_GROUPS: Array<{
     heading: "Company",
     links: [
       { href: "/about", label: "About" },
-      { href: "/authors/salaryincometax-editorial-team", label: "Editorial Team" },
+      { href: "/authors/salaryincometax-editorial-team", label: "William Petersen" },
       { href: "/editorial-policy", label: "Editorial Policy" },
       { href: "/advertising-policy", label: "Advertising Policy" },
       { href: "/sources", label: "Sources" },

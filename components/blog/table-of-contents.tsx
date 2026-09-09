@@ -1,10 +1,12 @@
 import type { BlogSection } from "@/data/blog/types";
 
 interface TableOfContentsProps {
+  hasDecisionChecklist?: boolean;
   sections: BlogSection[];
 }
 
 export function TableOfContents({
+  hasDecisionChecklist = true,
   sections,
 }: TableOfContentsProps): JSX.Element {
   return (
@@ -24,11 +26,13 @@ export function TableOfContents({
               </a>
             </li>
           ))}
-          <li>
-            <a className="transition hover:text-coral" href="#decision-checklist">
-              Decision checklist
-            </a>
-          </li>
+          {hasDecisionChecklist ? (
+            <li>
+              <a className="transition hover:text-coral" href="#decision-checklist">
+                Decision checklist
+              </a>
+            </li>
+          ) : null}
           <li>
             <a className="transition hover:text-coral" href="#faq">
               FAQ

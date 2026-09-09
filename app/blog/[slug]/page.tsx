@@ -618,7 +618,10 @@ export default function BlogArticlePage({
         </article>
 
         <aside className="xl:sticky xl:top-24 xl:self-start">
-          <TableOfContents sections={post.sections} />
+          <TableOfContents
+            hasDecisionChecklist={Boolean(post.countryName)}
+            sections={post.sections}
+          />
         </aside>
       </div>
 
