@@ -142,9 +142,24 @@ before resubmitting.
 - [ ] Do not ask friends, staff, or contractors to click ads.
 - [ ] Do not buy paid-to-click, autosurf, click-exchange, or other invalid-traffic services.
 - [ ] Review any paid traffic campaign against Google's landing page quality expectations before sending traffic to ad pages.
-- [ ] Review Google Search Console for indexing issues - as of 2026-09-09 it
-  was independently showing "Needs attention - Low value content" and this
-  needs to be re-checked and confirmed clear before resubmitting.
+- [x] Review Google Search Console for indexing issues - checked 2026-09-09.
+  Correction to the earlier note in this file: the "Needs attention - Low
+  value content" label seen at the start of this remediation pass was from
+  **AdSense's own Sites list**, not Search Console - they are different
+  systems and shouldn't be conflated. Search Console's actual Page indexing
+  report shows: **10 pages indexed, 30 not indexed** (21 "Crawled - currently
+  not indexed", 6 "Not found (404)", 3 "Page with redirect", 0 "Discovered -
+  currently not indexed"). The 404s/redirects are old pre-pruning URLs
+  correctly returning 404 now, not a defect. Performance (3-month window):
+  **0 clicks, 75 impressions, average position 65.2** - essentially no real
+  organic visibility yet. Conclusion: the dominant remaining problem is no
+  longer page-template shape (three passes have already addressed that at
+  increasing levels of the page structure) but a new-domain trust/indexing
+  problem that only time, real backlinks, and real traffic can move. Do not
+  resubmit AdSense expecting this round of fixes alone to change the
+  outcome - recheck this same report in a few weeks and look for the
+  "crawled - currently not indexed" count shrinking and indexed count
+  growing before resubmitting.
 - [x] Check Vercel production for broken images, 404s, and console errors -
   2026-09-09: checked all 69 sitemap URLs (all 200), found and fixed every
   published article's hero/OG/schema image pointing at a file that never
