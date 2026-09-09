@@ -21,7 +21,7 @@ import { TAX_RULES } from "@/data/tax-rules";
 import { buildDefaultInput } from "@/lib/country-catalog";
 import { formatCurrency, formatNumber, formatPercent } from "@/lib/formatters";
 import { calculateSalaryTax } from "@/lib/tax-engine/calculate";
-import type { CountryTaxRule, SalaryPeriod } from "@/lib/tax-engine/types";
+import type { ContributionRule, CountryTaxRule, SalaryPeriod } from "@/lib/tax-engine/types";
 
 const BLOG_AUTHOR = "William Petersen";
 const ARTICLE_DISCLAIMER =
@@ -415,13 +415,35 @@ function buildBracketTable(rule: CountryTaxRule): BlogTable {
   };
 }
 
+const CONTRIBUTION_BASE_LABELS: Record<string, string> = {
+  gross: "gross",
+  taxableIncome: "taxable income",
+  incomeTax: "income tax",
+};
+
+function describeContributionRate(item: ContributionRule): string {
+  if (item.type === "progressive" && item.brackets && item.brackets.length > 0) {
+    const rates = item.brackets.map((bracket) => bracket.rate);
+    const lowest = Math.min(...rates);
+    const highest = Math.max(...rates);
+
+    return lowest === highest
+      ? `${formatPercent(lowest)} (progressive bands)`
+      : `${formatPercent(lowest)} to ${formatPercent(highest)} (progressive)`;
+  }
+
+  return formatPercent(item.rate ?? 0);
+}
+
 function buildSocialSecurityTable(rule: CountryTaxRule): BlogTable {
   return {
     title: "Employee payroll deductions",
     columns: ["Charge", "How it works"],
     rows: rule.socialSecurityRules.map((item) => [
       item.name,
-      `${formatPercent(item.rate ?? 0)} on ${item.base}${item.cap ? ` up to ${formatCurrency(item.cap, rule.currency)}` : ""}`,
+      `${describeContributionRate(item)} on ${CONTRIBUTION_BASE_LABELS[item.base] ?? item.base}${
+        item.cap ? ` up to ${formatCurrency(item.cap, rule.currency)}` : ""
+      }`,
     ]),
   };
 }
