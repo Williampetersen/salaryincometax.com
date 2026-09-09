@@ -148,6 +148,37 @@ function buildCountrySystemSection(countrySlug: string, countryName: string): Bl
   return createSection(`What makes ${countryName}'s system different`, [note]);
 }
 
+// "is-{country}-expensive-to-live-in" articles use a single national cost
+// figure. The Australia article's title/metaTitle override
+// ("...Or Is It Just Sydney and Melbourne?" / "City-by-City Cost Reality
+// Check") asks a specific city-level question the body never otherwise
+// answers - a title/content mismatch caught during a manual close-read.
+// Rather than walk the title back to something vaguer, this answers the
+// question the title actually asks, with a directional fact rather than an
+// invented city-specific dollar figure (see CONTENT_STYLE_GUIDE.md's "do not
+// invent statistics" rule).
+const BLOG_EXPENSIVE_CITY_NOTES: Record<string, string> = {
+  australia:
+    "The national figure above blends every market together, which matters here specifically because Sydney and Melbourne are consistently ranked as Australia's most expensive housing markets, well above the national one-bedroom rent used in this guide, while regional cities and other state capitals such as Adelaide, Perth, or Brisbane typically run below it. So the honest read of a single national number is that it undershoots real Sydney or Melbourne rent and overshoots many regional and secondary-city markets - which market you are actually comparing against changes the answer more than the national average does.",
+};
+
+// average-salary-in-{country}-after-tax title overrides promise a specific
+// country mechanism (Australia's Medicare levy/HECS, Canada's provincial
+// gap, Germany's tax curve/church tax) that BLOG_COUNTRY_SYSTEM_NOTES
+// already covers - but that map is already wired to a different published
+// article per country (Canada's note is on minimum-wage-in-canada, Germany's
+// is on cost-of-living-in-germany). Reusing those exact paragraphs here
+// would duplicate them across two live pages, so these are freshly written,
+// framed around the average-salary angle specifically, not copies.
+const BLOG_AVERAGE_SALARY_NOTES: Record<string, string> = {
+  australia:
+    "The median figure here already has the Medicare levy factored in - a flat 2% of taxable income on top of the ordinary brackets - but it does not subtract HECS or HELP student loan repayments, which come out of pay for anyone still repaying a government study loan and scale up once earnings cross the relevant threshold. That is a real gap for graduates specifically: two people on the same median salary can land in noticeably different take-home positions depending on whether one of them is still repaying a study loan.",
+  canada:
+    "This baseline only reaches the federal layer: federal tax brackets plus Canada Pension Plan and Employment Insurance contributions. Provincial income tax is a separate charge set independently by each province, which is exactly why the same median salary can produce a meaningfully different take-home number depending on where in Canada someone lives - this figure is a federal floor to adjust once the specific province is known, not a finished number.",
+  germany:
+    "Germany's real income-tax formula is a continuous curve rather than a table of fixed brackets, so this baseline uses a scalable approximation built from the published allowance thresholds rather than the exact statutory function - close enough for planning, not identical to a payslip calculation. It also leaves church tax out entirely: that charge only applies to registered members of a recognized church and typically adds another 8-9% on top of the income-tax bill for those who pay it, so check whether that line applies before comparing this figure with a real payslip.",
+};
+
 // AdSense resubmission flagship allowlist (2026-06 pruning pass).
 //
 // The public blog was previously built from a handful of templates looped
@@ -1719,8 +1750,8 @@ function buildAverageSalaryPost(countrySlug: string): BlogPost {
       `Average salary is one of the most searched pay metrics in ${country.name}, but the gross number only tells part of the story. What matters in daily life is how much survives tax and how far that money goes after rent is paid.`,
       `For ${country.name}, the current baseline shows a gross annual salary around ${formatCurrency(salary.averageGrossAnnual, country.currency)} and an average monthly net salary near ${formatCurrency(salary.averageNetMonthly, country.currency)}.`,
     ], { note }),
-    ...(countrySlug === "australia" && buildCountrySystemSection(countrySlug, country.name)
-      ? [buildCountrySystemSection(countrySlug, country.name) as BlogSection]
+    ...(BLOG_AVERAGE_SALARY_NOTES[countrySlug]
+      ? [createSection(`What makes ${country.name}'s average different`, [BLOG_AVERAGE_SALARY_NOTES[countrySlug]])]
       : []),
     createSection(`Average Salary in ${country.name}`, [
       `The baseline market salary for ${country.name} is ${formatCurrency(salary.averageGrossAnnual, country.currency)} gross per year. It is useful as a planning reference, not as a promise of what every employer or region pays.`,
@@ -2026,6 +2057,7 @@ function buildExpensivePost(countrySlug: string): BlogPost {
     createSection("What Makes " + country.name + " Expensive?", [
       `In ${country.name}, as in many high-cost countries, housing decides the story first and every other category follows.`,
       `${country.name} fits that pattern as well: one-bedroom housing near ${formatCurrency(costData.rentOneBedroom, country.currency)} and family housing around ${formatCurrency(costData.rentFamilyHome, country.currency)} shape the whole affordability conversation.`,
+      ...(BLOG_EXPENSIVE_CITY_NOTES[countrySlug] ? [BLOG_EXPENSIVE_CITY_NOTES[countrySlug]] : []),
     ]),
     createSection("What Salary Makes " + country.name + " Work?", [
       `For the affordability question in ${country.name}, ${comfortableAnswer.charAt(0).toLowerCase()}${comfortableAnswer.slice(1)}`,
