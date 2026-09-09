@@ -196,6 +196,22 @@ const BLOG_MINIMUM_WAGE_NOTES: Record<string, string> = {
     "At minimum-wage income specifically, PRSI does more of the work than USC. This baseline applies PRSI as a flat 4.1% on gross pay, while USC is progressive and starts much lower - 0.5% on roughly the first EUR 12,012, then 2% up to about EUR 27,382 - so most of a minimum-wage income falls into USC's cheapest bands rather than the higher rates a bigger salary would reach. That's the reverse of how USC often gets discussed: at this end of the pay scale, PRSI and tax credits shape take-home pay far more than USC does.",
 };
 
+// cost-of-living-in-denmark's title override ("...Rent, Municipal Tax, and
+// Daily Budgets") promises municipal tax content the base cost-of-living
+// template never mentions - the same false-positive an earlier keyword
+// count missed, since "Municipal Tax" only ever appeared inside the title
+// string itself (repeated across meta tags and the hydration payload).
+// Denmark's municipal-tax mechanic is already explained on the separate,
+// published income-tax-in-denmark article, so this is fresh wording framed
+// around what a cost-of-living reader actually needs: the net-pay figure
+// used throughout this budget already bakes in the 25.06% average municipal
+// rate this site models, and a reader's real kommune can sit above or below
+// that.
+const BLOG_COST_OF_LIVING_NOTES: Record<string, string> = {
+  denmark:
+    "The net-pay figure used throughout this budget already has Denmark's tax layers baked in, including a municipal tax modeled here at a 25.06% average - every kommune sets its own rate, so this is an average, not a universal number. That matters directly for this budget: a kommune taxed above that average leaves less take-home pay to cover the rent and living costs shown here, while a lower-rate kommune leaves more room. Before signing a lease, it's worth checking the specific municipality's rate rather than assuming the national average applies to your paycheck.",
+};
+
 // AdSense resubmission flagship allowlist (2026-06 pruning pass).
 //
 // The public blog was previously built from a handful of templates looped
@@ -1132,6 +1148,13 @@ function buildCountryCostPost(countrySlug: string): BlogPost {
     ], { note }),
     ...(countrySlug === "germany" && buildCountrySystemSection(countrySlug, locationName)
       ? [buildCountrySystemSection(countrySlug, locationName) as BlogSection]
+      : []),
+    ...(BLOG_COST_OF_LIVING_NOTES[countrySlug]
+      ? [
+          createSection(`What makes ${locationName}'s cost of living different`, [
+            BLOG_COST_OF_LIVING_NOTES[countrySlug],
+          ]),
+        ]
       : []),
     createSection("Average Salary in " + locationName, [
       `The current benchmark for average gross salary in ${locationName} is about ${formatCurrency(costData.averageGrossAnnual, country.currency)} per year. It is a good reference point for market discussions, but it does not tell you what remains after tax or whether a city-level rent target is realistic.`,
