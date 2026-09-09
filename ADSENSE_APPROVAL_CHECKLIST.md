@@ -167,7 +167,20 @@ before resubmitting.
 - [ ] Confirm `https://salaryincometax.com/ads.txt` serves the correct
   AdSense line after approval (already verified serving correctly pre-approval
   as of 2026-09-09; recheck once ads are actually enabled).
-- [ ] Review Google Publisher Policies for content-level issues before enabling ads on newly published articles.
+- [x] Review Google Publisher Policies for content-level issues before enabling
+  ads on newly published articles - 2026-09-09: read the current spam-policy
+  text directly (developers.google.com/search/docs/essentials/spam-policies).
+  Scaled content abuse is defined as pages "generated for the primary purpose
+  of manipulating search rankings and not helping users" - the site's
+  functioning per-country tax engine gives the blog a real, checkable purpose
+  beyond ranking, which the three prior de-templating passes already targeted
+  at the page-structure level. Doorway abuse is defined around pages that
+  "funnel users to intermediate pages that aren't as useful as the final
+  destination" - every published article links to and funnels toward its
+  matching calculator page, which is the genuinely useful, unique-per-country
+  destination, not a thin funnel target. No new action item from this beyond
+  what's already been fixed; recorded here so the reasoning doesn't have to
+  be re-derived next time.
 - [ ] Get a real named author (not just "Editorial Team") with a genuine,
   relevant bio onto the authors page, About page, and footer.
 
