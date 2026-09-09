@@ -33,6 +33,121 @@ const CATEGORY_LABELS = Object.fromEntries(
   BLOG_CATEGORIES.map((category) => [category.slug, category.name]),
 ) as Record<BlogCategorySlug, string>;
 
+// Hand-written titles for the flagship published articles.
+//
+// These deliberately do not follow a "[Metric] in [Country]" fill-in-the-blank
+// formula. Each title names the specific mechanism that makes that country's
+// system different (municipal tax, PAYE credits, provincial exclusion, and so
+// on) so the published title set reads as distinct write-ups rather than one
+// template swapped across countries - see CONTENT_QUALITY_AUDIT_2026-09-09.md.
+const ARTICLE_TITLE_OVERRIDES: Record<string, { title: string; metaTitle: string }> = {
+  "income-tax-in-denmark": {
+    title: "Denmark's Payslip, Explained: Municipal Tax, AM-bidrag, and No Statutory Minimum Wage",
+    metaTitle: "Denmark Income Tax Explained | Municipal Tax, AM-bidrag & Take-Home Pay",
+  },
+  "income-tax-in-ireland": {
+    title: "Ireland's PAYE System: Why Tax Credits, USC, and PRSI Replace a Simple Allowance",
+    metaTitle: "Ireland PAYE Tax Explained | Tax Credits, USC & PRSI",
+  },
+  "income-tax-in-united-kingdom": {
+    title: "UK Income Tax Outside Scotland: Bands, National Insurance, and the GBP 100,000 Taper",
+    metaTitle: "UK Income Tax (England, Wales & NI) | Bands, NI & Personal Allowance Taper",
+  },
+  "income-tax-in-united-states": {
+    title: "US Federal Tax Only: Why State Income Tax Is the Biggest Gap in Any Paycheck Estimate",
+    metaTitle: "US Federal Income Tax & FICA Explained | Why State Tax Changes Everything",
+  },
+  "minimum-wage-in-canada": {
+    title: "Canada's Minimum Wage Isn't One Number: Federal Pay, CPP, EI, and Provincial Gaps",
+    metaTitle: "Canada Minimum Wage After Tax | Federal-Only CPP & EI Model",
+  },
+  "minimum-wage-in-ireland": {
+    title: "Ireland's Minimum Wage After USC and PRSI: What's Left Once Both Charges Apply",
+    metaTitle: "Ireland Minimum Wage After Tax | USC & PRSI Impact",
+  },
+  "average-salary-in-australia-after-tax": {
+    title: "Australia's Median Salary After the Medicare Levy (and Without HECS)",
+    metaTitle: "Average Salary in Australia After Tax | Medicare Levy Explained",
+  },
+  "average-salary-in-canada-after-tax": {
+    title: "Canada's Average Salary Looks Different in Every Province - This Is the Federal Baseline",
+    metaTitle: "Average Salary in Canada After Federal Tax | CPP & EI Included",
+  },
+  "average-salary-in-germany-after-tax": {
+    title: "Germany's Average Salary Under a Continuous Tax Curve, With Church Tax Left Out",
+    metaTitle: "Average Salary in Germany After Tax | Solidarity Surcharge Explained",
+  },
+  "cost-of-living-in-denmark": {
+    title: "Living in Denmark on an Average Salary: Rent, Municipal Tax, and Daily Budgets",
+    metaTitle: "Cost of Living in Denmark | Rent, Municipal Tax & Monthly Budgets",
+  },
+  "cost-of-living-in-germany": {
+    title: "What an Average German Salary Actually Buys: Rent, Insurance, and Everyday Costs",
+    metaTitle: "Cost of Living in Germany | Rent, Social Insurance & Monthly Budgets",
+  },
+  "cost-of-living-in-united-kingdom": {
+    title: "Renting and Living Outside London on a UK Average Salary",
+    metaTitle: "Cost of Living in the UK | Rent, Take-Home Pay & Monthly Budgets",
+  },
+  "cost-of-living-in-united-states": {
+    title: "Why US Cost of Living Estimates Fall Apart Without a State and City",
+    metaTitle: "Cost of Living in the US | State Tax Gap, Rent & Monthly Budgets",
+  },
+  "is-australia-expensive-to-live-in": {
+    title: "Is Australia Actually Expensive, or Is It Just Sydney and Melbourne?",
+    metaTitle: "Is Australia Expensive? | City-by-City Cost Reality Check",
+  },
+};
+
+function applyTitleOverride<T extends { slug: string; title: string; metaTitle: string }>(
+  post: T,
+): T {
+  const override = ARTICLE_TITLE_OVERRIDES[post.slug];
+
+  if (!override) {
+    return post;
+  }
+
+  return { ...post, title: override.title, metaTitle: override.metaTitle };
+}
+
+// Hand-written explainer paragraphs for the blog's flagship country articles.
+//
+// These cover the same underlying facts as data/tax-rules/countryHighlights.ts
+// (already used verbatim on the matching /salary-calculator/[country] page),
+// but in fresh sentences written for a blog reader. Reusing the calculator
+// page's exact bullet text here would just move the "scaled content" problem
+// from country-to-country duplication to page-to-page duplication for the
+// same country, so each entry below is original prose, not a copy of
+// COUNTRY_HIGHLIGHTS. Only countries with a published blog article that pairs
+// with this content are listed.
+const BLOG_COUNTRY_SYSTEM_NOTES: Record<string, string> = {
+  denmark:
+    "What actually drives a Danish tax bill often surprises newcomers: the national state-tax tiers are only part of the story. A municipal tax - modeled here at a 25.06% average, since every kommune sets its own rate - typically outweighs the national brackets, and the AM-bidrag labour-market contribution is stripped out of income before those brackets even apply, shrinking the taxable base further. None of that shows up on a simple bracket table, which is why Danish take-home pay can look unusually low to anyone comparing headline rates alone. Two things worth knowing before relying on the number: your real municipal rate can sit above or below the 25.06% average used here, and church tax, which only applies to registered members of the Church of Denmark, isn't included at all.",
+  ireland:
+    "Ireland's PAYE system doesn't work like a typical personal-allowance model. Instead of exempting a slice of income before tax applies, it hands out personal and employee tax credits that are subtracted directly from the tax bill you would otherwise owe - the mechanism this guide follows too. On top of income tax, Universal Social Charge and PRSI are calculated as their own separate charges with their own rate bands, so a raise can push someone into a new USC band without touching their income-tax band, or the other way around. Left out of this baseline: joint assessment for married couples and civil partners, which can shift band thresholds between spouses, pension contribution relief, and PRSI subclass differences across employment types.",
+  "united-kingdom":
+    "This model uses the income tax bands that apply in England, Wales, and Northern Ireland - Scotland runs its own separate set of bands, with more tiers and different thresholds, so a Scottish taxpayer's real bill will not match this estimate. Employee National Insurance is calculated separately from income tax using its own thresholds, matching how it actually appears as its own line on a UK payslip, and the tax year modeled follows the UK's non-calendar 6 April to 5 April cycle rather than a January-to-December year. Two things the baseline does not yet apply: the personal allowance taper that removes GBP 1 of allowance for every GBP 2 earned above GBP 100,000, and Marriage Allowance, which lets some couples transfer part of an unused personal allowance.",
+  "united-states":
+    "This route is deliberately federal-only: IRS brackets, the standard deduction, and FICA, meaning Social Security, Medicare, and the Additional Medicare Tax once income crosses the relevant threshold. State and city income tax are left out entirely, and that is the single biggest reason this estimate can differ from a real paycheck - some states, like Texas and Florida, charge no state income tax at all, while others, like California and New York, add well over 13%. Itemized deductions, above-the-line adjustments, and most personal credits such as the Child Tax Credit or Earned Income Tax Credit are not applied either, so treat this as the federal floor of a paycheck estimate rather than the finished number.",
+  germany:
+    "German take-home pay is shaped by more moving parts than a bracket table suggests. The solidarity surcharge is 5.5% of the income tax owed, not of gross salary, and employee social insurance is split across three separate buckets - pension, unemployment, and health and care insurance - each with its own employee share. Germany's official tax formula is also a continuous mathematical curve rather than fixed brackets, so this baseline uses a scalable approximation built from the published 2026 allowance thresholds rather than the exact statutory function. Left out of the model: church tax, which applies only to registered members of a recognized church and typically adds another 8-9% of the income tax bill depending on the state, and insurer-specific contribution surcharges, which vary by health fund.",
+  canada:
+    "This baseline stops deliberately at the federal layer: federal income tax brackets plus Canada Pension Plan and Employment Insurance employee contributions. Provincial and territorial income tax, a separate charge on top of everything shown here, is not included, and it is usually the biggest reason a real Canadian paycheck differs from this estimate, since provinces set their own rates and credits independently of Ottawa. The federal personal amount also phases out for higher earners in the real system; that phaseout is not applied in this baseline, so results near the top bracket can look slightly more generous than reality.",
+  australia:
+    "Australia's federal brackets tell most of the story here, since there is no separate state income tax layer to add on top - unlike Canada or the US, where a second jurisdiction's tax can change the result substantially. On top of the ordinary brackets, the Medicare levy adds a flat 2% of taxable income; it is not a bracket in its own right. Superannuation, meanwhile, is treated as paid by the employer on top of the entered salary in most arrangements, not subtracted as an employee deduction. What this baseline does not yet apply: the Medicare levy surcharge for higher earners without private hospital cover, HELP/HECS student loan repayments that scale with income, and the Low Income Tax Offset that reduces final tax for lower earners.",
+};
+
+function buildCountrySystemSection(countrySlug: string, countryName: string): BlogSection | null {
+  const note = BLOG_COUNTRY_SYSTEM_NOTES[countrySlug];
+
+  if (!note) {
+    return null;
+  }
+
+  return createSection(`What makes ${countryName}'s system different`, [note]);
+}
+
 // AdSense resubmission flagship allowlist (2026-06 pruning pass).
 //
 // The public blog was previously built from a handful of templates looped
@@ -775,18 +890,72 @@ function buildExpensiveFaq(
   ];
 }
 
+// Hand-written FAQs for the income-tax flagship articles, distinct from the
+// FAQs already rendered on the matching /salary-calculator/[country] page
+// (see COUNTRY_HIGHLIGHTS.faqs in data/tax-rules/countryHighlights.ts, used by
+// lib/country-catalog.ts) so the same question/answer text does not appear
+// twice for the same country across two published pages.
+const BLOG_INCOME_TAX_FAQS: Record<string, BlogFaqItem[]> = {
+  denmark: [
+    {
+      question: "Why does Denmark not have a legal minimum wage?",
+      answer:
+        "Danish wage floors come from sector-level collective bargaining agreements rather than a national statute, which is why any minimum-wage figure for Denmark is a negotiated benchmark, not a law.",
+    },
+    {
+      question: "Is municipal tax the same everywhere in Denmark?",
+      answer:
+        "No. Each kommune sets its own municipal tax rate, and it is usually the single largest deduction on a Danish payslip. This guide uses a 25.06% average, but your actual municipality can sit above or below that figure.",
+    },
+  ],
+  ireland: [
+    {
+      question: "Why do I see tax credits on an Irish payslip instead of a tax-free allowance?",
+      answer:
+        "Ireland's PAYE system reduces the tax you owe using personal and employee tax credits subtracted directly from the bill, rather than exempting income before brackets apply - a structurally different mechanism from countries that use a simple personal allowance.",
+    },
+    {
+      question: "Are USC and PRSI part of income tax in Ireland?",
+      answer:
+        "No, they are calculated separately, each with its own rate bands. That is why a pay rise can move you into a new USC band while your income-tax band stays the same, or the other way around.",
+    },
+  ],
+  "united-kingdom": [
+    {
+      question: "Does this UK guide use Scottish tax bands?",
+      answer:
+        "No. Scotland has its own income tax bands with different thresholds and rates, so a Scottish reader's real bill will differ from the England, Wales, and Northern Ireland bands used here.",
+    },
+    {
+      question: "Why does the UK tax year not run January to December?",
+      answer:
+        "The UK tax year runs from 6 April to 5 April rather than a calendar year, and every bracket and allowance figure in this guide is tied to that cycle.",
+    },
+  ],
+  "united-states": [
+    {
+      question: "Why is my real US paycheck so different from the federal number in this guide?",
+      answer:
+        "Because state and local income tax are not included here at all. Some states charge nothing, others charge over 13%, so the state and local gap is usually the largest source of difference from a federal-only estimate like this one.",
+    },
+    {
+      question: "Does this guide account for tax credits like the Child Tax Credit?",
+      answer:
+        "No. This guide applies the federal standard deduction automatically but does not model itemized deductions or personal credits such as the Child Tax Credit or Earned Income Tax Credit.",
+    },
+  ],
+};
+
 function buildIncomeTaxFaq(
   countryName: string,
   countrySlug: string,
 ): BlogFaqItem[] {
   const rule = getRule(countrySlug);
   const salary = SALARY_DATA[countrySlug];
+  const uniqueFaqs = BLOG_INCOME_TAX_FAQS[countrySlug] ?? [];
 
   return [
-    {
-      question: `How does income tax work in ${countryName}?`,
-      answer: `${TAX_DATA[countrySlug].howItWorks[0]} ${TAX_DATA[countrySlug].socialSecuritySummary} ${TAX_DATA[countrySlug].personalAllowanceSummary}`,
-    },
+    ...uniqueFaqs,
     {
       question: `What is the top income tax rate in ${countryName}?`,
       answer: `The highest configured income-tax band in this ${countryName} model is ${formatPercent(TAX_DATA[countrySlug].topRate)} for tax year ${rule.taxYear}, but only the slice of income above the threshold is taxed at that rate.`,
@@ -855,6 +1024,9 @@ function buildCountryCostPost(countrySlug: string): BlogPost {
       `${locationName} makes more sense when you look at the full monthly budget instead of a single headline price. Rent, after-tax income, transport, and household structure decide whether the market feels workable or stretched.`,
       `${expensiveAnswer} The more useful question is how much of a normal take-home salary remains after housing, because that is where most relocation plans succeed or fail.`,
     ], { note }),
+    ...(countrySlug === "germany" && buildCountrySystemSection(countrySlug, locationName)
+      ? [buildCountrySystemSection(countrySlug, locationName) as BlogSection]
+      : []),
     createSection("Average Salary in " + locationName, [
       `The current benchmark for average gross salary in ${locationName} is about ${formatCurrency(costData.averageGrossAnnual, country.currency)} per year. It is a good reference point for market discussions, but it does not tell you what remains after tax or whether a city-level rent target is realistic.`,
       `Sector, seniority, and city choice inside ${locationName} still matter. Higher-paying industries can outpace the benchmark, while entry-level or local-service roles may land far below it, which is why household experience varies so much inside the same country.`,
@@ -1234,6 +1406,9 @@ function buildIncomeTaxPost(countrySlug: string): BlogPost {
       `Income tax in ${country.name} is more than a simple bracket table. The final take-home result depends on salary level, payroll contributions, allowances, deductions, and the tax-year rules behind the calculation.`,
       `${taxData.howItWorks[0]} This guide keeps the focus on the answer most readers actually need: how much of a normal salary survives tax and what usually changes that number.`,
     ], { note }),
+    ...(DETAILED_TAX_COUNTRIES.has(countrySlug) && buildCountrySystemSection(countrySlug, country.name)
+      ? [buildCountrySystemSection(countrySlug, country.name) as BlogSection]
+      : []),
     createSection(`How Income Tax Works in ${country.name}`, [
       ...taxData.howItWorks,
       `For practical planning in ${country.name}, the safest workflow is to annualize pay first, apply the relevant tax-year model, and only then convert the result back into monthly net income.`,
@@ -1394,6 +1569,9 @@ function buildMinimumWagePost(countrySlug: string): BlogPost {
       `Minimum wage is often the first number people search for in ${country.name}, but it only becomes useful after it is translated into monthly take-home pay and compared with actual living costs.`,
       `In ${country.name}, this guide uses ${formatCurrency(minimumWage.annualGross, country.currency)} gross per year as the current reference point. That is enough to test whether the wage is simply a floor or something closer to a workable income.`,
     ], { note: [note, statutoryNote].filter(Boolean).join(" ") || undefined }),
+    ...(countrySlug === "canada" && buildCountrySystemSection(countrySlug, country.name)
+      ? [buildCountrySystemSection(countrySlug, country.name) as BlogSection]
+      : []),
     createSection("Current Minimum Wage", [
       `The current site baseline for minimum wage in ${country.name} is ${formatCurrency(minimumWage.annualGross, country.currency)} gross per year.`,
       `That figure in ${country.name} needs to be read alongside tax and payroll assumptions, because the gross number alone says very little about a real monthly budget.`,
@@ -1541,6 +1719,9 @@ function buildAverageSalaryPost(countrySlug: string): BlogPost {
       `Average salary is one of the most searched pay metrics in ${country.name}, but the gross number only tells part of the story. What matters in daily life is how much survives tax and how far that money goes after rent is paid.`,
       `For ${country.name}, the current baseline shows a gross annual salary around ${formatCurrency(salary.averageGrossAnnual, country.currency)} and an average monthly net salary near ${formatCurrency(salary.averageNetMonthly, country.currency)}.`,
     ], { note }),
+    ...(countrySlug === "australia" && buildCountrySystemSection(countrySlug, country.name)
+      ? [buildCountrySystemSection(countrySlug, country.name) as BlogSection]
+      : []),
     createSection(`Average Salary in ${country.name}`, [
       `The baseline market salary for ${country.name} is ${formatCurrency(salary.averageGrossAnnual, country.currency)} gross per year. It is useful as a planning reference, not as a promise of what every employer or region pays.`,
       `Sector mix still matters in ${country.name}. Capital cities, high-skill roles, and international employers often pay well above the benchmark, while service-heavy or entry-level roles sit below it.`,
@@ -2137,7 +2318,7 @@ const cityPosts = BLOG_COUNTRIES.flatMap((country) =>
 );
 
 export const BLOG_POSTS: BlogPost[] = [
-  ...countryPosts,
+  ...countryPosts.map(applyTitleOverride),
   ...cityPosts,
   ...GENERIC_GUIDE_POSTS,
 ].sort((left, right) => left.title.localeCompare(right.title));
