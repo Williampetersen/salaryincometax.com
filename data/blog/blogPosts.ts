@@ -435,16 +435,52 @@ function describeContributionRate(item: ContributionRule): string {
   return formatPercent(item.rate ?? 0);
 }
 
+function describeContributionThreshold(
+  item: ContributionRule,
+  rule: CountryTaxRule,
+): string | null {
+  if (item.threshold == null) {
+    return null;
+  }
+
+  const statusLabel = item.statusKeys?.length
+    ? item.statusKeys
+        .map((key) => rule.personalStatuses.find((status) => status.key === key)?.label ?? key)
+        .join("/")
+    : null;
+
+  return statusLabel
+    ? `above ${formatCurrency(item.threshold, rule.currency)} (${statusLabel})`
+    : `above ${formatCurrency(item.threshold, rule.currency)}`;
+}
+
 function buildSocialSecurityTable(rule: CountryTaxRule): BlogTable {
+  // Some rules (e.g. the US Additional Medicare Tax) are modeled as multiple
+  // entries sharing a name because the threshold differs by filing status.
+  // Grouping by name avoids rendering two identical-looking rows with no
+  // explanation of what actually differs between them.
+  const byName = new Map<string, ContributionRule[]>();
+
+  for (const item of rule.socialSecurityRules) {
+    byName.set(item.name, [...(byName.get(item.name) ?? []), item]);
+  }
+
   return {
     title: "Employee payroll deductions",
     columns: ["Charge", "How it works"],
-    rows: rule.socialSecurityRules.map((item) => [
-      item.name,
-      `${describeContributionRate(item)} on ${CONTRIBUTION_BASE_LABELS[item.base] ?? item.base}${
-        item.cap ? ` up to ${formatCurrency(item.cap, rule.currency)}` : ""
-      }`,
-    ]),
+    rows: Array.from(byName.entries()).map(([name, items]) => {
+      const [first] = items;
+      const base = `${describeContributionRate(first)} on ${
+        CONTRIBUTION_BASE_LABELS[first.base] ?? first.base
+      }`;
+      const cap = first.cap ? `up to ${formatCurrency(first.cap, rule.currency)}` : null;
+      const thresholds = items
+        .map((item) => describeContributionThreshold(item, rule))
+        .filter((note): note is string => Boolean(note));
+      const qualifier = cap ?? (thresholds.length > 0 ? thresholds.join(" or ") : null);
+
+      return [name, qualifier ? `${base} ${qualifier}` : base];
+    }),
   };
 }
 
