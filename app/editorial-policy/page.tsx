@@ -63,6 +63,7 @@ export default function EditorialPolicyPage(): JSX.Element {
             title: "Human review process",
             paragraphs: [
               "Human review is used to check structure, clarity, consistency with the calculator model, legal-sensitivity disclaimers, and obvious factual issues before major content goes live.",
+              "Tax and payroll logic specifically is reviewed by William Petersen, CPA, a US Certified Public Accountant with over 10 years of experience in independent tax and accounting practice - see the author page for background.",
             ],
           },
           {

@@ -15,10 +15,11 @@ import {
 } from "@/lib/site";
 
 const AUTHOR_NAME = "William Petersen";
+const AUTHOR_CREDENTIAL = "CPA (Certified Public Accountant, United States)";
 
 export const metadata: Metadata = buildStaticPageMetadata(
-  `${AUTHOR_NAME} - Salaryincometax.com`,
-  "William Petersen founded and maintains salaryincometax.com, including the tax-rule sourcing, calculator methodology, and editorial review process behind its salary, tax, and cost-of-living guides.",
+  `${AUTHOR_NAME}, CPA - Salaryincometax.com`,
+  "William Petersen, a US Certified Public Accountant with over 10 years in independent tax and accounting practice, founded and maintains salaryincometax.com, including the tax-rule sourcing, calculator methodology, and editorial review process behind its salary, tax, and cost-of-living guides.",
   "/authors/salaryincometax-editorial-team",
 );
 
@@ -42,14 +43,19 @@ export default function EditorialTeamAuthorPage(): JSX.Element {
         name: AUTHOR_NAME,
         url: SITE_URL,
         email: SUPPORT_EMAIL,
-        jobTitle: "Founder and editor",
+        jobTitle: "Founder, editor, and Certified Public Accountant (CPA)",
+        hasCredential: {
+          "@type": "EducationalOccupationalCredential",
+          credentialCategory: "professional certification",
+          name: "Certified Public Accountant (CPA)",
+        },
         worksFor: {
           "@type": "Organization",
           name: "Salaryincometax.com",
           url: SITE_URL,
         },
         description:
-          "Founder and editor of salaryincometax.com, responsible for the site's tax-rule sourcing, calculator methodology, and editorial review process.",
+          "US Certified Public Accountant with over 10 years in independent tax and accounting practice. Founder and editor of salaryincometax.com, responsible for the site's tax-rule sourcing, calculator methodology, and editorial review process.",
       },
     },
   ];
@@ -60,13 +66,14 @@ export default function EditorialTeamAuthorPage(): JSX.Element {
         { href: "/", label: "Home" },
         { label: AUTHOR_NAME },
       ]}
-      description="William Petersen founded and maintains salaryincometax.com, including its tax-rule sourcing, calculator methodology, and editorial review process."
+      description="William Petersen, CPA, founded and maintains salaryincometax.com, including its tax-rule sourcing, calculator methodology, and editorial review process."
       eyebrow="Author"
-      title={AUTHOR_NAME}
+      title={`${AUTHOR_NAME}, CPA`}
     >
       <StructuredData data={structuredData} />
       <div className="space-y-6">
-        <section className="panel grid gap-5 p-5 sm:p-7 lg:grid-cols-3">
+        <section className="panel grid gap-5 p-5 sm:p-7 lg:grid-cols-4">
+          <MetricCard label="Credential" value="CPA (US)" />
           <MetricCard label="Public calculators" value={String(countryCount)} />
           <MetricCard label="Published guides" value={String(articleCount)} />
           <MetricCard label="Contact" value={SUPPORT_EMAIL} />
@@ -77,6 +84,7 @@ export default function EditorialTeamAuthorPage(): JSX.Element {
             {
               title: "Who I am",
               paragraphs: [
+                `${AUTHOR_NAME} is a US Certified Public Accountant (CPA) with over 10 years of experience in independent tax and accounting practice, working directly with individual and small-business clients on tax preparation, payroll questions, and general accounting.`,
                 `${AUTHOR_NAME} founded salaryincometax.com and is personally responsible for the tax-rule sourcing, calculator methodology, and editorial decisions published on the site.`,
                 "The focus is practical salary questions: how gross salary becomes net pay, how tax and social contributions work, how cost of living changes affordability, and how workers can compare job offers across countries.",
                 "The goal is not to replace a payroll department or tax adviser. It's to help readers ask better questions, understand the assumptions behind salary calculators, and spot the costs that can change a relocation or negotiation decision.",
@@ -85,6 +93,7 @@ export default function EditorialTeamAuthorPage(): JSX.Element {
             {
               title: "Research method",
               bullets: [
+                "Apply CPA training and practice experience to check that each country's modeled tax logic (bracket order, deduction timing, how social contributions interact with income tax) reflects how payroll actually works, not just what a published rate table shows.",
                 "Use official tax authority, statistics office, and public payroll references where available - see the Sources page for the reference list behind each country model.",
                 "Separate source-backed calculator pages from illustrative estimate models that are not ready for public navigation.",
                 "Translate tax and salary rules into practical examples, monthly cash-flow context, and clear limitations.",

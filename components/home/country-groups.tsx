@@ -19,7 +19,8 @@ export function CountryGroups({ groups }: CountryGroupsProps): JSX.Element {
               <p className="eyebrow">{group.region}</p>
             </div>
             <p className="text-sm text-ink/55">
-              {group.countries.length} calculators
+              {group.countries.length}{" "}
+              {group.countries.length === 1 ? "calculator" : "calculators"}
             </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">

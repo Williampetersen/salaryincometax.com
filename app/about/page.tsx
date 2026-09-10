@@ -41,7 +41,7 @@ export default function AboutPage(): JSX.Element {
             {
               title: "Who we are",
               paragraphs: [
-                "Salaryincometax.com is an independent salary and tax information website founded and maintained by William Petersen, focused on helping users understand what a salary may look like after tax in different countries.",
+                "Salaryincometax.com is an independent salary and tax information website founded and maintained by William Petersen, CPA, a US Certified Public Accountant with over 10 years of experience in independent tax and accounting practice, focused on helping users understand what a salary may look like after tax in different countries.",
                 "The site is built for job seekers, relocators, expats, employers, and anyone comparing compensation between countries or cities.",
               ],
             },
@@ -127,7 +127,7 @@ export default function AboutPage(): JSX.Element {
               className="rounded-full border border-ink/10 bg-white px-4 py-2.5 text-sm font-semibold text-ink transition hover:border-coral/25 hover:text-coral"
               href="/authors/salaryincometax-editorial-team"
             >
-              William Petersen
+              William Petersen, CPA
             </Link>
             <Link
               className="rounded-full border border-ink/10 bg-white px-4 py-2.5 text-sm font-semibold text-ink transition hover:border-coral/25 hover:text-coral"

@@ -23,7 +23,7 @@ import { formatCurrency, formatNumber, formatPercent } from "@/lib/formatters";
 import { calculateSalaryTax } from "@/lib/tax-engine/calculate";
 import type { ContributionRule, CountryTaxRule, SalaryPeriod } from "@/lib/tax-engine/types";
 
-const BLOG_AUTHOR = "William Petersen";
+const BLOG_AUTHOR = "William Petersen, CPA";
 const ARTICLE_DISCLAIMER =
   "This content is for general information only and is not tax, legal, financial, or accounting advice.";
 const BASELINE_DATA_NOTE =
@@ -461,11 +461,11 @@ function describeContributionRate(item: ContributionRule): string {
     const highest = Math.max(...rates);
 
     return lowest === highest
-      ? `${formatPercent(lowest)} (progressive bands)`
-      : `${formatPercent(lowest)} to ${formatPercent(highest)} (progressive)`;
+      ? `${formatPercent(lowest, 2)} (progressive bands)`
+      : `${formatPercent(lowest, 2)} to ${formatPercent(highest, 2)} (progressive)`;
   }
 
-  return formatPercent(item.rate ?? 0);
+  return formatPercent(item.rate ?? 0, 2);
 }
 
 function describeContributionThreshold(

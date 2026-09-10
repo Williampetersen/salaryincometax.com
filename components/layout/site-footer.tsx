@@ -17,7 +17,7 @@ export function SiteFooter(): JSX.Element {
               className="font-medium text-ink/70 transition hover:text-coral"
               href="/authors/salaryincometax-editorial-team"
             >
-              William Petersen
+              William Petersen, CPA
             </Link>
           </p>
           <p className="mt-3 leading-7">{DISCLAIMER}</p>
