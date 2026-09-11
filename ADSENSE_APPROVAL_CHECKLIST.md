@@ -1,9 +1,39 @@
 # AdSense Approval Checklist
 
-Last updated: 2026-09-09
+Last updated: 2026-09-11
 
 This checklist is for `salaryincometax.com` before submitting or resubmitting the
 site for Google AdSense review.
+
+## 2026-09-11 update: four new hand-written editorial guides added
+
+Added four new hand-written, non-templated articles to `data/blog/genericGuides.ts`
+(the `editorial-guide` article type, which is never gated by the flagship
+country allowlist and was not implicated in any prior "scaled content" finding):
+
+- `salary-calculator-accuracy` - a transparency/trust page explaining what a
+  salary calculator can and cannot know, and when to confirm a figure with
+  payroll or a professional instead. Directly addresses the kind of honesty
+  signal a reviewer looks for on a site whose core product is an estimate.
+- `net-salary-vs-purchasing-power`
+- `compare-job-offers-across-countries`
+- `relocation-salary-checklist`
+
+These were the next four unwritten topics from `CONTENT_IDEAS_50_EEAT.md`'s
+priority list. Each is 1500+ words, hand-written (not templated), with its
+own FAQ, worked example, quick-facts table, and sources, and only links to
+slugs that are actually published (the 14-article flagship allowlist plus the
+existing 5 generic guides) - confirmed via `pnpm audit:blog`,
+`pnpm check:blog-originality`, and a full `pnpm build` (verified the 4 new
+`.html` outputs exist and their internal `href`s resolve to real pages, not
+dead links, which is what caused a real defect last time this kind of change
+was made without checking). Public blog article count is now 19 -> 23;
+`CONTENT_QUALITY_SCORECARD_2026-06-02.md` was regenerated and shows all four
+new pages scoring 8.5-8.7/10 with zero routes below 7.
+
+This does not change the conclusion in the entry below: indexing/trust from
+elapsed time and real traffic is still the dominant blocker, not content
+volume. Do not treat this addition alone as a reason to resubmit.
 
 ## 2026-09-09 update: third rejection, deploy pipeline was broken, and real bugs found
 

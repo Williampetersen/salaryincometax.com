@@ -27,7 +27,7 @@ Action rules:
 
 ## Summary
 
-- Public routes scored: 45
+- Public routes scored: 49
 - Average public quality score: 8.4/10
 - Public routes below 7: 0
 - Public routes below 5: 0
@@ -86,7 +86,7 @@ Pass. No public route is currently scored below 7/10 after the latest improvemen
 | `/blog/category/cost-of-living` | category archive | 7.9 | 8/7/8/8/7/8/8/9/8/8 | approve | Cost of Living archive links 5 reviewed articles and includes category-specific reader guidance. |
 | `/blog/category/income-tax` | category archive | 7.9 | 8/7/8/8/7/8/8/9/8/8 | approve | Income Tax archive links 4 reviewed articles and includes category-specific reader guidance. |
 | `/blog/category/minimum-wage` | category archive | 7.9 | 8/7/8/8/7/8/8/9/8/8 | approve | Minimum Wage archive links 2 reviewed articles and includes category-specific reader guidance. |
-| `/blog/category/salary-guides` | category archive | 7.9 | 8/7/8/8/7/8/8/9/8/8 | approve | Salary Guides archive links 8 reviewed articles and includes category-specific reader guidance. |
+| `/blog/category/salary-guides` | category archive | 8.1 | 8/7/8/8/8/8/8/9/9/8 | approve | Salary Guides archive links 12 reviewed articles and includes category-specific reader guidance. |
 
 ## Blog Country Archives
 
@@ -97,16 +97,17 @@ Pass. No public route is currently scored below 7/10 after the latest improvemen
 
 | Route | Type | Quality | UV/OR/EX/TR/DP/SI/RD/IL/TA/OU | Decision | Evidence |
 |---|---:|---:|---:|---|---|
-| `/blog/average-salary-in-australia-after-tax` | blog article | 8.6 | 9/8/9/9/8/9/8/9/8/9 | approve | Australia salary guides guide with 1380 estimated words, 5 sources, FAQs, practical example, calculator link, and decision checklist. |
-| `/blog/average-salary-in-canada-after-tax` | blog article | 8.6 | 9/8/9/9/8/9/8/9/8/9 | approve | Canada salary guides guide with 1359 estimated words, 5 sources, FAQs, practical example, calculator link, and decision checklist. |
-| `/blog/average-salary-in-germany-after-tax` | blog article | 8.6 | 9/8/9/9/8/9/8/9/8/9 | approve | Germany salary guides guide with 1381 estimated words, 5 sources, FAQs, practical example, calculator link, and decision checklist. |
+| `/blog/average-salary-in-australia-after-tax` | blog article | 8.7 | 9/8/9/9/8/9/8/9/9/9 | approve | Australia salary guides guide with 1380 estimated words, 5 sources, FAQs, practical example, calculator link, and decision checklist. |
+| `/blog/average-salary-in-canada-after-tax` | blog article | 8.7 | 9/8/9/9/8/9/8/9/9/9 | approve | Canada salary guides guide with 1359 estimated words, 5 sources, FAQs, practical example, calculator link, and decision checklist. |
+| `/blog/average-salary-in-germany-after-tax` | blog article | 8.7 | 9/8/9/9/8/9/8/9/9/9 | approve | Germany salary guides guide with 1381 estimated words, 5 sources, FAQs, practical example, calculator link, and decision checklist. |
+| `/blog/compare-job-offers-across-countries` | blog article | 8.7 | 9/8/9/9/9/9/7/9/9/9 | approve |  salary guides guide with 1547 estimated words, 3 sources, FAQs, practical example, calculator link, and decision checklist. |
 | `/blog/cost-of-living-in-denmark` | blog article | 8.7 | 9/8/9/9/9/9/8/9/8/9 | approve | Denmark cost of living guide with 2660 estimated words, 3 sources, FAQs, practical example, calculator link, and decision checklist. |
 | `/blog/cost-of-living-in-germany` | blog article | 8.7 | 9/8/9/9/9/9/8/9/8/9 | approve | Germany cost of living guide with 2633 estimated words, 3 sources, FAQs, practical example, calculator link, and decision checklist. |
 | `/blog/cost-of-living-in-united-kingdom` | blog article | 8.7 | 9/8/9/9/9/9/8/9/8/9 | approve | United Kingdom cost of living guide with 2573 estimated words, 3 sources, FAQs, practical example, calculator link, and decision checklist. |
 | `/blog/cost-of-living-in-united-states` | blog article | 8.7 | 9/8/9/9/9/9/8/9/8/9 | approve | United States cost of living guide with 2582 estimated words, 3 sources, FAQs, practical example, calculator link, and decision checklist. |
-| `/blog/gross-vs-net-salary-explained` | blog article | 8.2 | 9/8/7/7/9/9/7/9/8/9 | approve |  salary guides guide with 1605 estimated words, 1 sources, FAQs, practical example, calculator link, and decision checklist. |
-| `/blog/how-income-tax-works` | blog article | 8.4 | 9/8/8/8/9/9/7/9/8/9 | approve |  salary guides guide with 1703 estimated words, 2 sources, FAQs, practical example, calculator link, and decision checklist. |
-| `/blog/how-to-use-a-salary-calculator` | blog article | 8.2 | 9/8/7/7/9/9/7/9/8/9 | approve |  salary guides guide with 1650 estimated words, 1 sources, FAQs, practical example, calculator link, and decision checklist. |
+| `/blog/gross-vs-net-salary-explained` | blog article | 8.3 | 9/8/7/7/9/9/7/9/9/9 | approve |  salary guides guide with 1605 estimated words, 1 sources, FAQs, practical example, calculator link, and decision checklist. |
+| `/blog/how-income-tax-works` | blog article | 8.5 | 9/8/8/8/9/9/7/9/9/9 | approve |  salary guides guide with 1703 estimated words, 2 sources, FAQs, practical example, calculator link, and decision checklist. |
+| `/blog/how-to-use-a-salary-calculator` | blog article | 8.3 | 9/8/7/7/9/9/7/9/9/9 | approve |  salary guides guide with 1650 estimated words, 1 sources, FAQs, practical example, calculator link, and decision checklist. |
 | `/blog/income-tax-in-denmark` | blog article | 8.7 | 9/8/9/9/9/9/8/9/8/9 | approve | Denmark income tax guide with 1925 estimated words, 3 sources, FAQs, practical example, calculator link, and decision checklist. |
 | `/blog/income-tax-in-ireland` | blog article | 8.7 | 9/8/9/9/9/9/8/9/8/9 | approve | Ireland income tax guide with 1918 estimated words, 3 sources, FAQs, practical example, calculator link, and decision checklist. |
 | `/blog/income-tax-in-united-kingdom` | blog article | 8.7 | 9/8/9/9/9/9/8/9/8/9 | approve | United Kingdom income tax guide with 1871 estimated words, 3 sources, FAQs, practical example, calculator link, and decision checklist. |
@@ -114,5 +115,8 @@ Pass. No public route is currently scored below 7/10 after the latest improvemen
 | `/blog/is-australia-expensive-to-live-in` | blog article | 8.6 | 9/8/9/9/8/9/8/9/8/9 | approve | Australia cost of living guide with 1471 estimated words, 3 sources, FAQs, practical example, calculator link, and decision checklist. |
 | `/blog/minimum-wage-in-canada` | blog article | 8.4 | 9/8/8/8/8/9/8/9/8/9 | approve | Canada minimum wage guide with 1468 estimated words, 2 sources, FAQs, practical example, calculator link, and decision checklist. |
 | `/blog/minimum-wage-in-ireland` | blog article | 8.6 | 9/8/9/9/8/9/8/9/8/9 | approve | Ireland minimum wage guide with 1466 estimated words, 3 sources, FAQs, practical example, calculator link, and decision checklist. |
-| `/blog/monthly-vs-annual-salary` | blog article | 8.2 | 9/8/7/7/9/9/7/9/8/9 | approve |  salary guides guide with 1630 estimated words, 1 sources, FAQs, practical example, calculator link, and decision checklist. |
-| `/blog/tax-deductions-explained` | blog article | 8.2 | 9/8/7/7/9/9/7/9/8/9 | approve |  salary guides guide with 1560 estimated words, 1 sources, FAQs, practical example, calculator link, and decision checklist. |
+| `/blog/monthly-vs-annual-salary` | blog article | 8.3 | 9/8/7/7/9/9/7/9/9/9 | approve |  salary guides guide with 1630 estimated words, 1 sources, FAQs, practical example, calculator link, and decision checklist. |
+| `/blog/net-salary-vs-purchasing-power` | blog article | 8.5 | 9/8/8/8/9/9/7/9/9/9 | approve |  salary guides guide with 1524 estimated words, 2 sources, FAQs, practical example, calculator link, and decision checklist. |
+| `/blog/relocation-salary-checklist` | blog article | 8.7 | 9/8/9/9/9/9/7/9/9/9 | approve |  salary guides guide with 1537 estimated words, 3 sources, FAQs, practical example, calculator link, and decision checklist. |
+| `/blog/salary-calculator-accuracy` | blog article | 8.5 | 9/8/8/8/9/9/7/9/9/9 | approve |  salary guides guide with 1790 estimated words, 2 sources, FAQs, practical example, calculator link, and decision checklist. |
+| `/blog/tax-deductions-explained` | blog article | 8.3 | 9/8/7/7/9/9/7/9/9/9 | approve |  salary guides guide with 1560 estimated words, 1 sources, FAQs, practical example, calculator link, and decision checklist. |

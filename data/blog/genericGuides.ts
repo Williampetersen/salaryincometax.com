@@ -748,4 +748,596 @@ export const GENERIC_GUIDE_POSTS: BlogPost[] = [
       "average-salary-in-australia-after-tax",
     ],
   },
+
+  // 6) Salary calculator accuracy
+  {
+    slug: "salary-calculator-accuracy",
+    title: "Salary Calculator Accuracy: What It Can and Cannot Tell You",
+    metaTitle: "Salary Calculator Accuracy: What It Can and Cannot Tell You",
+    metaDescription:
+      "Understand why salary calculators are useful estimates, which assumptions matter most, and when to confirm a number with payroll, HR, or a qualified tax adviser instead.",
+    excerpt:
+      "A salary calculator can get you close in seconds. Here is exactly what makes an estimate reliable, what it cannot know about your situation, and when to double-check the number elsewhere.",
+    category: GUIDE_CATEGORY,
+    categoryLabel: GUIDE_CATEGORY_LABEL,
+    countrySlug: "",
+    countryName: "",
+    articleType: "editorial-guide",
+    keyword: "salary calculator accuracy",
+    image: SITE_DEFAULT_OG_IMAGE,
+    calculatorUrl: "/salary-calculator",
+    updatedAt: "2026-09-11",
+    author: GUIDE_AUTHOR,
+    readingTime: "7 min read",
+    heroEyebrow: "Using this site",
+    heroSummary:
+      "A salary calculator can estimate take-home pay in seconds by applying published tax brackets and standard deduction rules to the numbers you enter - but it cannot see your actual payroll system, benefit elections, or every local rule a real payslip reflects.",
+    heroHighlights: [
+      "A calculator applies published, current-year tax rules to the inputs you give it - it has no access to your employer's actual payroll system.",
+      "Most of the gap between an estimate and a real payslip comes from a handful of nameable causes: benefit elections, local taxes, or missing inputs.",
+      "Treat every result as a planning estimate for comparing offers and scenarios, not as a substitute for a payslip or a qualified adviser's confirmation.",
+    ],
+    researchStatus: "expanded",
+    summaryBox: {
+      title: "Key takeaways",
+      items: [
+        "Salary calculators model published income tax brackets, standard deductions, and social contribution rates for a given tax year - they are estimation tools, not payroll systems.",
+        "Accuracy depends heavily on the inputs provided: country, pay period, extra income, and personal status all change the result meaningfully.",
+        "Common gaps between an estimate and a real payslip come from employer-specific benefits, local or regional taxes, and elected deductions such as union dues or extra retirement contributions.",
+        "Use a calculator to compare offers and scenarios quickly, then confirm any decision that matters - accepting a job, relocating, negotiating - against a real payslip, payroll department, or qualified adviser.",
+      ],
+    },
+    whoThisGuideIsFor: [
+      "Someone who ran the numbers on salaryincometax.com and wants to know how much to trust the result before making a decision.",
+      "A candidate comparing an estimated net salary with an actual payslip or offer letter and trying to understand why the two figures do not match exactly.",
+      "Anyone deciding whether a quick online estimate is enough, or whether the situation calls for a payroll department or a tax professional.",
+    ],
+    quickAnswers: [
+      {
+        question: "How accurate is a salary calculator?",
+        answer:
+          "A well-built salary calculator is accurate as a planning estimate when it is kept current with published tax brackets, standard deductions, and social contribution rates, and when the inputs you provide match your real situation. It is not a substitute for an actual payslip, since real payroll can include employer-specific benefits and local rules a general calculator cannot fully model.",
+      },
+      {
+        question: "Why does my payslip differ from a calculator estimate?",
+        answer:
+          "The most common causes are benefit deductions the calculator was never told about (health insurance premiums, extra retirement contributions, union dues), a local or regional tax layer modeled only at a national default rate, or a personal circumstance - like a mid-year tax code change - that a general estimate cannot know about in advance.",
+      },
+      {
+        question: "When should I stop trusting an online estimate and ask a professional?",
+        answer:
+          "Whenever a decision is significant and hard to reverse - accepting a job offer, relocating to another country, or making a major purchase based on expected take-home pay - confirm the estimate against a real payslip, your employer's payroll department, or a qualified tax adviser rather than relying on the online figure alone.",
+      },
+    ],
+    quickFactsTable: {
+      title: "What a calculator models vs what it cannot see",
+      columns: ["Factor", "Modeled by a calculator", "Needs confirmation elsewhere"],
+      rows: [
+        ["Income tax brackets", "Yes - published, current-year rates", "Confirm the tax year matches your pay date"],
+        ["Standard allowances/deductions", "Yes - default assumptions", "Confirm eligibility for your personal situation"],
+        ["Social security/pension contributions", "Yes - standard employee rate", "Confirm your employer's specific scheme"],
+        ["Local, regional, or municipal tax", "Partially - national default only", "Confirm the exact local rate with payroll"],
+        ["Employer-specific benefits", "No", "Check your offer letter or payroll department"],
+      ],
+    },
+    sections: [
+      {
+        id: "what-the-model-actually-does",
+        title: "What a salary calculator actually models",
+        paragraphs: [
+          "A salary calculator works by applying a country's published income tax brackets, standard personal allowance or deduction, and typical employee-side social contribution rate to the gross salary you enter. It converts your input into an annual figure, applies those rules, and returns an estimated net salary broken down across whichever pay periods you need - yearly, monthly, weekly, daily, or hourly.",
+          "This means the quality of the estimate depends on two things: how current and well-sourced the underlying tax rules are, and how completely the inputs you provide describe your actual situation. A calculator built on official, current-year figures and given accurate inputs can get very close to a real result. See the Sources page on salaryincometax.com for the specific references behind each supported country's model.",
+        ],
+      },
+      {
+        id: "where-gaps-come-from",
+        title: "Where the gap between estimate and payslip usually comes from",
+        paragraphs: [
+          "The most frequent source of a gap is a deduction the calculator was never told about. Health insurance premiums, extra voluntary retirement contributions, union dues, salary-sacrifice arrangements, and company-specific benefits all reduce take-home pay in ways a general estimate cannot anticipate unless you enter them explicitly.",
+          "A second common source is a local or regional tax layer. Many countries apply a national tax structure fairly uniformly, but some add a municipal, state, or regional tax on top that varies by where you actually live or work - a general calculator can only model this at a representative default unless it asks for your specific location.",
+          "A third source is timing. Tax brackets, allowances, and contribution rates are usually set for a specific tax year and can change from one year to the next, sometimes mid-year. A bonus or one-off payment can also temporarily push the effective tax rate for that pay period higher than a typical month, which is expected behavior in a progressive system rather than a calculator error - see the companion guide on how income tax works for why this happens.",
+        ],
+      },
+      {
+        id: "how-to-use-the-estimate-responsibly",
+        title: "How to use an estimate responsibly",
+        paragraphs: [
+          "Use a salary calculator for what it is good at: quickly comparing offers, testing different pay periods, and seeing roughly how much a raise, bonus, or move to another country would change your take-home pay. It is a fast way to rule out obviously bad comparisons and focus attention on the offers worth investigating further.",
+          "For decisions that are significant and hard to reverse, treat the estimate as a starting point rather than a final answer. Ask payroll or HR for a projected net pay figure based on your actual contract, cross-check the result against a real payslip once you have one, and consult a qualified tax adviser if your situation involves multiple income sources, self-employment, or an unusual household arrangement the calculator's standard assumptions do not cover.",
+        ],
+      },
+    ],
+    practicalExample: {
+      title: "Checking an estimate against a first real payslip",
+      scenario:
+        "A new hire ran the calculator before starting a job and now has their first real payslip in hand, and wants to understand why the two numbers are close but not identical.",
+      steps: [
+        "Compare the gross salary on the payslip with the gross figure entered into the calculator to confirm they match exactly, including any pro-rated first-month pay.",
+        "Check whether the payslip includes any benefit deductions - health insurance, extra retirement contributions, union dues - that were not entered into the calculator.",
+        "Check whether a local or regional tax line appears on the payslip that the calculator only modeled at a national default rate.",
+        "Re-run the calculation using the calculator's extra income or deduction fields where available, to see how much of the gap those specific items explain.",
+        "If a meaningful gap remains after accounting for known deductions, raise it with the payroll department rather than assuming either the calculator or the payslip is simply wrong.",
+      ],
+      takeaway:
+        "Most of the gap between an online estimate and a real payslip can be traced to a handful of specific, nameable deductions - finding them is usually more useful than assuming the estimate was inaccurate from the start.",
+    },
+    faqItems: [
+      {
+        question: "Is a salary calculator the same as tax advice?",
+        answer:
+          "No. A salary calculator is a general estimation tool built from published tax rules and standard assumptions. It is not tax, legal, financial, or accounting advice, and it cannot account for every detail of an individual's circumstances the way a qualified professional reviewing your specific situation can.",
+      },
+      {
+        question: "Why do two different salary calculators give me different results for the same numbers?",
+        answer:
+          "Differences usually come from how current each tool's underlying tax data is, which default assumptions each one makes (such as standard deduction eligibility or a representative local tax rate), and how each tool rounds or annualizes figures. Check the tax year and sources listed on each tool before assuming one is simply wrong.",
+      },
+      {
+        question: "How often should I re-run a salary calculation?",
+        answer:
+          "Tax brackets, allowances, and contribution rates are typically set once per tax year and can change annually, so re-run a calculation at the start of a new tax year, after a significant raise or bonus, or after any change in personal circumstances that could affect your allowances.",
+      },
+      {
+        question: "Where can I check the sources behind a specific country's numbers?",
+        answer:
+          "See the Sources page on salaryincometax.com, which lists the official references used to build each supported country's model and is updated as tax years change.",
+      },
+    ],
+    verdictTitle: "Treat the number as a starting point, not a final answer",
+    verdictSummary:
+      "A salary calculator built on current, published tax rules is a reliable planning estimate when the inputs match your real situation. It is not, and should not be treated as, a substitute for a real payslip, a payroll department's confirmation, or a qualified tax adviser once a decision actually matters.",
+    sources: [
+      "https://www.oecd.org/en/topics/taxation.html",
+      "https://salaryincometax.com/sources",
+    ],
+    relatedSlugs: [
+      "how-to-use-a-salary-calculator",
+      "gross-vs-net-salary-explained",
+      "how-income-tax-works",
+      "income-tax-in-united-states",
+    ],
+  },
+
+  // 7) Net salary vs purchasing power
+  {
+    slug: "net-salary-vs-purchasing-power",
+    title: "Net Salary vs Purchasing Power: Why a Higher Salary Can Feel Lower",
+    metaTitle: "Net Salary vs Purchasing Power: Why a Higher Salary Can Feel Lower",
+    metaDescription:
+      "Learn why net salary alone does not determine real affordability, and how rent, groceries, and local prices change what a paycheck can actually buy.",
+    excerpt:
+      "A bigger net salary in a new country does not automatically mean a better lifestyle. Here is why purchasing power - not the number on the payslip - determines real affordability.",
+    category: GUIDE_CATEGORY,
+    categoryLabel: GUIDE_CATEGORY_LABEL,
+    countrySlug: "",
+    countryName: "",
+    articleType: "editorial-guide",
+    keyword: "net salary purchasing power",
+    image: SITE_DEFAULT_OG_IMAGE,
+    calculatorUrl: "/salary-calculator",
+    updatedAt: "2026-09-11",
+    author: GUIDE_AUTHOR,
+    readingTime: "7 min read",
+    heroEyebrow: "Comparing offers",
+    heroSummary:
+      "Net salary tells you how much money lands in your account. Purchasing power tells you what that money can actually buy where you live - and the two can point in different directions.",
+    heroHighlights: [
+      "The same net salary can support a comfortable lifestyle in one city and a tight one in another, once rent and everyday prices are factored in.",
+      "A higher net salary in an expensive city can leave less disposable income than a lower net salary in a cheaper one.",
+      "Comparing two locations by net salary alone, without adjusting for local costs, is one of the most common relocation mistakes.",
+    ],
+    researchStatus: "expanded",
+    summaryBox: {
+      title: "Key takeaways",
+      items: [
+        "Purchasing power measures what your net salary can actually buy locally, not just how large the number is.",
+        "Rent is usually the single biggest factor separating net salary from real purchasing power, followed by groceries, transport, and healthcare.",
+        "A higher net salary in an expensive city can leave less disposable income than a lower net salary in a cheaper one.",
+        "Compare net salary against local cost-of-living data for the specific city where possible, not just a country-wide average, when the decision involves a specific location.",
+      ],
+    },
+    whoThisGuideIsFor: [
+      "Someone weighing two job offers in different countries or cities where the net salaries look similar, or the new offer looks higher, but who is unsure whether it actually represents a step up.",
+      "An expat or remote worker trying to understand why a raise or relocation did not translate into the lifestyle improvement they expected.",
+      "Anyone using a salary calculator's net salary result and wanting to know what to check next before treating that number as the full picture.",
+    ],
+    quickAnswers: [
+      {
+        question: "What is purchasing power in the context of salary?",
+        answer:
+          "Purchasing power describes what your net salary can actually buy given local prices - rent, groceries, transport, healthcare, and other everyday costs - rather than simply how large the salary figure is. Two identical net salaries can have very different purchasing power in two different cities.",
+      },
+      {
+        question: "Is a higher net salary always better?",
+        answer:
+          "Not necessarily. If the higher net salary is paired with significantly higher rent and everyday costs, it can leave less disposable income than a lower net salary in a cheaper location. The comparison that matters is disposable income after major local costs, not the headline net salary figure alone.",
+      },
+      {
+        question: "How do I adjust a salary comparison for cost of living?",
+        answer:
+          "Start with each location's estimated net salary, subtract a realistic rent figure for that specific city, then subtract typical monthly costs for groceries, transport, and utilities. Compare the resulting disposable-income figures rather than the original net salary figures.",
+      },
+    ],
+    quickFactsTable: {
+      title: "Net salary vs purchasing power at a glance",
+      columns: ["Measure", "What it tells you", "What it misses"],
+      rows: [
+        ["Net salary", "How much money reaches your account", "What that money can actually buy locally"],
+        ["Rent-adjusted income", "Disposable income after housing", "Groceries, transport, healthcare, and other fixed costs"],
+        ["Full cost-of-living comparison", "Realistic disposable income after major local costs", "Personal lifestyle choices and family circumstances"],
+      ],
+    },
+    sections: [
+      {
+        id: "why-net-salary-alone-misleads",
+        title: "Why net salary alone can mislead",
+        paragraphs: [
+          "Net salary answers one specific question: how much money reaches your bank account after tax and mandatory deductions. It does not answer a second, equally important question: how far that money goes once it has to cover rent, groceries, transport, and everything else that makes up daily life in a specific place.",
+          "This gap matters most when comparing offers across countries or cities, because tax systems and local prices do not move together in any predictable way. A country with lower income tax is not automatically cheaper to live in, and a country with higher income tax is not automatically more expensive in net terms once public services and local prices are considered.",
+        ],
+      },
+      {
+        id: "rent-is-the-biggest-factor",
+        title: "Rent is usually the biggest factor",
+        paragraphs: [
+          "For most employees, rent (or a mortgage payment) is the single largest fixed cost, and it is also the cost that varies the most dramatically between cities - often more than salary levels vary in the opposite direction. A role that pays meaningfully more in a city with proportionally even higher rent can leave the employee with less money left over each month than a lower-paying role somewhere cheaper.",
+          "Groceries, transport, utilities, and healthcare costs matter too, but they typically vary less dramatically between comparable cities than rent does, which is why rent is the first and most important adjustment to make before comparing two net salaries across locations.",
+        ],
+      },
+      {
+        id: "how-to-adjust-a-comparison",
+        title: "How to adjust a salary comparison for purchasing power",
+        paragraphs: [
+          "The most practical approach is to convert each offer's gross salary into an estimated net salary for its respective country, then subtract a realistic rent figure for the specific city in question - not a national average, since rent within a single country can vary enormously between its capital and its smaller cities.",
+          "From there, subtract typical monthly costs for groceries, transport, and utilities to arrive at an estimated disposable income for each option. This figure, not the original net salary, is the number that should drive a relocation or job-offer decision, since it reflects what is actually left over after the biggest recurring costs are covered.",
+        ],
+      },
+    ],
+    practicalExample: {
+      title: "Comparing two net salaries in different cities",
+      scenario:
+        "A candidate has two offers with different net monthly salaries in two different cities and wants to know which one actually leaves more disposable income.",
+      steps: [
+        "Start with each city's estimated net monthly salary from a salary calculator for the relevant country.",
+        "Subtract a realistic one-bedroom rent figure for each specific city from its net monthly salary to get a rent-adjusted income.",
+        "Subtract an estimated monthly cost for groceries, transport, and utilities in each city from the rent-adjusted figure.",
+        "Compare the two resulting disposable-income figures, not the original net salary figures.",
+        "Note any one-off costs - a deposit, moving costs, a probation period - that could affect the first few months differently from the ongoing picture.",
+      ],
+      takeaway:
+        "The offer with the higher net salary is not always the offer with more real disposable income once rent and everyday costs are subtracted city by city.",
+    },
+    faqItems: [
+      {
+        question: "Does purchasing power parity mean the same thing as a personal cost-of-living comparison?",
+        answer:
+          "They are related but not identical. Purchasing power parity is an economic measure used to compare price levels between countries at a macro level, while a personal cost-of-living comparison focuses on the specific costs - rent, groceries, transport - most relevant to an individual's own budget and location, which is the more useful lens for a personal salary decision.",
+      },
+      {
+        question: "Should I compare salaries by country average or by specific city?",
+        answer:
+          "Use the specific city whenever the decision involves a specific city, since rent and living costs can vary enormously within a single country. A country-wide average is a reasonable starting point only when the exact city is not yet known.",
+      },
+      {
+        question: "How much of net salary should reasonably go to rent?",
+        answer:
+          "A commonly used starting benchmark is to keep rent under roughly 30% of net income, though the right figure varies by city, household size, and personal priorities - treat it as a rough guideline to sanity-check a comparison, not a fixed rule.",
+      },
+      {
+        question: "Where can I find rent and cost-of-living context for supported countries?",
+        answer:
+          "See the cost-of-living guides on salaryincometax.com for supported countries, which pair net salary estimates with local rent and everyday cost benchmarks.",
+      },
+    ],
+    verdictTitle: "Compare what the money buys, not just how big the number is",
+    verdictSummary:
+      "Net salary is the right starting point for any comparison, but it is not the finish line. Adjust for rent and everyday local costs before deciding that a higher-paying offer is actually the better one.",
+    sources: [
+      "https://ec.europa.eu/eurostat",
+      "https://www.ilo.org/topics/wages",
+    ],
+    relatedSlugs: [
+      "cost-of-living-in-united-kingdom",
+      "cost-of-living-in-germany",
+      "gross-vs-net-salary-explained",
+      "cost-of-living-in-denmark",
+    ],
+  },
+
+  // 8) Compare job offers across countries
+  {
+    slug: "compare-job-offers-across-countries",
+    title: "How to Compare Job Offers Across Countries Using Net Salary and Cost of Living",
+    metaTitle: "How to Compare Job Offers Across Countries Using Net Salary and Cost of Living",
+    metaDescription:
+      "Learn a step-by-step method for comparing international job offers by converting gross salary into net pay, rent-adjusted income, and real savings potential.",
+    excerpt:
+      "Comparing two international job offers by gross salary alone is one of the fastest ways to make a bad decision. Here is a step-by-step method that accounts for tax, rent, and real savings potential.",
+    category: GUIDE_CATEGORY,
+    categoryLabel: GUIDE_CATEGORY_LABEL,
+    countrySlug: "",
+    countryName: "",
+    articleType: "editorial-guide",
+    keyword: "compare job offers across countries",
+    image: SITE_DEFAULT_OG_IMAGE,
+    calculatorUrl: "/salary-calculator",
+    updatedAt: "2026-09-11",
+    author: GUIDE_AUTHOR,
+    readingTime: "8 min read",
+    heroEyebrow: "Comparing offers",
+    heroSummary:
+      "Two job offers in different countries are almost never comparable by gross salary alone - tax systems, social contributions, and local costs all move independently of the headline number.",
+    heroHighlights: [
+      "Convert every offer to an estimated net salary in its own country's currency before comparing anything else.",
+      "Adjust net salary for rent and everyday local costs, since the same net figure buys very different lifestyles in different places.",
+      "Factor in benefits, relocation support, and family circumstances separately - they rarely show up in a simple salary comparison but materially change the outcome.",
+    ],
+    researchStatus: "expanded",
+    summaryBox: {
+      title: "Key takeaways",
+      items: [
+        "Start every comparison by converting gross salary to estimated net salary for each country - the gap between the two varies significantly by country.",
+        "Adjust net salary for rent and everyday costs in the specific city, not just the country, since this is where the biggest real-world differences show up.",
+        "Account for benefits that do not appear in the salary figure at all: healthcare, pension matching, relocation support, and paid leave.",
+        "Treat the final comparison as a decision-support estimate, and confirm significant figures with the employer or a qualified adviser before accepting an offer.",
+      ],
+    },
+    whoThisGuideIsFor: [
+      "A candidate with two or more job offers in different countries and no clear way to compare them beyond the headline salary figures.",
+      "Someone evaluating a relocation offer from their current employer and wanting to know if the new gross figure actually represents an improvement.",
+      "A recruiter or HR professional who wants a clearer framework to explain international offers to candidates.",
+    ],
+    quickAnswers: [
+      {
+        question: "How do I compare salaries in different countries?",
+        answer:
+          "Convert each offer's gross salary into an estimated net salary using that country's income tax and social contribution rules, then adjust for local rent and everyday costs in the specific city. Comparing gross figures alone, or net figures without a cost-of-living adjustment, both produce misleading results.",
+      },
+      {
+        question: "Should I compare gross or net salary?",
+        answer:
+          "Net salary is the more useful figure for a real comparison, since it reflects what actually reaches your account. Gross salary is still useful for checking that pension contributions, bonuses, and other percentage-based benefits are calculated on a comparable base.",
+      },
+      {
+        question: "How do I include rent in a salary comparison?",
+        answer:
+          "Subtract a realistic rent figure for the specific city - not a country average - from each offer's estimated net monthly salary, to reach a rent-adjusted disposable income figure that is far more comparable across locations than net salary alone.",
+      },
+    ],
+    quickFactsTable: {
+      title: "A four-step comparison framework",
+      columns: ["Step", "What you calculate", "Why it matters"],
+      rows: [
+        ["1. Net salary", "Gross salary converted using each country's tax rules", "Removes the distortion of comparing pre-tax figures"],
+        ["2. Rent-adjusted income", "Net salary minus realistic city-specific rent", "Housing is usually the largest cost difference between locations"],
+        ["3. Everyday-cost adjustment", "Rent-adjusted income minus groceries, transport, utilities", "Reveals real disposable income, not just take-home pay"],
+        ["4. Benefits and terms", "Healthcare, pension, leave, relocation support reviewed separately", "These rarely appear in the salary figure but change total value"],
+      ],
+    },
+    sections: [
+      {
+        id: "step-one-convert-to-net",
+        title: "Step one: convert every offer to net salary",
+        paragraphs: [
+          "Before comparing anything else, convert each offer's gross salary into an estimated net salary using the tax rules of the country where it would actually be paid. The gap between gross and net salary varies significantly by country - a higher gross offer in a higher-tax country can produce a similar or even lower net salary than a lower gross offer somewhere else. See the companion guide on gross vs net salary for why this gap is not a fixed percentage.",
+          "Use a country-specific salary calculator rather than a rough percentage estimate, since income tax brackets, personal allowances, and social contribution rates differ meaningfully between countries and even a well-informed guess can be off by a wide margin.",
+        ],
+      },
+      {
+        id: "step-two-adjust-for-rent-and-costs",
+        title: "Step two: adjust for rent and everyday costs",
+        paragraphs: [
+          "Once each offer has an estimated net salary, subtract a realistic rent figure for the specific city in question. This is usually the single biggest adjustment, since rent can vary dramatically even within the same country - see the companion guide on net salary vs purchasing power for a closer look at why this step changes the outcome so much.",
+          "After rent, subtract typical monthly costs for groceries, transport, and utilities to reach an estimated disposable income for each offer. This figure - not the original gross or net salary - is what should ultimately drive the comparison, since it reflects what is realistically left over each month.",
+        ],
+      },
+      {
+        id: "step-three-factor-in-benefits",
+        title: "Step three: factor in benefits and terms that do not show up in salary",
+        paragraphs: [
+          "Healthcare coverage, pension or retirement matching, paid leave entitlements, and relocation support can represent significant value that a simple salary comparison misses entirely. A lower net salary paired with strong employer-covered healthcare and a generous pension match can outperform a higher net salary with minimal benefits, depending on personal circumstances.",
+          "Relocation-specific costs are worth listing separately: visa or work-permit support, moving allowances, temporary housing, and any probation period terms. These are one-off or short-term factors rather than ongoing salary, but they can materially affect the first few months of a move and should be weighed alongside the ongoing disposable-income comparison, not folded into it.",
+        ],
+      },
+    ],
+    practicalExample: {
+      title: "Working through two competing international offers",
+      scenario:
+        "A candidate has two offers in different countries with different gross salaries, tax systems, and city-level rent, and wants a fair side-by-side comparison.",
+      steps: [
+        "Use a country-specific salary calculator to convert each offer's gross salary into an estimated net monthly salary.",
+        "Look up or estimate a realistic one-bedroom (or family-appropriate) rent figure for the specific city tied to each offer.",
+        "Subtract each city's rent figure from its net monthly salary to get two rent-adjusted income figures.",
+        "Subtract a typical monthly estimate for groceries, transport, and utilities from each rent-adjusted figure to reach an estimated disposable income for each offer.",
+        "List benefits and relocation terms for each offer separately, and weigh them alongside the disposable-income comparison rather than trying to convert them into a single number.",
+      ],
+      takeaway:
+        "A structured, step-by-step comparison - net salary, then rent, then everyday costs, then benefits - produces a far more reliable picture than comparing headline gross salaries, and often reverses which offer looks stronger at first glance.",
+    },
+    faqItems: [
+      {
+        question: "Is it fair to compare offers using currency conversion alone?",
+        answer:
+          "No. A simple currency conversion ignores both taxation and local cost of living, which are usually far more significant than the exchange rate itself. Convert to net salary and adjust for local costs in each country's own currency before making any cross-currency comparison.",
+      },
+      {
+        question: "What if one offer includes a relocation bonus or allowance?",
+        answer:
+          "Treat a one-off relocation bonus or allowance separately from ongoing salary, since it affects only the first year (or less) rather than the recurring monthly comparison. It is still worth factoring into the overall decision, particularly if it offsets real moving costs.",
+      },
+      {
+        question: "Should family size change how I compare offers?",
+        answer:
+          "Yes. Family-related costs - childcare, school fees, a larger home - can change the rent and everyday-cost adjustment substantially, and some countries' tax systems also treat household status differently, which changes the net salary side of the comparison as well.",
+      },
+      {
+        question: "Where can I estimate net salary for a specific country before comparing offers?",
+        answer:
+          "Use the salary calculator on salaryincometax.com and select the relevant country to estimate net salary, total tax, and effective tax rate for each offer before beginning the rent and cost-of-living adjustment.",
+      },
+    ],
+    verdictTitle: "Compare in this order, not by gross salary alone",
+    verdictSummary:
+      "Convert to net salary first, adjust for city-specific rent and everyday costs second, and weigh benefits and relocation terms separately. Skipping any of these steps - especially comparing by gross salary alone - is the most common way international offers get misjudged.",
+    sources: [
+      "https://www.oecd.org/en/topics/taxation.html",
+      "https://ec.europa.eu/eurostat",
+      "https://www.ilo.org/topics/wages",
+    ],
+    relatedSlugs: [
+      "net-salary-vs-purchasing-power",
+      "gross-vs-net-salary-explained",
+      "income-tax-in-united-kingdom",
+      "cost-of-living-in-germany",
+    ],
+  },
+
+  // 9) Relocation salary checklist
+  {
+    slug: "relocation-salary-checklist",
+    title: "Relocation Salary Checklist: What to Check Before Accepting an International Offer",
+    metaTitle: "Relocation Salary Checklist: What to Check Before Accepting an International Offer",
+    metaDescription:
+      "A practical checklist for comparing salary, tax, rent, healthcare, and savings potential before accepting a job offer that involves moving to another country.",
+    excerpt:
+      "A relocation offer is more than a salary number. Here is a practical checklist covering tax, rent, healthcare, and savings potential before you sign anything.",
+    category: GUIDE_CATEGORY,
+    categoryLabel: GUIDE_CATEGORY_LABEL,
+    countrySlug: "",
+    countryName: "",
+    articleType: "editorial-guide",
+    keyword: "relocation salary checklist",
+    image: SITE_DEFAULT_OG_IMAGE,
+    calculatorUrl: "/salary-calculator",
+    updatedAt: "2026-09-11",
+    author: GUIDE_AUTHOR,
+    readingTime: "8 min read",
+    heroEyebrow: "Relocation",
+    heroSummary:
+      "Accepting an international job offer involves far more than comparing salary figures - tax residency, rent, healthcare, and moving costs can all change the real value of an offer.",
+    heroHighlights: [
+      "Start with net salary and rent-adjusted income before considering anything else about the offer.",
+      "Healthcare, tax residency rules, and moving costs are easy to overlook but can materially change the first year's finances.",
+      "Build in a savings and emergency buffer for the transition period, since relocation costs rarely land exactly where expected.",
+    ],
+    researchStatus: "expanded",
+    summaryBox: {
+      title: "Key takeaways",
+      items: [
+        "Convert the offer to net salary and rent-adjusted disposable income before evaluating anything else about it.",
+        "Check tax residency rules for both the country you are leaving and the country you are moving to - double taxation and reporting obligations are easy to overlook.",
+        "Confirm what the employer covers for the move itself: visa or work-permit support, moving costs, and any temporary housing.",
+        "Keep an emergency savings buffer for the transition period, since first-month costs in a new country are rarely exactly as budgeted.",
+      ],
+    },
+    whoThisGuideIsFor: [
+      "Someone who has received (or is negotiating) a job offer that involves moving to another country.",
+      "A candidate trying to compare a relocation package holistically, not just by the headline salary figure.",
+      "Anyone who wants a structured checklist to bring into a conversation with HR before signing a relocation offer.",
+    ],
+    quickAnswers: [
+      {
+        question: "What should I check before accepting a job offer abroad?",
+        answer:
+          "At minimum: the estimated net salary in the new country, rent-adjusted disposable income for the specific city, healthcare arrangements, tax residency implications in both countries, what the employer covers for the move itself, and how much emergency savings buffer the transition period requires.",
+      },
+      {
+        question: "How much relocation allowance is enough?",
+        answer:
+          "There is no universal figure, since it depends on distance, household size, and visa complexity. A reasonable approach is to itemize expected one-off costs - flights, temporary housing, visa fees, shipping belongings - and compare that total against what the employer is offering, rather than accepting a round-number allowance without checking it against real costs.",
+      },
+      {
+        question: "Should moving costs be included in a salary comparison?",
+        answer:
+          "Treat moving costs separately from the ongoing salary comparison, since they are typically one-off. They still belong in the overall decision, particularly if they are not fully covered by the employer and would need to come out of savings or an early paycheck.",
+      },
+    ],
+    quickFactsTable: {
+      title: "Relocation checklist at a glance",
+      columns: ["Category", "What to check", "Why it is easy to miss"],
+      rows: [
+        ["Net salary", "Estimated take-home pay in the new country", "Gross salary alone does not reflect local tax rules"],
+        ["Rent-adjusted income", "Net salary minus realistic city-specific rent", "Rent varies far more than salary between cities"],
+        ["Tax residency", "Rules in both the old and new country", "Risk of double taxation or unexpected reporting obligations"],
+        ["Healthcare", "Public system access vs required private insurance", "Coverage rules and waiting periods vary by country"],
+        ["Moving costs", "What the employer covers vs what you pay", "One-off costs can be larger than expected"],
+      ],
+    },
+    sections: [
+      {
+        id: "start-with-the-money",
+        title: "Start with net salary and rent-adjusted income",
+        paragraphs: [
+          "Before evaluating anything else about a relocation offer, convert the gross salary into an estimated net salary for the destination country, then subtract a realistic rent figure for the specific city. This rent-adjusted disposable income figure is the most useful single number for judging whether the offer genuinely improves your financial position - see the companion guides on comparing job offers across countries and net salary vs purchasing power for the full method.",
+          "Resist the temptation to anchor on the headline gross salary alone, particularly when the number is quoted in an unfamiliar currency - a figure that looks large after a simple currency conversion can look very different once local tax and rent are applied.",
+        ],
+      },
+      {
+        id: "tax-residency-and-healthcare",
+        title: "Tax residency and healthcare are easy to overlook",
+        paragraphs: [
+          "Moving countries can trigger tax residency questions in both the country you are leaving and the one you are moving to, including possible reporting obligations even after you have left. Rules vary significantly by country and by how the move is structured (employer-sponsored transfer versus a fresh contract, for example), so this is an area worth confirming with your employer's relocation support or a qualified tax adviser rather than assuming it works the same way everywhere.",
+          "Healthcare arrangements also vary widely: some countries provide broad access through a public system funded by payroll contributions already reflected in the net salary estimate, while others expect employees to arrange private insurance, sometimes with waiting periods before public coverage begins. Confirm which situation applies before assuming healthcare costs are already covered by the numbers in your net salary estimate.",
+        ],
+      },
+      {
+        id: "moving-costs-and-buffer",
+        title: "Moving costs and a transition savings buffer",
+        paragraphs: [
+          "Ask specifically what the employer covers for the move itself: visa or work-permit fees and support, flights, temporary housing, shipping personal belongings, and any signing or relocation bonus. Get this in writing where possible, since verbal assurances during recruitment do not always match what is confirmed once an offer letter is issued.",
+          "Even with strong employer support, keep a savings buffer for the transition period. First-month costs in a new country - a rental deposit, initial furnishing, a gap before the first local paycheck arrives - rarely land exactly as budgeted, and starting a relocation with no financial cushion adds avoidable stress to an already significant life change.",
+        ],
+      },
+    ],
+    practicalExample: {
+      title: "Working through a relocation offer systematically",
+      scenario:
+        "A candidate has received a relocation offer to move to another country and wants to evaluate it beyond the headline salary figure before responding.",
+      steps: [
+        "Estimate net salary for the destination country using a country-specific salary calculator, based on the offered gross salary.",
+        "Subtract a realistic rent figure for the specific destination city to reach a rent-adjusted disposable income estimate.",
+        "List what the employer has confirmed in writing regarding visa support, moving costs, temporary housing, and any relocation bonus.",
+        "Check tax residency guidance for both the current and destination country, and confirm healthcare arrangements for the first few months.",
+        "Set aside an estimated emergency buffer for the transition period before treating the offer as fully evaluated.",
+      ],
+      takeaway:
+        "A relocation offer that looks strong on salary alone can still involve real financial risk if tax residency, healthcare, and transition costs are not checked in advance - working through each item separately avoids the biggest first-year surprises.",
+    },
+    faqItems: [
+      {
+        question: "Should I negotiate relocation terms separately from salary?",
+        answer:
+          "Yes, where possible. Relocation support (visa fees, moving costs, temporary housing) is often a separate budget line for employers than ongoing salary, so it can sometimes be negotiated even when the salary itself has limited flexibility.",
+      },
+      {
+        question: "What if the destination country has a lower net salary but lower cost of living?",
+        answer:
+          "This is common and is exactly why rent-adjusted disposable income, not net salary alone, is the more useful comparison figure - see the companion guide on net salary vs purchasing power for the full reasoning.",
+      },
+      {
+        question: "Do I need a local bank account before I move?",
+        answer:
+          "Requirements vary by country and employer. Ask HR directly, since payroll cannot always pay into a foreign account, and opening a local account can sometimes require proof of local address or a specific visa status that takes time to arrange.",
+      },
+      {
+        question: "Where can I estimate net salary for the destination country?",
+        answer:
+          "Use the salary calculator on salaryincometax.com and select the destination country to estimate net salary, total tax, and effective tax rate based on the gross offer.",
+      },
+    ],
+    verdictTitle: "Evaluate the whole package, not just the salary line",
+    verdictSummary:
+      "A relocation offer is a bundle of decisions - net salary, rent, tax residency, healthcare, and moving costs - not a single number. Working through each item separately before accepting avoids the most common and most expensive first-year surprises.",
+    sources: [
+      "https://www.oecd.org/en/topics/taxation.html",
+      "https://ec.europa.eu/eurostat",
+      "https://salaryincometax.com/sources",
+    ],
+    relatedSlugs: [
+      "compare-job-offers-across-countries",
+      "how-to-use-a-salary-calculator",
+      "income-tax-in-ireland",
+      "cost-of-living-in-united-kingdom",
+    ],
+  },
 ];
