@@ -139,6 +139,22 @@ const STATIC_PAGE_SCORES: Record<(typeof STATIC_SITE_PAGES)[number] | "/" | "/sa
     },
     notes: "Useful country directory with quality gating explanation and guidance on assumptions.",
   },
+  "/compare": {
+    type: "comparison tool",
+    criteria: {
+      userValue: 9,
+      originality: 8,
+      expertise: 8,
+      trustworthiness: 8,
+      depth: 8,
+      searchIntent: 9,
+      readability: 8,
+      internalLinking: 7,
+      topicalAuthority: 8,
+      usefulness: 9,
+    },
+    notes: "Side-by-side two-country net pay and tax-split comparison built on the same calculation engine as the country calculators; explicitly avoids currency conversion rather than guessing an FX rate.",
+  },
   "/blog": {
     type: "blog index",
     criteria: {

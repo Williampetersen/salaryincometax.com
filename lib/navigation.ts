@@ -19,6 +19,13 @@ export const HEADER_LINKS: NavLink[] = [
     analyticsLabel: "salary-calculators",
   },
   {
+    href: "/compare",
+    label: "Compare Countries",
+    analyticsAction: "navigation_click",
+    analyticsCategory: "navigation",
+    analyticsLabel: "compare-countries",
+  },
+  {
     href: "/blog",
     label: "Blog",
     analyticsAction: "navigation_click",
@@ -56,6 +63,7 @@ export const FOOTER_LINK_GROUPS: Array<{
     heading: "Explore",
     links: [
       { href: "/salary-calculator", label: "Salary Calculators" },
+      { href: "/compare", label: "Compare Countries" },
       { href: "/blog", label: "Blog" },
       { href: "/blog/category/cost-of-living", label: "Cost of Living" },
       { href: "/blog/category/income-tax", label: "Income Tax Guides" },
@@ -85,6 +93,7 @@ export const FOOTER_LINK_GROUPS: Array<{
 
 export const STATIC_SITE_PAGES = [
   "/about",
+  "/compare",
   "/contact",
   "/authors/salaryincometax-editorial-team",
   "/privacy-policy",

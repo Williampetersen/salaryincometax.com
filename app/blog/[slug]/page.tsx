@@ -9,6 +9,7 @@ import { BlogFaq } from "@/components/blog/blog-faq";
 import { BlogHeroArt } from "@/components/blog/blog-hero-art";
 import { BlogAnalytics } from "@/components/blog/blog-analytics";
 import { RelatedCalculatorBox } from "@/components/blog/related-calculator-box";
+import { ShareButtons } from "@/components/blog/share-buttons";
 import { TableOfContents } from "@/components/blog/table-of-contents";
 import { StructuredData } from "@/components/seo/structured-data";
 import { CountryFlag } from "@/components/shared/country-flag";
@@ -316,6 +317,11 @@ export default function BlogArticlePage({
                   <span>{post.readingTime}</span>
                   <span>Updated {formatBlogDate(post.updatedAt)}</span>
                   <span>{post.author}</span>
+                  {post.author.includes("CPA") ? (
+                    <span className="rounded-full bg-white/90 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-moss">
+                      Reviewed by a CPA
+                    </span>
+                  ) : null}
                   <Link
                     className="underline underline-offset-4 transition hover:text-white"
                     href="/authors/salaryincometax-editorial-team"
@@ -349,6 +355,8 @@ export default function BlogArticlePage({
               </div>
             ))}
           </section>
+
+          <ShareButtons title={post.title} url={absoluteUrl(`/blog/${post.slug}`)} />
 
           {/* This checklist assumes a specific country context (calculator
               link, "open the X calculator" copy) and does not apply to

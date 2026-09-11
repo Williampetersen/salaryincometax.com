@@ -37,7 +37,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticPageUrls = STATIC_SITE_PAGES.map((path) => ({
     url: `${SITE_URL}${path}`,
     changeFrequency: "monthly" as const,
-    priority: path === "/contact" || path === "/about" ? 0.78 : 0.65,
+    priority:
+      path === "/contact" || path === "/about" || path === "/compare"
+        ? 0.78
+        : 0.65,
     lastModified,
   }));
 

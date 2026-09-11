@@ -1,23 +1,28 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 
-import type { CountrySummary } from "@/lib/country-catalog";
 import { CountryFlag } from "@/components/shared/country-flag";
+import type { CountrySummary } from "@/lib/country-catalog";
 
-interface CountryPickerProps {
-  currentCountry: CountrySummary;
+interface CountryComboboxProps {
+  id: string;
+  label: string;
+  value: CountrySummary;
   groups: Array<{
     region: string;
     countries: CountrySummary[];
   }>;
+  onChange: (slug: string) => void;
 }
 
-export function CountryPicker({
-  currentCountry,
+export function CountryCombobox({
+  id,
+  label,
+  value,
   groups,
-}: CountryPickerProps): JSX.Element {
+  onChange,
+}: CountryComboboxProps): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -54,8 +59,12 @@ export function CountryPicker({
 
   return (
     <div className="relative" ref={containerRef}>
+      <span className="field-label" id={`${id}-label`}>
+        {label}
+      </span>
       <button
         aria-expanded={isOpen}
+        aria-labelledby={`${id}-label`}
         className="form-control flex items-center justify-between gap-3 text-left"
         onClick={() => setIsOpen((current) => !current)}
         type="button"
@@ -63,12 +72,12 @@ export function CountryPicker({
         <span className="flex min-w-0 items-center gap-3">
           <CountryFlag
             className="h-7 w-7 rounded-full border border-ink/10 object-cover"
-            countryCode={currentCountry.countryCode}
-            countryName={currentCountry.name}
-            flagSrc={currentCountry.flagSrc}
+            countryCode={value.countryCode}
+            countryName={value.name}
+            flagSrc={value.flagSrc}
             size={28}
           />
-          <span className="truncate font-medium text-ink">{currentCountry.name}</span>
+          <span className="truncate font-medium text-ink">{value.name}</span>
         </span>
         <span className="text-xs uppercase tracking-[0.18em] text-ink/45">
           {isOpen ? "Close" : "Choose"}
@@ -76,10 +85,10 @@ export function CountryPicker({
       </button>
 
       {isOpen ? (
-        <div className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-30 max-h-[30rem] overflow-hidden rounded-3xl border border-ink/10 bg-white shadow-card">
+        <div className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-30 max-h-[26rem] overflow-hidden rounded-3xl border border-ink/10 bg-white shadow-card">
           <div className="border-b border-ink/8 p-3">
             <input
-              aria-label="Search countries"
+              aria-label={`Search countries for ${label}`}
               className="form-control"
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Search countries..."
@@ -88,7 +97,7 @@ export function CountryPicker({
               value={query}
             />
           </div>
-          <div className="max-h-[24rem] overflow-y-auto p-3">
+          <div className="max-h-[20rem] overflow-y-auto p-3">
             {filteredGroups.length > 0 ? (
               <div className="space-y-4">
                 {filteredGroups.map((group) => (
@@ -98,16 +107,18 @@ export function CountryPicker({
                     </p>
                     <div className="grid gap-1">
                       {group.countries.map((country) => (
-                        <Link
-                          className={`flex items-center gap-3 rounded-2xl px-3 py-2 text-sm transition hover:bg-paper ${
-                            country.slug === currentCountry.slug ? "bg-paper font-semibold text-ink" : "text-ink/70"
+                        <button
+                          className={`flex items-center gap-3 rounded-2xl px-3 py-2 text-left text-sm transition hover:bg-paper ${
+                            country.slug === value.slug
+                              ? "bg-paper font-semibold text-ink"
+                              : "text-ink/70"
                           }`}
-                          data-analytics-action="country_selected"
-                          data-analytics-category="calculator"
-                          data-analytics-label={country.slug}
-                          href={`/salary-calculator/${country.slug}`}
                           key={country.slug}
-                          onClick={() => setIsOpen(false)}
+                          onClick={() => {
+                            onChange(country.slug);
+                            setIsOpen(false);
+                          }}
+                          type="button"
                         >
                           <CountryFlag
                             className="h-7 w-7 rounded-full border border-ink/10 object-cover"
@@ -117,7 +128,7 @@ export function CountryPicker({
                             size={28}
                           />
                           <span>{country.name}</span>
-                        </Link>
+                        </button>
                       ))}
                     </div>
                   </div>

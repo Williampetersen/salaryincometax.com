@@ -226,8 +226,11 @@ before resubmitting.
   destination, not a thin funnel target. No new action item from this beyond
   what's already been fixed; recorded here so the reasoning doesn't have to
   be re-derived next time.
-- [ ] Get a real named author (not just "Editorial Team") with a genuine,
-  relevant bio onto the authors page, About page, and footer.
+- [x] Get a real named author (not just "Editorial Team") with a genuine,
+  relevant bio onto the authors page, About page, and footer - done
+  2026-09-10 (commit f851c4a): William Petersen, CPA, with a real US CPA
+  credential and 10+ years in independent tax/accounting practice, replacing
+  the generic "Editorial Team" byline site-wide.
 
 ## Google references
 
